@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ricerca - Supporto IT ADCO HUB</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-pagina="ricerca">
+
+<header class="intestazione">
+  <div class="contenitore intestazione-riga">
+    <a class="logo" href="index.html">
+      <span class="logo-segno">AH</span>
+      <span class="logo-testo"><strong>Supporto IT</strong><span>ADCO HUB</span></span>
+    </a>
+    <form class="cerca cerca-compatta" role="search">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 2a8 8 0 1 0 4.9 14.3l5.4 5.4 1.4-1.4-5.4-5.4A8 8 0 0 0 10 2Zm0 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>
+      <input id="campo-ricerca" type="search" placeholder="Cerca una guida..." aria-label="Cerca nella knowledge base">
+    </form>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Apri il menu">&#9776;</button>
+    <nav class="nav" id="nav">
+      <a href="index.html">Home</a>
+      <a href="ricerca.html">Cerca</a>
+      <a data-voce="contatti" href="contatti.html">Contatti</a>
+    </nav>
+  </div>
+</header>
+
+<div class="contenitore">
+  <nav class="briciole" id="briciole"></nav>
+  <div class="due-colonne">
+    <aside class="laterale" id="laterale"></aside>
+    <main id="contenuto"></main>
+  </div>
+</div>
+
+<footer class="piede">
+  <div class="contenitore piede-riga">
+    <div>
+      <a href="index.html">Home</a><a href="ricerca.html">Cerca</a><a href="contatti.html">Contatti</a>
+    </div>
+    <div>Knowledge base aggiornata al <span class="aggiornamento-kb"></span> &middot; ADCO HUB &copy; <span class="anno"></span></div>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
