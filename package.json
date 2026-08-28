@@ -1,0 +1,10 @@
+{
+  "name": "supporto-it",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Knowledge base del supporto IT ADCO HUB - sito statico con accesso protetto su Vercel",
+  "dependencies": {
+    "@vercel/functions": "^3.9.5"
+  }
+}
