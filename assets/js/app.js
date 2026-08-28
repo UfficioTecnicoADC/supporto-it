@@ -338,6 +338,12 @@
       if (a.getAttribute("data-voce") === pagina) a.classList.add("attivo");
     });
 
+    /* Aprendo i file in locale non c'è un server: la voce "Esci"
+       non avrebbe nulla da chiamare, quindi la nascondiamo. */
+    if (window.location.protocol === "file:") {
+      $$(".esci").forEach(function (a) { a.style.display = "none"; });
+    }
+
     /* Anno nel piè di pagina */
     $$(".anno").forEach(function (el) { el.textContent = new Date().getFullYear(); });
     $$(".aggiornamento-kb").forEach(function (el) { el.textContent = dataLeggibile(KB.aggiornamento); });
