@@ -411,6 +411,115 @@ mark { background: #ffe89a; color: inherit; padding: 0 2px; border-radius: 3px; 
 .piede-riga { display: flex; flex-wrap: wrap; gap: 18px; justify-content: space-between; align-items: center; }
 .piede a { color: var(--testo-medio); margin-right: 16px; }
 
+/* ---------- Pagina di accesso ---------- */
+
+body.pagina-accesso {
+  background: linear-gradient(135deg, var(--blu-900) 0%, var(--blu-700) 55%, var(--blu-600) 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+}
+
+.accesso { width: 100%; max-width: 420px; }
+
+.accesso-riquadro {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 34px 32px 30px;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, .28);
+}
+
+.accesso-logo { display: flex; align-items: center; gap: 11px; margin-bottom: 26px; }
+
+.accesso h1 { font-size: 1.32rem; margin-bottom: .35em; }
+.accesso-intro { color: var(--testo-medio); font-size: .92rem; margin-bottom: 22px; }
+
+.accesso label {
+  display: block;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--testo-medio);
+  margin-bottom: 6px;
+}
+
+.accesso input[type="text"],
+.accesso input[type="password"] {
+  width: 100%;
+  font: inherit;
+  font-size: .95rem;
+  padding: 11px 13px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border-forte);
+  border-radius: var(--raggio-s);
+  background: var(--surface);
+  color: var(--testo);
+}
+.accesso input:focus {
+  outline: none;
+  border-color: var(--blu-500);
+  box-shadow: 0 0 0 3px rgba(42, 123, 208, .18);
+}
+
+.campo-password { position: relative; }
+.campo-password input { padding-right: 86px; }
+.campo-password button {
+  position: absolute;
+  top: 8px; right: 7px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--raggio-s);
+  color: var(--testo-medio);
+  font: inherit;
+  font-size: .8rem;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.campo-password button:hover { color: var(--testo); border-color: var(--border-forte); }
+
+.accesso-avviso {
+  background: var(--blu-050);
+  border-left: 3px solid var(--blu-500);
+  border-radius: 0 var(--raggio-s) var(--raggio-s) 0;
+  color: var(--testo-medio);
+  font-size: .88rem;
+  padding: 11px 13px;
+  margin-bottom: 18px;
+}
+
+.accesso-errore {
+  background: var(--critico-bg);
+  border-left: 3px solid var(--critico);
+  border-radius: 0 var(--raggio-s) var(--raggio-s) 0;
+  color: var(--critico);
+  font-size: .89rem;
+  padding: 10px 13px;
+  margin-bottom: 16px;
+}
+
+.bottone-largo { width: 100%; text-align: center; padding: 12px 18px; font-size: .97rem; }
+.bottone-largo:disabled { opacity: .65; cursor: default; }
+
+.accesso-aiuto {
+  margin: 20px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  font-size: .84rem;
+  color: var(--testo-tenue);
+}
+
+.accesso-piede {
+  text-align: center;
+  margin: 20px 0 0;
+  font-size: .82rem;
+  color: rgba(255, 255, 255, .7);
+}
+
+.nav a.esci { color: var(--testo-tenue); }
+.nav a.esci:hover { color: var(--critico); }
+
 /* ---------- Responsive ---------- */
 
 @media (max-width: 900px) {
