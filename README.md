@@ -8,11 +8,17 @@ oppure copiando la cartella su un qualsiasi server web o su un sito SharePoint.
 
 ```
 supporto-it/
+├── login.html          Pagina di accesso
 ├── index.html          Home: ricerca, categorie, guide aggiornate di recente
 ├── categoria.html      Elenco delle guide di una categoria (?cat=id-categoria)
 ├── articolo.html       Singola guida (?id=id-articolo)
 ├── ricerca.html        Risultati di ricerca (?q=termini)
 ├── contatti.html       Canali, orari, priorità, cosa indicare in una richiesta
+├── middleware.js       Controllo di accesso lato server (Vercel)
+├── api/
+│   ├── login.js        Verifica credenziali e rilascia il cookie di sessione
+│   └── logout.js       Chiude la sessione
+├── package.json        Serve solo al middleware (@vercel/functions)
 ├── assets/
 │   ├── css/style.css   Unico foglio di stile del sito
 │   └── js/
@@ -20,6 +26,58 @@ supporto-it/
 │       └── app.js      Rendering delle pagine e motore di ricerca
 └── README.md
 ```
+
+## Accesso
+
+Il sito è protetto **lato server** quando è pubblicato su Vercel. Ogni richiesta
+passa da `middleware.js`: senza un cookie di sessione valido il visitatore viene
+portato a `login.html` e non riceve nulla del sito, né le pagine né i contenuti
+in `assets/js`. Le credenziali sono verificate dalla funzione `api/login.js` e
+**non sono presenti in questo repository**: vivono nelle Environment Variables
+del progetto Vercel.
+
+### Variabili da impostare su Vercel
+
+In *Project Settings → Environment Variables*, per gli ambienti Production,
+Preview e Development:
+
+| Variabile       | Valore                                                        |
+|-----------------|---------------------------------------------------------------|
+| `SITO_UTENTE`   | nome utente (facoltativa: se assente vale `ADC`)              |
+| `SITO_PASSWORD` | la password di accesso                                        |
+| `SITO_SEGRETO`  | una stringa casuale lunga, usata per firmare il cookie        |
+
+Per generare `SITO_SEGRETO` da PowerShell:
+
+```powershell
+-join ((48..57) + (97..122) | Get-Random -Count 48 | ForEach-Object { [char]$_ })
+```
+
+Dopo aver aggiunto o modificato le variabili serve un nuovo deploy perché
+diventino effettive (*Deployments → ⋯ → Redeploy*).
+
+Finché `SITO_PASSWORD` e `SITO_SEGRETO` non sono impostate, il sito risponde
+`503` a tutte le pagine: è voluto, meglio un sito fermo che un sito aperto
+per una configurazione dimenticata.
+
+### Come funziona la sessione
+
+Dopo l'accesso viene rilasciato un cookie `sit_acc`, `HttpOnly` e `Secure`,
+valido **8 ore**. Contiene solo una scadenza e la sua firma HMAC-SHA256: non
+contiene la password e non è falsificabile senza conoscere `SITO_SEGRETO`.
+La voce **Esci** nel menu chiama `/api/logout`, che cancella il cookie.
+
+### Uso in locale
+
+Aprendo i file con un doppio clic non c'è alcun server: il login non funziona
+(la pagina lo segnala) e le guide sono consultabili aprendo direttamente
+`index.html`. È corretto così — chi ha i file sul proprio PC può leggerli
+comunque, la protezione ha senso solo sul sito pubblicato.
+
+### Cambiare le credenziali
+
+Si cambia il valore della variabile su Vercel e si rilancia il deploy. Nessuna
+modifica al codice, nessun commit.
 
 ## Aggiungere o modificare una guida
 
@@ -80,10 +138,13 @@ servizio sono valori plausibili ma da confermare.
 
 ## Pubblicazione
 
-- **Uso locale**: apri `index.html` con un doppio clic.
-- **Rete o intranet**: copia l'intera cartella nella directory del server web.
-- **SharePoint / OneDrive**: carica la cartella in una raccolta documenti e
-  condividi il link a `index.html`.
+- **Vercel** (consigliato): importa il repository, non serve impostare alcun
+  comando di build. Poi imposta le Environment Variables descritte sopra: il
+  middleware protegge il sito automaticamente.
+- **Uso locale**: apri `index.html` con un doppio clic (senza login, vedi sopra).
+- **Rete o intranet**: copia i file nella directory del server web. Attenzione:
+  `middleware.js` e `api/` funzionano solo su Vercel; su un altro server il
+  controllo di accesso va rifatto con gli strumenti di quel server.
 
-Il sito non usa librerie esterne, non effettua chiamate di rete e non raccoglie
-dati: funziona anche completamente offline.
+Le pagine non usano librerie esterne e non effettuano chiamate di rete oltre a
+quella di accesso: la consultazione delle guide funziona anche offline.
