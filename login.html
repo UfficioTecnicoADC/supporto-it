@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accedi - Supporto IT ADCO HUB</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="pagina-accesso">
+
+<main class="accesso">
+  <div class="accesso-riquadro">
+    <div class="accesso-logo">
+      <span class="logo-segno">AH</span>
+      <span class="logo-testo"><strong>Supporto IT</strong><span>ADCO HUB</span></span>
+    </div>
+
+    <h1>Accedi alla knowledge base</h1>
+    <p class="accesso-intro">Area riservata al personale ADCO HUB. Inserisci le credenziali fornite dal reparto IT.</p>
+
+    <div class="accesso-avviso" id="avviso" role="status" hidden></div>
+
+    <form id="modulo-accesso" autocomplete="off" novalidate>
+      <label for="utente">Nome utente</label>
+      <input id="utente" name="utente" type="text" autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="username" required>
+
+      <label for="password">Password</label>
+      <div class="campo-password">
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+        <button type="button" id="mostra-password" aria-label="Mostra o nascondi la password">Mostra</button>
+      </div>
+
+      <div class="accesso-errore" id="errore" role="alert" hidden></div>
+
+      <button class="bottone bottone-largo" type="submit" id="invia">Accedi</button>
+    </form>
+
+    <p class="accesso-aiuto">
+      Credenziali dimenticate o accesso non funzionante? Contatta il supporto IT
+      ai recapiti indicati nella comunicazione interna.
+    </p>
+  </div>
+
+  <p class="accesso-piede">ADCO HUB &middot; Supporto IT &middot; <span id="anno"></span></p>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  function parametro(nome) {
+    var m = new RegExp("[?&]" + nome + "=([^&]*)").exec(window.location.search);
+    return m ? decodeURIComponent(m[1].replace(/\+/g, " ")) : "";
+  }
+
+  /* Accetta solo destinazioni interne al sito */
+  function destinazione() {
+    var da = parametro("da");
+    if (da && da.charAt(0) === "/" && da.charAt(1) !== "/") return da;
+    return "/index.html";
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var modulo = document.getElementById("modulo-accesso");
+    var utente = document.getElementById("utente");
+    var password = document.getElementById("password");
+    var errore = document.getElementById("errore");
+    var avviso = document.getElementById("avviso");
+    var invia = document.getElementById("invia");
+    var mostra = document.getElementById("mostra-password");
+
+    document.getElementById("anno").textContent = new Date().getFullYear();
+    utente.focus();
+
+    if (parametro("uscita")) {
+      avviso.textContent = "Sessione chiusa. Accedi di nuovo per continuare.";
+      avviso.hidden = false;
+    }
+
+    if (window.location.protocol === "file:") {
+      avviso.textContent = "Stai aprendo i file in locale: il controllo delle credenziali funziona solo sul sito pubblicato. Apri direttamente index.html per consultare le guide.";
+      avviso.hidden = false;
+    }
+
+    mostra.addEventListener("click", function () {
+      var visibile = password.getAttribute("type") === "text";
+      password.setAttribute("type", visibile ? "password" : "text");
+      mostra.textContent = visibile ? "Mostra" : "Nascondi";
+      password.focus();
+    });
+
+    function mostraErrore(testo) {
+      errore.textContent = testo;
+      errore.hidden = false;
+    }
+
+    function riabilita() {
+      invia.disabled = false;
+      invia.textContent = "Accedi";
+    }
+
+    modulo.addEventListener("submit", function (e) {
+      e.preventDefault();
+      errore.hidden = true;
+
+      if (!utente.value.trim() || !password.value) {
+        mostraErrore("Compila entrambi i campi.");
+        return;
+      }
+
+      invia.disabled = true;
+      invia.textContent = "Verifica in corso...";
+
+      fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ utente: utente.value, password: password.value })
+      })
+        .then(function (risposta) {
+          return risposta.json().then(function (dati) {
+            return { stato: risposta.status, dati: dati };
+          });
+        })
+        .then(function (esito) {
+          if (esito.stato === 200 && esito.dati && esito.dati.ok) {
+            window.location.replace(destinazione());
+            return;
+          }
+          riabilita();
+          password.value = "";
+          password.focus();
+          mostraErrore((esito.dati && esito.dati.errore) || "Accesso non riuscito.");
+        })
+        .catch(function () {
+          riabilita();
+          mostraErrore("Impossibile contattare il servizio di accesso. Se stai aprendo i file in locale, il login non è disponibile: funziona solo sul sito pubblicato.");
+        });
+    });
+  });
+})();
+</script>
+</body>
+</html>
