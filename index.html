@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Supporto IT - ADCO HUB</title>
+<meta name="description" content="Knowledge base del supporto IT: guide, procedure e soluzioni ai problemi più frequenti.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-pagina="home">
+
+<header class="intestazione">
+  <div class="contenitore intestazione-riga">
+    <a class="logo" href="index.html">
+      <span class="logo-segno">AH</span>
+      <span class="logo-testo"><strong>Supporto IT</strong><span>ADCO HUB</span></span>
+    </a>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Apri il menu">&#9776;</button>
+    <nav class="nav" id="nav">
+      <a data-voce="home" href="index.html">Home</a>
+      <a href="#categorie">Categorie</a>
+      <a href="ricerca.html">Cerca</a>
+      <a data-voce="contatti" href="contatti.html">Contatti</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="contenitore">
+    <h1>Come possiamo aiutarti?</h1>
+    <p class="sottotitolo">Guide, procedure e soluzioni ai problemi informatici più frequenti. Cerca una parola chiave o sfoglia le categorie.</p>
+    <form class="cerca" role="search">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 2a8 8 0 1 0 4.9 14.3l5.4 5.4 1.4-1.4-5.4-5.4A8 8 0 0 0 10 2Zm0 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>
+      <input type="search" placeholder="Es. password, VPN, stampante, phishing..." aria-label="Cerca nella knowledge base" autofocus>
+    </form>
+    <div class="hero-suggerimenti">
+      Ricerche frequenti:
+      <a href="articolo.html?id=reimpostare-password">reimpostare la password</a>
+      <a href="articolo.html?id=connettersi-vpn">connettersi alla VPN</a>
+      <a href="articolo.html?id=riconoscere-phishing">segnalare un phishing</a>
+      <a href="articolo.html?id=aprire-ticket">aprire un ticket</a>
+    </div>
+  </div>
+</section>
+
+<main>
+  <section class="sezione" id="categorie">
+    <div class="contenitore">
+      <div class="sezione-intestazione">
+        <div>
+          <h2>Sfoglia per categoria</h2>
+          <p><span id="totale-guide">0</span> guide disponibili, aggiornate dal team IT.</p>
+        </div>
+      </div>
+      <div class="griglia-categorie" id="griglia-categorie"></div>
+    </div>
+  </section>
+
+  <section class="sezione" style="padding-top:0">
+    <div class="contenitore">
+      <div class="sezione-intestazione">
+        <div>
+          <h2>Aggiornate di recente</h2>
+          <p>Le ultime guide riviste o pubblicate.</p>
+        </div>
+      </div>
+      <div class="elenco-articoli" id="articoli-recenti"></div>
+    </div>
+  </section>
+
+  <section class="sezione" style="padding-top:0">
+    <div class="contenitore">
+      <div class="riquadro-aiuto">
+        <div>
+          <h3>Il problema non è in elenco?</h3>
+          <p>Apri una richiesta al supporto IT descrivendo cosa non funziona: ti ricontattiamo secondo la priorità della segnalazione.</p>
+        </div>
+        <a class="bottone" href="contatti.html">Contatta il supporto IT</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="piede">
+  <div class="contenitore piede-riga">
+    <div>
+      <a href="index.html">Home</a><a href="ricerca.html">Cerca</a><a href="contatti.html">Contatti</a>
+    </div>
+    <div>Knowledge base aggiornata al <span class="aggiornamento-kb"></span> &middot; ADCO HUB &copy; <span class="anno"></span></div>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
