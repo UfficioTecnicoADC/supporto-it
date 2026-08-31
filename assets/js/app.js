@@ -53,13 +53,11 @@
     return String(html).replace(/<[^>]*>/g, " ").replace(/&[a-z]+;/g, " ");
   }
 
-  var MESI = ["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno",
-    "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"];
-
+  /* Data in formato gg/mm/aaaa */
   function dataLeggibile(iso) {
     var p = String(iso).split("-");
     if (p.length !== 3) return iso;
-    return parseInt(p[2], 10) + " " + MESI[parseInt(p[1], 10) - 1] + " " + p[0];
+    return p[2] + "/" + p[1] + "/" + p[0];
   }
 
   function icona(chiave) {
