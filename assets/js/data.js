@@ -82,7 +82,7 @@ const KB = {
       titolo: "Reimpostare la password aziendale",
       categoria: "accessi",
       tag: ["password", "reset", "scadenza", "credenziali", "cambio password"],
-      aggiornato: "2026-07-14",
+      aggiornato: "2026-08-28",
       minuti: 3,
       sommario: "Come cambiare la password del proprio account aziendale, in autonomia o quando è già scaduta.",
       corpo: `
@@ -127,7 +127,7 @@ const KB = {
       titolo: "Configurare l'autenticazione a più fattori (MFA)",
       categoria: "accessi",
       tag: ["mfa", "2fa", "authenticator", "verifica", "sicurezza", "codice"],
-      aggiornato: "2026-06-02",
+      aggiornato: "2026-08-28",
       minuti: 4,
       sommario: "Attivazione di Microsoft Authenticator sul telefono: è obbligatoria per tutti gli account aziendali.",
       corpo: `
@@ -167,7 +167,7 @@ const KB = {
       titolo: "Account bloccato: cosa fare",
       categoria: "accessi",
       tag: ["account bloccato", "lockout", "tentativi", "accesso negato"],
-      aggiornato: "2026-05-20",
+      aggiornato: "2026-08-28",
       minuti: 2,
       sommario: "L'account si blocca dopo 8 tentativi errati. Ecco come sbloccarlo e quali sono le cause più frequenti.",
       corpo: `
@@ -200,7 +200,7 @@ const KB = {
       titolo: "Cambiare telefono mantenendo l'MFA",
       categoria: "accessi",
       tag: ["mfa", "nuovo telefono", "authenticator", "migrazione", "smartphone"],
-      aggiornato: "2026-04-11",
+      aggiornato: "2026-08-28",
       minuti: 3,
       sommario: "Procedura da seguire prima e dopo la sostituzione dello smartphone per non perdere l'accesso.",
       corpo: `
@@ -235,7 +235,7 @@ const KB = {
       titolo: "Il PC è lento: verifiche rapide",
       categoria: "postazione",
       tag: ["lento", "prestazioni", "riavvio", "memoria", "disco", "rallentamenti"],
-      aggiornato: "2026-08-01",
+      aggiornato: "2026-08-28",
       minuti: 4,
       sommario: "Cinque controlli da fare in autonomia prima di aprire un ticket per rallentamenti del computer.",
       corpo: `
@@ -272,7 +272,7 @@ const KB = {
       titolo: "Monitor esterno non rilevato",
       categoria: "postazione",
       tag: ["monitor", "schermo", "docking", "hdmi", "displayport", "doppio schermo"],
-      aggiornato: "2026-07-03",
+      aggiornato: "2026-08-28",
       minuti: 3,
       sommario: "Cosa controllare quando il secondo schermo resta nero o non viene riconosciuto da Windows.",
       corpo: `
@@ -300,7 +300,7 @@ const KB = {
       titolo: "Audio o microfono non funzionanti",
       categoria: "postazione",
       tag: ["audio", "microfono", "cuffie", "auricolari", "suono", "non mi sentono"],
-      aggiornato: "2026-06-19",
+      aggiornato: "2026-08-28",
       minuti: 3,
       sommario: "Come sistemare cuffie e microfono quando in riunione non ti sentono o non senti gli altri.",
       corpo: `
@@ -340,7 +340,7 @@ const KB = {
       titolo: "Aggiornamenti Windows e riavvii programmati",
       categoria: "postazione",
       tag: ["windows update", "aggiornamenti", "riavvio", "patch", "manutenzione"],
-      aggiornato: "2026-05-08",
+      aggiornato: "2026-08-28",
       minuti: 2,
       sommario: "Come sono distribuite le patch di sicurezza e come programmare il riavvio senza perdere lavoro.",
       corpo: `
@@ -370,7 +370,7 @@ const KB = {
       titolo: "Outlook non si connette alla posta",
       categoria: "microsoft365",
       tag: ["outlook", "posta", "disconnesso", "email", "non riceve"],
-      aggiornato: "2026-08-12",
+      aggiornato: "2026-08-28",
       minuti: 3,
       sommario: "Outlook mostra 'Disconnesso' o 'Tentativo di connessione': verifiche da fare in ordine.",
       corpo: `
@@ -405,7 +405,7 @@ const KB = {
       titolo: "Impostare la firma email aziendale",
       categoria: "microsoft365",
       tag: ["firma", "signature", "outlook", "email", "immagine aziendale"],
-      aggiornato: "2026-03-25",
+      aggiornato: "2026-08-28",
       minuti: 3,
       sommario: "Formato standard della firma e come configurarla in Outlook desktop e sul web.",
       corpo: `
@@ -448,7 +448,7 @@ const KB = {
       titolo: "Teams: problemi audio e video in riunione",
       categoria: "microsoft365",
       tag: ["teams", "riunione", "videocamera", "webcam", "condivisione schermo", "audio"],
-      aggiornato: "2026-07-28",
+      aggiornato: "2026-08-28",
       minuti: 4,
       sommario: "Webcam nera, voce che si interrompe, condivisione schermo che non parte: soluzioni rapide.",
       corpo: `
@@ -487,7 +487,7 @@ const KB = {
       titolo: "OneDrive non sincronizza",
       categoria: "microsoft365",
       tag: ["onedrive", "sincronizzazione", "file", "cloud", "backup", "nuvola"],
-      aggiornato: "2026-08-05",
+      aggiornato: "2026-08-28",
       minuti: 4,
       sommario: "Icona di errore su OneDrive, file bloccati in sincronizzazione o spazio esaurito: come intervenire.",
       corpo: `
@@ -533,7 +533,7 @@ const KB = {
       titolo: "Condividere file in modo sicuro",
       categoria: "microsoft365",
       tag: ["condivisione", "link", "sharepoint", "onedrive", "esterni", "allegati"],
-      aggiornato: "2026-06-30",
+      aggiornato: "2026-08-28",
       minuti: 4,
       sommario: "Quando usare un link al posto dell'allegato e come impostare i permessi corretti, anche verso l'esterno.",
       corpo: `
@@ -574,7 +574,7 @@ const KB = {
       titolo: "Cassetta postale piena o quasi al limite",
       categoria: "microsoft365",
       tag: ["quota", "spazio", "posta piena", "archivio", "pst", "outlook"],
-      aggiornato: "2026-05-14",
+      aggiornato: "2026-08-28",
       minuti: 3,
       sommario: "Come liberare spazio nella casella di posta senza perdere messaggi importanti.",
       corpo: `
@@ -606,7 +606,7 @@ const KB = {
       titolo: "Connettersi alla VPN aziendale",
       categoria: "rete",
       tag: ["vpn", "remoto", "smart working", "rete aziendale", "cartelle di rete"],
-      aggiornato: "2026-08-18",
+      aggiornato: "2026-08-28",
       minuti: 4,
       sommario: "Come attivare la VPN per raggiungere cartelle condivise e gestionali quando lavori fuori sede.",
       corpo: `
@@ -642,7 +642,7 @@ const KB = {
       titolo: "Connettersi al Wi-Fi aziendale e alla rete ospiti",
       categoria: "rete",
       tag: ["wifi", "wi-fi", "rete", "ospiti", "guest", "connessione"],
-      aggiornato: "2026-04-22",
+      aggiornato: "2026-08-28",
       minuti: 3,
       sommario: "Differenza tra rete aziendale e rete ospiti, e come far collegare un visitatore.",
       corpo: `
@@ -679,7 +679,7 @@ const KB = {
       titolo: "Connessione lenta o instabile",
       categoria: "rete",
       tag: ["lento", "internet", "banda", "instabile", "disconnessioni"],
-      aggiornato: "2026-07-09",
+      aggiornato: "2026-08-28",
       minuti: 3,
       sommario: "Come distinguere un problema del proprio collegamento da un disservizio generale e cosa segnalare.",
       corpo: `
@@ -711,7 +711,7 @@ const KB = {
       titolo: "Riconoscere e segnalare un'email di phishing",
       categoria: "sicurezza",
       tag: ["phishing", "truffa", "email sospetta", "segnalazione", "allegato", "link"],
-      aggiornato: "2026-08-22",
+      aggiornato: "2026-08-28",
       minuti: 5,
       sommario: "Segnali d'allarme di un messaggio fraudolento, come segnalarlo e cosa fare se hai già cliccato.",
       corpo: `
@@ -760,7 +760,7 @@ const KB = {
       titolo: "Creare e gestire password sicure",
       categoria: "sicurezza",
       tag: ["password", "passphrase", "gestore password", "sicurezza", "riuso"],
-      aggiornato: "2026-06-11",
+      aggiornato: "2026-08-28",
       minuti: 3,
       sommario: "Come costruire password robuste e ricordabili, e perché non vanno mai riutilizzate.",
       corpo: `
@@ -793,7 +793,7 @@ const KB = {
       titolo: "Dispositivo aziendale smarrito o rubato",
       categoria: "sicurezza",
       tag: ["furto", "smarrimento", "portatile", "telefono", "emergenza", "blocco"],
-      aggiornato: "2026-05-30",
+      aggiornato: "2026-08-28",
       minuti: 3,
       sommario: "Cosa fare nelle prime ore dopo la perdita di un portatile, telefono o badge aziendale.",
       corpo: `
@@ -830,7 +830,7 @@ const KB = {
       titolo: "Trattare documenti e dati riservati",
       categoria: "sicurezza",
       tag: ["riservatezza", "gdpr", "dati personali", "classificazione", "privacy"],
-      aggiornato: "2026-04-30",
+      aggiornato: "2026-08-28",
       minuti: 4,
       sommario: "Come classificare le informazioni e quali canali usare per trasmetterle in sicurezza.",
       corpo: `
@@ -871,7 +871,7 @@ const KB = {
       titolo: "La stampante non stampa",
       categoria: "stampa",
       tag: ["stampante", "stampa", "coda di stampa", "non stampa", "errore"],
-      aggiornato: "2026-07-21",
+      aggiornato: "2026-08-28",
       minuti: 3,
       sommario: "Coda bloccata, stampante offline o documento sparito: sequenza di controlli.",
       corpo: `
@@ -907,7 +907,7 @@ const KB = {
       titolo: "Scansionare un documento e inviarlo via email",
       categoria: "stampa",
       tag: ["scansione", "scanner", "pdf", "digitalizzare", "multifunzione"],
-      aggiornato: "2026-03-18",
+      aggiornato: "2026-08-28",
       minuti: 2,
       sommario: "Uso della multifunzione per digitalizzare documenti e riceverli nella propria casella.",
       corpo: `
@@ -940,7 +940,7 @@ const KB = {
       titolo: "Stampa sicura con badge",
       categoria: "stampa",
       tag: ["badge", "stampa sicura", "riservatezza", "follow me", "rilascio"],
-      aggiornato: "2026-06-05",
+      aggiornato: "2026-08-28",
       minuti: 2,
       sommario: "I documenti restano in attesa finché non passi il badge sulla stampante: come funziona e perché.",
       corpo: `
@@ -974,7 +974,7 @@ const KB = {
       titolo: "Richiedere l'installazione di un software",
       categoria: "software",
       tag: ["installazione", "software", "programma", "richiesta", "licenza", "approvazione"],
-      aggiornato: "2026-07-16",
+      aggiornato: "2026-08-28",
       minuti: 3,
       sommario: "Iter di richiesta, valutazione e installazione di un nuovo programma sul PC aziendale.",
       corpo: `
@@ -1013,7 +1013,7 @@ const KB = {
       titolo: "Installare le applicazioni dal catalogo aziendale",
       categoria: "software",
       tag: ["catalogo", "portale", "self service", "installazione", "app"],
-      aggiornato: "2026-05-25",
+      aggiornato: "2026-08-28",
       minuti: 2,
       sommario: "Le applicazioni già approvate si installano da soli, senza aprire un ticket.",
       corpo: `
@@ -1044,7 +1044,7 @@ const KB = {
       titolo: "Come aprire un ticket al supporto IT",
       categoria: "procedure",
       tag: ["ticket", "richiesta", "assistenza", "segnalazione", "help desk", "priorità"],
-      aggiornato: "2026-08-26",
+      aggiornato: "2026-08-28",
       minuti: 4,
       sommario: "Canali disponibili, informazioni da fornire e criteri di priorità per una risposta più rapida.",
       corpo: `
@@ -1093,7 +1093,7 @@ const KB = {
       titolo: "Onboarding: attivazione di un nuovo collega",
       categoria: "procedure",
       tag: ["onboarding", "nuovo assunto", "attivazione", "account", "primo giorno"],
-      aggiornato: "2026-08-10",
+      aggiornato: "2026-08-28",
       minuti: 4,
       sommario: "Cosa richiedere e con quale anticipo perché il nuovo collega trovi tutto pronto il primo giorno.",
       corpo: `
@@ -1132,7 +1132,7 @@ const KB = {
       titolo: "Offboarding: disattivazione di un'utenza",
       categoria: "procedure",
       tag: ["offboarding", "dimissioni", "uscita", "disattivazione", "restituzione"],
-      aggiornato: "2026-08-10",
+      aggiornato: "2026-08-28",
       minuti: 3,
       sommario: "Procedura per la cessazione di un rapporto: dati, dispositivi e accessi.",
       corpo: `
@@ -1170,7 +1170,7 @@ const KB = {
       titolo: "Richiedere nuovo hardware o una sostituzione",
       categoria: "procedure",
       tag: ["hardware", "pc nuovo", "monitor", "richiesta", "sostituzione", "guasto"],
-      aggiornato: "2026-06-24",
+      aggiornato: "2026-08-28",
       minuti: 3,
       sommario: "Ciclo di vita dei dispositivi, iter di richiesta e tempi di consegna.",
       corpo: `
