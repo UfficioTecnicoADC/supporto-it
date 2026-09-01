@@ -320,6 +320,14 @@ const KB = {
   <li>Usa <strong>Effettua una chiamata di prova</strong> per verificare prima di entrare in riunione.</li>
 </ol>
 
+<h2>Selezionare il dispositivo giusto su OpiVoice</h2>
+<ol>
+  <li>Nel portale OpiVoice clicca sull'icona dell'utente (l'“omino”) in alto a destra e apri <strong>Impostazioni. La posizione può variare leggermente in base alla visualizzazione del portale.</li>
+  <li>Da Impostazioni e seleziona <strong>Audio.</li>
+  <li>Alla voce <strong>Microfono, nella sezione Ingressi audio, seleziona sempre il dispositivo che contiene la dicitura <strong>“USB”.</li>
+  <li>Nella sezione Uscite audio controlla sia <strong>Chiamate sia <strong>Suonerie e avvisi. Per entrambe le voci seleziona l'opzione che contiene la dicitura <strong>“USB”.</li>
+</ol>
+
 <h2>Controlli fisici che sfuggono spesso</h2>
 <ul>
   <li>Interruttore di muto sul cavo o sul padiglione delle cuffie.</li>
