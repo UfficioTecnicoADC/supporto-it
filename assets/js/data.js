@@ -323,7 +323,7 @@ const KB = {
 <h2>Selezionare il dispositivo giusto su OpiVoice</h2>
 <ol>
   <li>Nel portale <strong>OpiVoice</strong> clicca sull'icona dell'utente (l'“omino”) in alto a destra e apri <strong>Impostazioni</strong>. La posizione può variare leggermente in base alla visualizzazione del portale.</li>
-  <li>Da Impostazioni e seleziona <strong>Audio</strong>.</li>
+  <li>Da <strong>Impostazioni</strong> seleziona <strong>Audio</strong>.</li>
   <li>Alla voce <strong>Microfono</strong>, nella sezione Ingressi audio, seleziona sempre il dispositivo che contiene la dicitura <strong>“USB”</strong>.</li>
   <li>Nella sezione Uscite audio controlla sia <strong>Chiamate</strong> sia <strong>Suonerie e avvisi</strong>. Per entrambe le voci seleziona l'opzione che contiene la dicitura <strong>“USB”</strong>.</li>
 </ol>
