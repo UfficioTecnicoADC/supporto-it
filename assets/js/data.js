@@ -602,42 +602,6 @@ const KB = {
     /* ---------------- RETE E CONNETTIVITÀ ---------------- */
 
     {
-      id: "connettersi-vpn",
-      titolo: "Connettersi alla VPN aziendale",
-      categoria: "rete",
-      tag: ["vpn", "remoto", "smart working", "rete aziendale", "cartelle di rete"],
-      aggiornato: "2026-08-28",
-      minuti: 4,
-      sommario: "Come attivare la VPN per raggiungere cartelle condivise e gestionali quando lavori fuori sede.",
-      corpo: `
-<p>La VPN serve solo per raggiungere le risorse interne: cartelle di rete, gestionali e stampanti d'ufficio. Posta, Teams, OneDrive e SharePoint funzionano <strong>senza</strong> VPN.</p>
-
-<h2>Avviare la connessione</h2>
-<ol>
-  <li>Assicurati di avere una connessione Internet funzionante.</li>
-  <li>Apri il client VPN dal menu Start o dall'area di notifica.</li>
-  <li>Inserisci le tue credenziali aziendali.</li>
-  <li>Conferma la richiesta MFA sul telefono.</li>
-  <li>L'icona diventa verde: sei connesso.</li>
-</ol>
-
-<div class="nota">
-  <strong>Disconnetti quando non serve</strong>
-  Con la VPN attiva tutto il traffico passa dalla rete aziendale: videochiamate e download risultano più lenti. Disattivala quando lavori solo su posta e Teams.
-</div>
-
-<h2>Problemi frequenti</h2>
-<table>
-  <tr><th>Sintomo</th><th>Cosa fare</th></tr>
-  <tr><td>La connessione non si stabilisce</td><td>Verifica di navigare su Internet. Sulle reti di hotel e aeroporti apri prima una pagina qualsiasi e accetta le condizioni del portale.</td></tr>
-  <tr><td>Credenziali rifiutate</td><td>Hai cambiato password di recente? Usa quella nuova. Se l'account è bloccato, attendi 30 minuti.</td></tr>
-  <tr><td>Connessa ma le cartelle non si aprono</td><td>Attendi un minuto dopo la connessione, poi riapri Esplora file. Se persiste, disconnetti e riconnetti.</td></tr>
-  <tr><td>Cade di continuo</td><td>Tipico delle reti Wi-Fi domestiche congestionate o del tethering da cellulare. Prova a spostarti vicino al router.</td></tr>
-</table>
-`
-    },
-
-    {
       id: "wifi-aziendale",
       titolo: "Connettersi al Wi-Fi aziendale e alla rete ospiti",
       categoria: "rete",
