@@ -1008,34 +1008,7 @@ const KB = {
 `
     },
 
-    {
-      id: "portale-software-aziendale",
-      titolo: "Installare le applicazioni dal catalogo aziendale",
-      categoria: "software",
-      tag: ["catalogo", "portale", "self service", "installazione", "app"],
-      aggiornato: "2026-08-28",
-      minuti: 2,
-      sommario: "Le applicazioni già approvate si installano da soli, senza aprire un ticket.",
-      corpo: `
-<p>Il catalogo aziendale raccoglie i programmi già approvati e con licenza disponibile. Puoi installarli in autonomia, senza privilegi di amministratore e senza attendere un intervento.</p>
-
-<h2>Come si usa</h2>
-<ol>
-  <li>Apri il <strong>portale aziendale</strong> dal menu Start.</li>
-  <li>Cerca l'applicazione nel catalogo.</li>
-  <li>Clicca <strong>Installa</strong> e lascia il PC acceso e connesso alla rete.</li>
-  <li>L'installazione può richiedere alcuni minuti: alcune applicazioni chiedono un riavvio al termine.</li>
-</ol>
-
-<div class="nota">
-  <strong>Se l'installazione fallisce</strong>
-  Riavvia il PC e riprova una volta sola. Se fallisce di nuovo, apri un ticket riportando il nome dell'applicazione e l'eventuale codice di errore mostrato.
-</div>
-
-<h2>Aggiornamenti</h2>
-<p>Le applicazioni distribuite dal catalogo si aggiornano automaticamente. Se un programma segnala un aggiornamento e ti chiede la password di amministratore, ignora la richiesta e segnalalo al supporto IT.</p>
-`
-    },
+     
 
     /* ---------------- PROCEDURE E RICHIESTE ---------------- */
 
