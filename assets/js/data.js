@@ -1010,8 +1010,8 @@ const KB = {
 <p>Segui questa guida quando <strong>ORIS DENT non si apre, resta bloccato oppure non risponde ai comandi</strong>.</p>
 
   <h2><strong>Prima di iniziare</strong></h2>
-  <p>Se compare un messaggio di errore, scatta una foto o acquisisci uno screenshot prima di chiudere ORIS DENT.<br><br>
-  Verifica inoltre che la connessione a Internet e almeno un altro programma del PC funzionino normalmente.</p>
+  <p><strong>Se compare un messaggio di errore</strong>, scatta una foto o acquisisci uno <strong>screenshot</strong> prima di chiudere ORIS DENT.<br><br>
+  Verifica inoltre che la <strong>connessione a Internet</strong> e almeno <strong>un altro programma del PC</strong> funzionino normalmente.</p>
 
 <div class="nota attenzione">
   <strong>Importante</strong>
