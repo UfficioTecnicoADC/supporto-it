@@ -652,13 +652,13 @@ const KB = {
 <p>Individua la situazione che corrisponde al problema.</p>
 <ol>
   <li><strong>Il server non si apre</strong><br>
-  Dopo aver scritto \\srvdc e premuto Invio compare un errore oppure il server non viene visualizzato.
+  Dopo aver scritto &#92;&#92;srvdc e premuto Invio compare un errore oppure il server non viene visualizzato.<br>
   <strong>Cosa fare:</strong> Verifica che il PC sia collegato alla rete aziendale e consulta il manuale “Problemi di connessione alla rete”.</li>
   <li><strong>Il server si apre, ma la cartella non compare</strong><br>
-  Riesci a vedere le altre cartelle condivise, ma non trovi quella di cui hai bisogno.
+  Riesci a vedere le altre cartelle condivise, ma non trovi quella di cui hai bisogno.<br>
   <strong>Cosa fare:</strong> Potresti non avere i permessi necessari. Contatta l’IT indicando con precisione il nome della cartella.</li>
   <li><strong>Compare “Accesso negato”</strong><br>
-  La cartella è visibile, ma Windows non permette di aprirla.
+  La cartella è visibile, ma Windows non permette di aprirla.<br>
   <strong>Cosa fare:</strong> Contatta l’IT: è necessario verificare i permessi di accesso alla cartella.</li>
 </ol>
 `
