@@ -638,18 +638,29 @@ const KB = {
 </ol>
 
 <h2>Trovare la cartella</h2>
-  <li><strong>Apri la cartella di cui hai bisogno</strong><br>
-  Se il server si apre correttamente, vedrai l’elenco delle cartelle condivise. Individua quella necessaria e aprila con un doppio clic.</li>
+  <p><strong>Apri la cartella di cui hai bisogno</strong><br>
+  Se il server si apre correttamente, vedrai l’elenco delle cartelle condivise. Individua quella necessaria e aprila con un doppio clic.</p>
 
 <h2>Salvare la cartella in Accesso rapido</h2><br>
-  <li><strong>Aggiungi la cartella ad Accesso rapido</strong>.
-  Se utilizzi spesso la stessa cartella, fai clic con il tasto destro sul suo nome e seleziona “Aggiungi ad Accesso rapido”.</li>
+  <p><strong>Aggiungi la cartella ad Accesso rapido</strong>.<br>
+  Se utilizzi spesso la stessa cartella, fai clic con il tasto destro sul suo nome e seleziona “Aggiungi ad Accesso rapido”.</p>
   
   <h2>Fatto</h2>
   <p>Da questo momento potrai ritrovare rapidamente la cartella da Esplora file. L’Accesso rapido crea solo un collegamento: non modifica i contenuti presenti sul server.</p>
 
-<h2>Segnale debole in alcune zone</h2>
-<p>Segnala al supporto IT il punto preciso (piano, stanza, postazione) e l'orario: le misurazioni di copertura vengono fatte periodicamente e le segnalazioni puntuali aiutano a decidere dove aggiungere un access point.</p>
+<h2><strong>Se non funziona</strong></h2>
+<p>Individua la situazione che corrisponde al problema.</p>
+<ol>
+  <li><strong>Il server non si apre</strong><br>
+  Dopo aver scritto \\srvdc e premuto Invio compare un errore oppure il server non viene visualizzato.
+  <strong>Cosa fare:</strong> Verifica che il PC sia collegato alla rete aziendale e consulta il manuale “Problemi di connessione alla rete”.</li>
+  <li><strong>Il server si apre, ma la cartella non compare</strong><br>
+  Riesci a vedere le altre cartelle condivise, ma non trovi quella di cui hai bisogno.
+  <strong>Cosa fare:</strong> Potresti non avere i permessi necessari. Contatta l’IT indicando con precisione il nome della cartella.</li>
+  <li><strong>Compare “Accesso negato”</strong><br>
+  La cartella è visibile, ma Windows non permette di aprirla.
+  <strong>Cosa fare:</strong> Contatta l’IT: è necessario verificare i permessi di accesso alla cartella.</li>
+</ol>
 `
     },
      
