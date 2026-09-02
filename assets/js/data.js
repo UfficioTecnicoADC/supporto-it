@@ -45,7 +45,7 @@ const KB = {
       id: "rete",
       nome: "Rete e connettività",
       icona: "wifi",
-      descrizione: "Wi-Fi aziendale, VPN, lavoro da remoto e problemi di connessione."
+      descrizione: "Wi-Fi aziendale, Server, lavoro da remoto e problemi di connessione."
     },
     {
       id: "sicurezza",
