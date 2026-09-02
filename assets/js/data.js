@@ -996,6 +996,139 @@ const KB = {
 
     /* ---------------- SOFTWARE E LICENZE ---------------- */
 
+
+     {
+  id: "Problemi-ORIS-DENT",
+  titolo: "ORIS DENT non si apre, è bloccato o non risponde",
+  categoria: "software",
+  tag: ["oris", "oris dent", "orisdent", "gestionale", "bloccato", "non risponde", "gestione attività"],
+  aggiornato: "2026-09-02",
+  minuti: 4,
+  sommario: "Procedura semplice per chiudere, riavviare e ripristinare ORIS DENT quando non risponde.",
+  corpo: `
+
+<p>Segui questa guida quando <strong>ORIS DENT non si apre, resta bloccato oppure non risponde ai comandi</strong>.</p>
+
+<div class="nota attenzione">
+  <strong>Prima di iniziare</strong>
+  Se compare un messaggio di errore, scatta una foto o acquisisci uno screenshot prima di chiudere ORIS DENT.<br><br>
+  Verifica inoltre che la connessione a Internet e almeno un altro programma del PC funzionino normalmente.
+</div>
+
+<div class="nota attenzione">
+  <strong>Importante</strong>
+  Non modificare impostazioni, configurazioni o dati interni di ORIS DENT. Segui esclusivamente i passaggi descritti in questa guida.
+</div>
+
+<h2>Percorso rapido</h2>
+<ol>
+  <li>Chiudi e riapri ORIS DENT.</li>
+  <li>Se è bloccato, apri Gestione attività.</li>
+  <li>Termina esclusivamente <strong>OrisDentNet (32 bit)</strong>.</li>
+  <li>Riapri ORIS DENT.</li>
+  <li>Se necessario, riavvia il PC.</li>
+</ol>
+
+<h2>1. Chiudere e riaprire ORIS DENT</h2>
+
+<p><strong>Prova a chiudere normalmente ORIS DENT</strong><br>
+Se il programma risponde ancora, clicca sulla <strong>X</strong> in alto a destra.<br>
+Attendi circa 10 secondi prima di riaprirlo.</p>
+
+<p><strong>Riapri ORIS DENT dal desktop</strong><br>
+Fai doppio clic sull’icona <strong>“Orisdent Q”</strong> presente sul desktop e verifica se il gestionale torna a funzionare normalmente.</p>
+
+<div class="nota">
+  <strong>Se ora funziona</strong>
+  La procedura è conclusa. Puoi continuare a utilizzare ORIS DENT normalmente.
+</div>
+
+<div class="nota attenzione">
+  <strong>Se non si chiude o resta bloccato</strong>
+  Non continuare a cliccare all’interno di ORIS DENT. Procedi con Gestione attività seguendo i passaggi successivi.
+</div>
+
+<h2>2. Aprire Gestione attività</h2>
+
+<p><strong>Premi CTRL + MAIUSC + ESC contemporaneamente</strong><br>
+Si aprirà la finestra <strong>Gestione attività</strong> di Windows.</p>
+
+<p><strong>Cerca ORIS DENT</strong><br>
+Nella sezione delle applicazioni cerca la voce:</p>
+
+<p><strong>OrisDentNet (32 bit)</strong></p>
+
+<p>È il processo del gestionale che dovrai selezionare.</p>
+
+<h2>3. Terminare ORIS DENT da Gestione attività</h2>
+
+<div class="nota attenzione">
+  <strong>Attenzione</strong>
+  Utilizza “Termina attività” solo se ORIS DENT è bloccato o non risponde.<br><br>
+  I dati non ancora salvati potrebbero andare persi. Non terminare altri programmi o processi.
+</div>
+
+<ol>
+  <li>
+    <strong>Seleziona OrisDentNet (32 bit)</strong><br>
+    Clicca sulla voce corrispondente a ORIS DENT all’interno di Gestione attività.
+  </li>
+
+  <li>
+    <strong>Clicca su “Termina attività”</strong><br>
+    Attendi alcuni secondi.
+  </li>
+</ol>
+
+<div class="nota">
+  <strong>Risultato atteso</strong>
+  Dopo alcuni secondi, <strong>OrisDentNet</strong> non deve più comparire tra le applicazioni aperte.
+</div>
+
+<h2>4. Riaprire ORIS DENT</h2>
+
+<p><strong>Riapri il programma</strong><br>
+Dopo aver terminato il processo, fai doppio clic sull’icona <strong>“Orisdent Q”</strong> presente sul desktop.</p>
+
+<p>Verifica se il gestionale si apre e torna a funzionare normalmente.</p>
+
+<div class="nota">
+  <strong>Se funziona</strong>
+  La procedura è conclusa. Puoi utilizzare nuovamente ORIS DENT.
+</div>
+
+<h2>5. Se ORIS DENT continua a non funzionare</h2>
+
+<p><strong>Riavvia il PC</strong><br>
+Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
+
+<ol>
+  <li>Apri il menu <strong>Start</strong>.</li>
+  <li>Clicca su <strong>Alimentazione</strong>.</li>
+  <li>Seleziona <strong>Riavvia</strong>.</li>
+  <li>Attendi il riavvio completo del computer.</li>
+  <li>Prova nuovamente ad aprire <strong>Orisdent Q</strong>.</li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Possibile problema di rete</strong>
+  Se oltre a ORIS DENT noti problemi con Internet, le cartelle di rete o altri servizi aziendali, consulta il manuale <strong>“Problemi di connessione alla rete”</strong>.
+</div>
+
+<h2>Se il problema resta</h2>
+
+<p>Se ORIS DENT continua a non aprirsi, resta bloccato oppure continua a mostrare errori anche dopo il riavvio del PC, <strong>non eseguire ulteriori modifiche all’interno del gestionale</strong>.</p>
+
+<p>Conserva eventuali screenshot o foto del messaggio di errore e annota i passaggi già eseguiti.</p>
+
+<div class="nota attenzione">
+  <strong>Regola generale</strong>
+  Non modificare configurazioni, impostazioni o dati interni di ORIS DENT e non terminare processi diversi da <strong>OrisDentNet (32 bit)</strong>.
+</div>
+
+`
+},
+     
     {
       id: "richiesta-software",
       titolo: "Richiedere l'installazione di un software",
