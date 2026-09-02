@@ -638,16 +638,13 @@ const KB = {
 </ol>
 
 <h2>Trovare la cartella</h2>
-<ol>
   <li><strong>Apri la cartella di cui hai bisogno</strong>
   Se il server si apre correttamente, vedrai l’elenco delle cartelle condivise. Individua quella necessaria e aprila con un doppio clic.</li>
-</ol>
 
 <h2>Salvare la cartella in Accesso rapido</h2>
-<ol>
   <li><strong>Aggiungi la cartella ad Accesso rapido</strong>.
   Se utilizzi spesso la stessa cartella, fai clic con il tasto destro sul suo nome e seleziona “Aggiungi ad Accesso rapido”.</li>
-</ol>
+  
   <h2>Fatto</h2>
   <p>Da questo momento potrai ritrovare rapidamente la cartella da Esplora file. L’Accesso rapido crea solo un collegamento: non modifica i contenuti presenti sul server.</p>
 
