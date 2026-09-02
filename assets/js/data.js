@@ -609,6 +609,53 @@ const KB = {
 
     /* ---------------- RETE E CONNETTIVITÀ ---------------- */
 
+         {
+      id: "Cartelle-Rete",
+      titolo: "Accedere alle cartelle di rete aziendali",
+      categoria: "rete",
+      tag: ["cartelle", "server", "rete", "condivisione", "srvdc", "connessione"],
+      aggiornato: "2026-08-28",
+      minuti: 3,
+      sommario: "Aprire una cartella condivisa sul server aziendale.",
+      corpo: `
+
+<p>Segui questa guida quando devi aprire una cartella condivisa sul server aziendale oppure non trovi più una cartella di rete.</p>
+
+<div class="nota attenzione">
+  <strong>Prima di iniziare</strong>
+  Assicurati che il PC sia collegato alla rete aziendale. Se la rete non funziona, consulta prima il manuale “Problemi di connessione alla rete”.
+</div>
+
+<h2>Aprire il server</h2>
+<ol>
+  <li><strong>Apri Esplora file</strong>
+  Clicca sull’icona gialla a forma di cartella nella barra delle applicazioni.</li>
+  <li><strong>Clicca sulla barra degli indirizzi</strong>
+  In alto, seleziona la barra in cui viene visualizzato il percorso della cartella corrente.</li>
+  <li><strong>Digita il percorso del server e premi Invio</strong>
+  Scrivi esattamente questo percorso nella barra degli indirizzi:
+  <strong>\\srvdc</strong></li>
+</ol>
+
+<h2>Trovare la cartella</h2>
+<ol>
+  <li><strong>Apri la cartella di cui hai bisogno</strong>
+  Se il server si apre correttamente, vedrai l’elenco delle cartelle condivise. Individua quella necessaria e aprila con un doppio clic.</li>
+</ol>
+
+<h2>Salvare la cartella in Accesso rapido</h2>
+<ol>
+  <li><strong>Aggiungi la cartella ad Accesso rapido</strong>.
+  Se utilizzi spesso la stessa cartella, fai clic con il tasto destro sul suo nome e seleziona “Aggiungi ad Accesso rapido”.</li>
+</ol>
+  <h2>Fatto</h2>
+  <p>Da questo momento potrai ritrovare rapidamente la cartella da Esplora file. L’Accesso rapido crea solo un collegamento: non modifica i contenuti presenti sul server.</p>
+
+<h2>Segnale debole in alcune zone</h2>
+<p>Segnala al supporto IT il punto preciso (piano, stanza, postazione) e l'orario: le misurazioni di copertura vengono fatte periodicamente e le segnalazioni puntuali aiutano a decidere dove aggiungere un access point.</p>
+`
+    },
+     
     {
       id: "wifi-aziendale",
       titolo: "Connettersi al Wi-Fi aziendale e alla rete ospiti",
