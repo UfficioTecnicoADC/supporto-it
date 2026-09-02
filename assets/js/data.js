@@ -320,7 +320,7 @@ const KB = {
   <li>Usa <strong>Effettua una chiamata di prova</strong> per verificare prima di entrare in riunione.</li>
 </ol>
 
-<h2>Selezionare il dispositivo giusto su OpiVoice</h2>
+<h2>Selezionare il dispositivo giusto in OpiVoice</h2>
 <ol>
   <li>Nel portale <strong>OpiVoice</strong> clicca sull'icona dell'utente (l'“omino”) in alto a destra e apri <strong>Impostazioni</strong>. La posizione può variare leggermente in base alla visualizzazione del portale.</li>
   <li>Da <strong>Impostazioni</strong> seleziona <strong>Audio</strong>.</li>
