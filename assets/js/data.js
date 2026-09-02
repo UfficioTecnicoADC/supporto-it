@@ -634,7 +634,7 @@ const KB = {
   In alto, seleziona la barra in cui viene visualizzato il percorso della cartella corrente.</li>
   <li><strong>Digita il percorso del server e premi Invio</strong><br>
   Scrivi esattamente questo percorso nella barra degli indirizzi:
-  <strong>\\srvdc</strong></li>
+  <strong>\\\srvdc</strong></li>
 </ol>
 
 <h2>Trovare la cartella</h2>
