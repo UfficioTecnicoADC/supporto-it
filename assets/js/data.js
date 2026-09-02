@@ -1106,7 +1106,7 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
   <li>Clicca su <strong>Alimentazione</strong>.</li>
   <li>Seleziona <strong>Riavvia</strong>.</li>
   <li>Attendi il riavvio completo del computer.</li>
-  <li>Prova nuovamente ad aprire <strong>Orisdent Q</strong>.</li>
+  <li>Prova nuovamente ad aprire <strong>OrisdentQ</strong>.</li>
 </ol>
 
 <div class="nota attenzione">
