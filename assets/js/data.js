@@ -1119,7 +1119,7 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 
 <p>Se ORIS DENT continua a non aprirsi, resta bloccato oppure continua a mostrare errori anche dopo il riavvio del PC, <strong>non eseguire ulteriori modifiche all’interno del gestionale</strong>.</p>
 
-<p>Conserva eventuali screenshot o foto del messaggio di errore e <strong>Contatta il supporto IT</strong></p>
+<p>Conserva eventuali screenshot o foto del messaggio di errore e <strong>Contatta il supporto IT</strong>.</p>
 
 <div class="nota attenzione">
   <strong>Regola generale</strong>
