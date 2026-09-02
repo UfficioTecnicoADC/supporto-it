@@ -628,20 +628,20 @@ const KB = {
 
 <h2>Aprire il server</h2>
 <ol>
-  <li><strong>Apri Esplora file</strong>
+  <li><strong>Apri Esplora file</strong><br>
   Clicca sull’icona gialla a forma di cartella nella barra delle applicazioni.</li>
-  <li><strong>Clicca sulla barra degli indirizzi</strong>
+  <li><strong>Clicca sulla barra degli indirizzi</strong><br>
   In alto, seleziona la barra in cui viene visualizzato il percorso della cartella corrente.</li>
-  <li><strong>Digita il percorso del server e premi Invio</strong>
+  <li><strong>Digita il percorso del server e premi Invio</strong><br>
   Scrivi esattamente questo percorso nella barra degli indirizzi:
   <strong>\\srvdc</strong></li>
 </ol>
 
 <h2>Trovare la cartella</h2>
-  <li><strong>Apri la cartella di cui hai bisogno</strong>
+  <li><strong>Apri la cartella di cui hai bisogno</strong><br>
   Se il server si apre correttamente, vedrai l’elenco delle cartelle condivise. Individua quella necessaria e aprila con un doppio clic.</li>
 
-<h2>Salvare la cartella in Accesso rapido</h2>
+<h2>Salvare la cartella in Accesso rapido</h2><br>
   <li><strong>Aggiungi la cartella ad Accesso rapido</strong>.
   Se utilizzi spesso la stessa cartella, fai clic con il tasto destro sul suo nome e seleziona “Aggiungi ad Accesso rapido”.</li>
   
