@@ -1127,6 +1127,207 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 
 `
 },
+
+
+     {
+  id: "problemi-nnt-panoramico",
+  titolo: "Problemi di connessione tra NNT e panoramico",
+  categoria: "software",
+  tag: [
+    "nnt",
+    "panoramico",
+    "radiografie",
+    "radiografia",
+    "connessione",
+    "server",
+    "errore",
+    "gestione attività"
+  ],
+  aggiornato: "2026-09-03",
+  minuti: 4,
+  sommario: "Cosa fare quando NNT non riesce a comunicare con il panoramico.",
+  corpo: `
+
+<p>Segui questa guida quando, durante l'utilizzo di <strong>NNT</strong>, provi ad avviare una nuova radiografia ma il programma <strong>non riesce a comunicare con il panoramico</strong>.</p>
+
+<p>Può comparire un messaggio di errore come:</p>
+
+<div class="nota attenzione">
+  <strong>Errore</strong>
+  “Connessione al server non riuscita”
+</div>
+
+<p>Prima di contattare l'IT, esegui nell'ordine i controlli riportati di seguito.</p>
+
+
+<h2>1. Chiudere completamente NNT</h2>
+
+<p>Non è sufficiente chiudere semplicemente la finestra del programma. È necessario verificare che <strong>NNT sia completamente terminato</strong>.</p>
+
+<ol>
+  <li>
+    <strong>Premi CTRL + SHIFT + ESC</strong><br>
+    Premi contemporaneamente i tre tasti sulla tastiera.
+  </li>
+
+  <li>
+    <strong>Apri Gestione attività</strong><br>
+    Si aprirà la finestra <strong>Gestione attività</strong> di Windows.
+  </li>
+
+  <li>
+    <strong>Cerca NNT</strong><br>
+    Nella sezione <strong>Processi</strong>, cerca NNT nell'elenco delle applicazioni o dei processi in esecuzione.
+  </li>
+
+  <li>
+    <strong>Seleziona NNT</strong><br>
+    Clicca sul processo corrispondente al programma.
+  </li>
+
+  <li>
+    <strong>Clicca su “Termina attività”</strong><br>
+    Attendi qualche secondo.
+  </li>
+
+  <li>
+    <strong>Verifica che NNT sia chiuso</strong><br>
+    NNT non deve più comparire tra i processi attivi.
+  </li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Attenzione</strong>
+  Termina esclusivamente NNT. Non chiudere altri programmi o processi da Gestione attività.
+</div>
+
+
+<h2>2. Spegnere e riaccendere il panoramico</h2>
+
+<p>Dopo aver chiuso completamente NNT, procedi con il riavvio del <strong>panoramico</strong>, ovvero il macchinario utilizzato per effettuare le radiografie.</p>
+
+<ol>
+  <li>
+    <strong>Spegni il panoramico</strong>.
+  </li>
+
+  <li>
+    <strong>Attendi qualche secondo</strong>.
+  </li>
+
+  <li>
+    <strong>Riaccendi il panoramico</strong>.
+  </li>
+
+  <li>
+    Attendi che il macchinario abbia completato normalmente la fase di avvio.
+  </li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Importante</strong>
+  Non riaprire NNT mentre il panoramico si sta ancora accendendo. Attendi che il macchinario sia completamente acceso e pronto.
+</div>
+
+
+<h2>3. Riaprire NNT e verificare il funzionamento</h2>
+
+<p>Quando il panoramico è nuovamente acceso e operativo:</p>
+
+<ol>
+  <li>
+    <strong>Apri NNT</strong>.
+  </li>
+
+  <li>
+    Accedi normalmente al programma.
+  </li>
+
+  <li>
+    Ripeti la procedura per effettuare una <strong>nuova radiografia</strong>.
+  </li>
+
+  <li>
+    Verifica se NNT riesce ora a comunicare correttamente con il panoramico.
+  </li>
+</ol>
+
+<div class="nota">
+  <strong>Se funziona</strong>
+  La procedura è conclusa. Puoi utilizzare normalmente NNT e procedere con la radiografia.
+</div>
+
+<div class="nota attenzione">
+  <strong>Se compare ancora l'errore</strong>
+  Procedi con il riavvio del PC seguendo il punto successivo.
+</div>
+
+
+<h2>4. Riavviare il PC</h2>
+
+<p>Se NNT continua a non comunicare con il panoramico:</p>
+
+<ol>
+  <li>
+    <strong>Chiudi NNT</strong>.
+  </li>
+
+  <li>
+    Apri il menu <strong>Start</strong> di Windows.
+  </li>
+
+  <li>
+    Seleziona <strong>Alimentazione → Riavvia</strong>.
+  </li>
+
+  <li>
+    Attendi il completo riavvio del PC.
+  </li>
+
+  <li>
+    Accedi nuovamente a Windows.
+  </li>
+
+  <li>
+    Verifica che il <strong>panoramico sia acceso e pronto</strong>.
+  </li>
+
+  <li>
+    Apri nuovamente <strong>NNT</strong>.
+  </li>
+
+  <li>
+    Prova nuovamente ad avviare una radiografia.
+  </li>
+</ol>
+
+<div class="nota">
+  <strong>Se ora funziona</strong>
+  La procedura è conclusa. Puoi continuare a utilizzare normalmente NNT e il panoramico.
+</div>
+
+
+<h2>5. Se il problema persiste</h2>
+
+<p>Se, <strong>anche dopo aver riavviato il PC</strong>, NNT continua a mostrare l'errore di connessione e non riesce a comunicare con il panoramico, non effettuare ulteriori modifiche o tentativi sul PC o sul macchinario.</p>
+
+<div class="nota attenzione">
+  <strong>Non eseguire altri tentativi</strong>
+  Non modificare configurazioni di NNT, impostazioni di rete o impostazioni del panoramico.
+</div>
+
+<p><strong>Contatta l'Ufficio IT</strong> e comunica:</p>
+
+<ul>
+  <li>la <strong>sede</strong> in cui si presenta il problema;</li>
+  <li>che il problema riguarda <strong>NNT e il panoramico</strong>;</li>
+  <li>il <strong>messaggio di errore</strong> visualizzato;</li>
+  <li>che è già stato eseguito il <strong>riavvio del panoramico</strong>;</li>
+  <li>che è già stato eseguito il <strong>riavvio del PC</strong>.</li>
+</ul>
+
+`
+},
      
     {
       id: "richiesta-software",
