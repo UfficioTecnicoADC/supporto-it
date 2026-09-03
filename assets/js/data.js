@@ -1166,7 +1166,7 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 
 <ol>
   <li>
-    <strong>Premi CTRL + SHIFT + ESC</strong><br>
+    <strong>Premi CTRL + MAIUSC + ESC</strong><br>
     Premi contemporaneamente i tre tasti sulla tastiera.
   </li>
 
