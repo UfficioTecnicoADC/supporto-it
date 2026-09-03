@@ -45,7 +45,7 @@ const KB = {
       id: "rete",
       nome: "Rete e connettività",
       icona: "wifi",
-      descrizione: "Wi-Fi aziendale, VPN, lavoro da remoto e problemi di connessione."
+      descrizione: "Wi-Fi aziendale, Server, lavoro da remoto e problemi di connessione."
     },
     {
       id: "sicurezza",
@@ -319,6 +319,15 @@ const KB = {
   <li>Imposta altoparlante e microfono sulle cuffie in uso.</li>
   <li>Usa <strong>Effettua una chiamata di prova</strong> per verificare prima di entrare in riunione.</li>
 </ol>
+
+<h2>Selezionare il dispositivo giusto in OpiVoice</h2>
+<ol>
+  <li>Nel portale <strong>OpiVoice</strong> clicca sull'icona dell'utente (l'“omino”) in alto a destra e apri <strong>Impostazioni</strong>. La posizione può variare leggermente in base alla visualizzazione del portale.</li>
+  <li>Da <strong>Impostazioni</strong> seleziona <strong>Audio</strong>.</li>
+  <li>Alla voce <strong>Microfono</strong>, nella sezione Ingressi audio, seleziona sempre il dispositivo che contiene la dicitura <strong>“USB”</strong>.</li>
+  <li>Nella sezione Uscite audio controlla sia <strong>Chiamate</strong> sia <strong>Suonerie e avvisi</strong>. Per entrambe le voci seleziona l'opzione che contiene la dicitura <strong>“USB”</strong>.</li>
+</ol>
+
 
 <h2>Controlli fisici che sfuggono spesso</h2>
 <ul>
@@ -602,40 +611,62 @@ const KB = {
     /* ---------------- RETE E CONNETTIVITÀ ---------------- */
 
     {
-      id: "connettersi-vpn",
-      titolo: "Connettersi alla VPN aziendale",
+      id: "Cartelle-Rete",
+      titolo: "Accedere alle cartelle di rete aziendali",
       categoria: "rete",
-      tag: ["vpn", "remoto", "smart working", "rete aziendale", "cartelle di rete"],
+      tag: ["cartelle", "server", "rete", "condivisione", "srvdc", "connessione"],
       aggiornato: "2026-08-28",
-      minuti: 4,
-      sommario: "Come attivare la VPN per raggiungere cartelle condivise e gestionali quando lavori fuori sede.",
+      minuti: 3,
+      sommario: "Aprire una cartella condivisa sul server aziendale.",
       corpo: `
-<p>La VPN serve solo per raggiungere le risorse interne: cartelle di rete, gestionali e stampanti d'ufficio. Posta, Teams, OneDrive e SharePoint funzionano <strong>senza</strong> VPN.</p>
 
-<h2>Avviare la connessione</h2>
-<ol>
-  <li>Assicurati di avere una connessione Internet funzionante.</li>
-  <li>Apri il client VPN dal menu Start o dall'area di notifica.</li>
-  <li>Inserisci le tue credenziali aziendali.</li>
-  <li>Conferma la richiesta MFA sul telefono.</li>
-  <li>L'icona diventa verde: sei connesso.</li>
-</ol>
+<p>Segui questa guida quando devi aprire una cartella condivisa sul server aziendale oppure non trovi più una cartella di rete.</p>
 
-<div class="nota">
-  <strong>Disconnetti quando non serve</strong>
-  Con la VPN attiva tutto il traffico passa dalla rete aziendale: videochiamate e download risultano più lenti. Disattivala quando lavori solo su posta e Teams.
+<div class="nota attenzione">
+  <strong>Prima di iniziare</strong>
+  Assicurati che il PC sia collegato alla rete aziendale. Se la rete non funziona, consulta prima il manuale “Problemi di connessione alla rete”.
 </div>
 
-<h2>Problemi frequenti</h2>
-<table>
-  <tr><th>Sintomo</th><th>Cosa fare</th></tr>
-  <tr><td>La connessione non si stabilisce</td><td>Verifica di navigare su Internet. Sulle reti di hotel e aeroporti apri prima una pagina qualsiasi e accetta le condizioni del portale.</td></tr>
-  <tr><td>Credenziali rifiutate</td><td>Hai cambiato password di recente? Usa quella nuova. Se l'account è bloccato, attendi 30 minuti.</td></tr>
-  <tr><td>Connessa ma le cartelle non si aprono</td><td>Attendi un minuto dopo la connessione, poi riapri Esplora file. Se persiste, disconnetti e riconnetti.</td></tr>
-  <tr><td>Cade di continuo</td><td>Tipico delle reti Wi-Fi domestiche congestionate o del tethering da cellulare. Prova a spostarti vicino al router.</td></tr>
-</table>
+<h2>Aprire il server</h2>
+
+<ol>
+  <li><strong>Apri Esplora file</strong><br>
+  Clicca sull’icona gialla a forma di cartella nella barra delle applicazioni.</li>
+  <li><strong>Clicca sulla barra degli indirizzi</strong><br>
+  In alto, seleziona la barra in cui viene visualizzato il percorso della cartella corrente.</li>
+  <li><strong>Digita il percorso del server e premi Invio</strong><br>
+  Scrivi esattamente questo percorso nella barra degli indirizzi:
+  <strong>&#92;&#92;srvdc</strong></li>
+</ol>
+
+  <h2>Trovare la cartella</h2>
+  <p><strong>Apri la cartella di cui hai bisogno</strong><br>
+  Se il server si apre correttamente, vedrai l’elenco delle cartelle condivise. Individua quella necessaria e aprila con un doppio clic.</p>
+
+  <h2>Salvare la cartella in Accesso rapido</h2><br>
+  <p><strong>Aggiungi la cartella ad Accesso rapido</strong>.<br>
+  Se utilizzi spesso la stessa cartella, fai clic con il tasto destro sul suo nome e seleziona “Aggiungi ad Accesso rapido”.</p>
+  
+  <h2>Fatto</h2>
+  <p>Da questo momento potrai ritrovare rapidamente la cartella da Esplora file. L’Accesso rapido crea solo un collegamento: non modifica i contenuti presenti sul server.</p>
+
+  <h2><strong>Se non funziona</strong></h2>
+  <p>Individua la situazione che corrisponde al problema.</p>
+<ol>
+  <li><strong>Il server non si apre</strong><br>
+  Dopo aver scritto &#92;&#92;srvdc e premuto Invio compare un errore oppure il server non viene visualizzato.<br>
+  <strong>Cosa fare:</strong> Verifica che il PC sia collegato alla rete aziendale e consulta il manuale “Problemi di connessione alla rete”.</li>
+  <li><strong>Il server si apre, ma la cartella non compare</strong><br>
+  Riesci a vedere le altre cartelle condivise, ma non trovi quella di cui hai bisogno.<br>
+  <strong>Cosa fare:</strong> Potresti non avere i permessi necessari. Contatta l’IT indicando con precisione il nome della cartella.</li>
+  <li><strong>Compare “Accesso negato”</strong><br>
+  La cartella è visibile, ma Windows non permette di aprirla.<br>
+  <strong>Cosa fare:</strong> Contatta l’IT: è necessario verificare i permessi di accesso alla cartella.</li>
+</ol>
+
 `
     },
+
 
     {
       id: "wifi-aziendale",
@@ -1108,6 +1139,340 @@ const KB = {
 
     /* ---------------- SOFTWARE E LICENZE ---------------- */
 
+
+     {
+  id: "Problemi-ORIS-DENT",
+  titolo: "ORIS DENT non si apre, è bloccato o non risponde",
+  categoria: "software",
+  tag: ["oris", "oris dent", "orisdent", "gestionale", "bloccato", "non risponde", "gestione attività"],
+  aggiornato: "2026-09-02",
+  minuti: 4,
+  sommario: "Procedura semplice per chiudere, riavviare e ripristinare ORIS DENT quando non risponde.",
+  corpo: `
+
+<p>Segui questa guida quando <strong>ORIS DENT non si apre, resta bloccato oppure non risponde ai comandi</strong>.</p>
+
+  <h2><strong>Prima di iniziare</strong></h2>
+  <p><strong>Se compare un messaggio di errore:</strong><br>
+  Scatta una foto o acquisisci uno <strong>screenshot</strong> prima di chiudere ORIS.<br>
+  Verifica inoltre che la <strong>connessione a Internet</strong> e almeno <strong>un altro programma del PC</strong> funzionino normalmente.</p>
+
+<div class="nota attenzione">
+  <strong>Importante</strong>
+  Non modificare impostazioni, configurazioni o dati interni di ORIS DENT. Segui esclusivamente i passaggi descritti in questa guida.
+</div>
+
+<h2>Percorso rapido</h2>
+<ol>
+  <li>Chiudi e riapri ORIS DENT.</li>
+  <li>Se è bloccato, apri Gestione attività.</li>
+  <li>Termina esclusivamente <strong>OrisDentNet (32 bit)</strong>.</li>
+  <li>Riapri ORIS DENT.</li>
+  <li>Se necessario, riavvia il PC.</li>
+</ol>
+
+<h2>1. Chiudere e riaprire ORIS DENT</h2>
+
+<p><strong>Prova a chiudere normalmente ORIS DENT</strong><br>
+Se il programma risponde ancora, clicca sulla <strong>X</strong> in alto a destra.<br>
+Attendi circa 10 secondi prima di riaprirlo.</p>
+
+<p><strong>Riapri ORIS DENT dal desktop</strong><br>
+Fai doppio clic sull’icona <strong>“Orisdent Q”</strong> presente sul desktop e verifica se il gestionale torna a funzionare normalmente.</p>
+
+<div class="nota">
+  <strong>Se ora funziona</strong>
+  La procedura è conclusa. Puoi continuare a utilizzare ORIS DENT normalmente.
+</div>
+
+<div class="nota attenzione">
+  <strong>Se non si chiude o resta bloccato</strong>
+  Non continuare a cliccare all’interno di ORIS DENT. Procedi con il manuale seguendo i passaggi successivi.
+</div>
+
+<h2>2. Aprire Gestione attività</h2>
+
+<p><strong>Premi CTRL + MAIUSC + ESC contemporaneamente</strong><br>
+Si aprirà la finestra <strong>Gestione attività</strong> di Windows.</p>
+
+<p><strong>Cerca ORIS DENT</strong><br>
+Nella sezione delle applicazioni cerca la voce:</p>
+
+<p><strong>OrisDentNet (32 bit)</strong></p>
+
+<p>È il processo del gestionale che dovrai selezionare.</p>
+
+<h2>3. Terminare ORIS DENT da Gestione attività</h2>
+
+<div class="nota attenzione">
+  <strong>Attenzione</strong>
+  Utilizza “Termina attività” solo se ORIS DENT è bloccato o non risponde.<br><br>
+  I dati non ancora salvati potrebbero andare persi. Non terminare altri programmi o processi.
+</div>
+
+<ol>
+  <li>
+    <strong>Seleziona OrisDentNet (32 bit)</strong><br>
+    Clicca sulla voce corrispondente a ORIS DENT all’interno di Gestione attività.
+  </li>
+
+  <li>
+    <strong>Clicca su “Termina attività”</strong><br>
+    Attendi alcuni secondi.
+  </li>
+</ol>
+
+<div class="nota">
+  <strong>Risultato atteso</strong>
+  Dopo alcuni secondi, <strong>OrisDentNet</strong> non deve più comparire tra le applicazioni aperte.
+</div>
+
+<h2>4. Riaprire ORIS DENT</h2>
+
+<p><strong>Riapri il programma</strong><br>
+Dopo aver terminato il processo, fai doppio clic sull’icona <strong>“Orisdent Q”</strong> presente sul desktop.</p>
+
+<p>Verifica se il gestionale si apre e torna a funzionare normalmente.</p>
+
+<div class="nota">
+  <strong>Se funziona</strong>
+  La procedura è conclusa. Puoi utilizzare nuovamente ORIS DENT.
+</div>
+
+<h2>5. Se ORIS DENT continua a non funzionare</h2>
+
+<p><strong>Riavvia il PC</strong><br>
+Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
+
+<ol>
+  <li>Apri il menu <strong>Start</strong>.</li>
+  <li>Clicca su <strong>Alimentazione</strong>.</li>
+  <li>Seleziona <strong>Riavvia</strong>.</li>
+  <li>Attendi il riavvio completo del computer.</li>
+  <li>Prova nuovamente ad aprire <strong>OrisdentQ</strong>.</li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Possibile problema di rete</strong>
+  Se oltre a ORIS DENT noti problemi con Internet, le cartelle di rete o altri servizi aziendali, consulta il manuale <strong>“Problemi di connessione alla rete”</strong>.
+</div>
+
+<h2>Se il problema resta</h2>
+
+<p>Se ORIS DENT continua a non aprirsi, resta bloccato oppure continua a mostrare errori anche dopo il riavvio del PC, <strong>non eseguire ulteriori modifiche all’interno del gestionale</strong>.</p>
+
+<p>Conserva eventuali screenshot o foto del messaggio di errore e <strong>Contatta il supporto IT</strong>.</p>
+
+<div class="nota attenzione">
+  <strong>Regola generale</strong>
+  Non modificare configurazioni, impostazioni o dati interni di ORIS DENT e non terminare processi diversi da <strong>OrisDentNet (32 bit)</strong>.
+</div>
+
+`
+},
+
+
+     {
+  id: "problemi-nnt-panoramico",
+  titolo: "Problemi di connessione tra NNT e panoramico in sala OPT",
+  categoria: "software",
+  tag: [
+    "nnt",
+    "panoramico",
+    "radiografie",
+    "radiografia",
+    "connessione",
+    "server",
+    "errore",
+    "gestione attività"
+  ],
+  aggiornato: "2026-09-03",
+  minuti: 4,
+  sommario: "Cosa fare quando NNT non riesce a comunicare con il panoramico.",
+  corpo: `
+
+<p>Segui questa guida quando, durante l'utilizzo di <strong>NNT</strong>, provi ad avviare una nuova radiografia ma il programma <strong>non riesce a comunicare con il panoramico</strong>.</p>
+
+<p>Può comparire un messaggio di errore come:</p>
+
+<div class="nota attenzione">
+  <strong>Errore</strong>
+  “Connessione al server non riuscita”
+</div>
+
+<p>Prima di contattare l'IT, esegui nell'ordine i controlli riportati di seguito.</p>
+
+
+<h2>1. Chiudere completamente NNT</h2>
+
+<p>Non è sufficiente chiudere semplicemente la finestra del programma. È necessario verificare che <strong>NNT sia completamente terminato</strong>.</p>
+
+<ol>
+  <li>
+    <strong>Premi CTRL + MAIUSC + ESC</strong><br>
+    Premi contemporaneamente i tre tasti sulla tastiera.
+  </li>
+
+  <li>
+    <strong>Apri Gestione attività</strong><br>
+    Si aprirà la finestra <strong>Gestione attività</strong> di Windows.
+  </li>
+
+  <li>
+    <strong>Cerca NNT</strong><br>
+    Nella sezione <strong>Processi</strong>, cerca NNT nell'elenco delle applicazioni o dei processi in esecuzione.
+  </li>
+
+  <li>
+    <strong>Seleziona NNT</strong><br>
+    Clicca sul processo corrispondente al programma.
+  </li>
+
+  <li>
+    <strong>Clicca su “Termina attività”</strong><br>
+    Attendi qualche secondo.
+  </li>
+
+  <li>
+    <strong>Verifica che NNT sia chiuso</strong><br>
+    NNT non deve più comparire tra i processi attivi.
+  </li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Attenzione</strong>
+  Termina esclusivamente NNT. Non chiudere altri programmi o processi da Gestione attività.
+</div>
+
+
+<h2>2. Spegnere e riaccendere il panoramico</h2>
+
+<p>Dopo aver chiuso completamente NNT, procedi con il riavvio del <strong>panoramico</strong>, ovvero il macchinario utilizzato per effettuare le radiografie.</p>
+
+<ol>
+  <li>
+    <strong>Spegni il panoramico</strong>.
+  </li>
+
+  <li>
+    <strong>Attendi qualche secondo</strong>.
+  </li>
+
+  <li>
+    <strong>Riaccendi il panoramico</strong>.
+  </li>
+
+  <li>
+    Attendi che il macchinario abbia completato normalmente la fase di avvio.
+  </li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Importante</strong>
+  Non riaprire NNT mentre il panoramico si sta ancora accendendo. Attendi che il macchinario sia completamente acceso e pronto.
+</div>
+
+
+<h2>3. Riaprire NNT e verificare il funzionamento</h2>
+
+<p>Quando il panoramico è nuovamente acceso e operativo:</p>
+
+<ol>
+  <li>
+    <strong>Apri NNT</strong>.
+  </li>
+
+  <li>
+    Accedi normalmente al programma.
+  </li>
+
+  <li>
+    Ripeti la procedura per effettuare una <strong>nuova radiografia</strong>.
+  </li>
+
+  <li>
+    Verifica se NNT riesce ora a comunicare correttamente con il panoramico.
+  </li>
+</ol>
+
+<div class="nota">
+  <strong>Se funziona</strong>
+  La procedura è conclusa. Puoi utilizzare normalmente NNT e procedere con la radiografia.
+</div>
+
+<div class="nota attenzione">
+  <strong>Se compare ancora l'errore</strong>
+  Procedi con il riavvio del PC seguendo il punto successivo.
+</div>
+
+
+<h2>4. Riavviare il PC</h2>
+
+<p>Se NNT continua a non comunicare con il panoramico:</p>
+
+<ol>
+  <li>
+    <strong>Chiudi NNT</strong>.
+  </li>
+
+  <li>
+    Apri il menu <strong>Start</strong> di Windows.
+  </li>
+
+  <li>
+    Seleziona <strong>Alimentazione → Riavvia</strong>.
+  </li>
+
+  <li>
+    Attendi il completo riavvio del PC.
+  </li>
+
+  <li>
+    Accedi nuovamente a Windows.
+  </li>
+
+  <li>
+    Verifica che il <strong>panoramico sia acceso e pronto</strong>.
+  </li>
+
+  <li>
+    Apri nuovamente <strong>NNT</strong>.
+  </li>
+
+  <li>
+    Prova nuovamente ad avviare una radiografia.
+  </li>
+</ol>
+
+<div class="nota">
+  <strong>Se ora funziona</strong>
+  La procedura è conclusa. Puoi continuare a utilizzare normalmente NNT e il panoramico.
+</div>
+
+
+<h2>5. Se il problema persiste</h2>
+
+<p>Se, <strong>anche dopo aver riavviato il PC</strong>, NNT continua a mostrare l'errore di connessione e non riesce a comunicare con il panoramico, non effettuare ulteriori modifiche o tentativi sul PC o sul macchinario.</p>
+
+<div class="nota attenzione">
+  <strong>Non eseguire altri tentativi</strong>
+  Non modificare configurazioni di NNT, impostazioni di rete o impostazioni del panoramico.
+</div>
+
+<p><strong>Contatta l'Ufficio IT</strong> e comunica:</p>
+
+<ul>
+  <li>la <strong>sede</strong> in cui si presenta il problema;</li>
+  <li>che il problema riguarda <strong>NNT e il panoramico</strong>;</li>
+  <li>il <strong>messaggio di errore</strong> visualizzato;</li>
+  <li>che è già stato eseguito il <strong>riavvio del panoramico</strong>;</li>
+  <li>che è già stato eseguito il <strong>riavvio del PC</strong>.</li>
+</ul>
+
+`
+},
+ 
+
     {
       id: "richiesta-software",
       titolo: "Richiedere l'installazione di un software",
@@ -1147,34 +1512,6 @@ const KB = {
 `
     },
 
-    {
-      id: "portale-software-aziendale",
-      titolo: "Installare le applicazioni dal catalogo aziendale",
-      categoria: "software",
-      tag: ["catalogo", "portale", "self service", "installazione", "app"],
-      aggiornato: "2026-08-28",
-      minuti: 2,
-      sommario: "Le applicazioni già approvate si installano da soli, senza aprire un ticket.",
-      corpo: `
-<p>Il catalogo aziendale raccoglie i programmi già approvati e con licenza disponibile. Puoi installarli in autonomia, senza privilegi di amministratore e senza attendere un intervento.</p>
-
-<h2>Come si usa</h2>
-<ol>
-  <li>Apri il <strong>portale aziendale</strong> dal menu Start.</li>
-  <li>Cerca l'applicazione nel catalogo.</li>
-  <li>Clicca <strong>Installa</strong> e lascia il PC acceso e connesso alla rete.</li>
-  <li>L'installazione può richiedere alcuni minuti: alcune applicazioni chiedono un riavvio al termine.</li>
-</ol>
-
-<div class="nota">
-  <strong>Se l'installazione fallisce</strong>
-  Riavvia il PC e riprova una volta sola. Se fallisce di nuovo, apri un ticket riportando il nome dell'applicazione e l'eventuale codice di errore mostrato.
-</div>
-
-<h2>Aggiornamenti</h2>
-<p>Le applicazioni distribuite dal catalogo si aggiornano automaticamente. Se un programma segnala un aggiornamento e ti chiede la password di amministratore, ignora la richiesta e segnalalo al supporto IT.</p>
-`
-    },
 
     /* ---------------- PROCEDURE E RICHIESTE ---------------- */
 
