@@ -320,6 +320,25 @@ p { margin: 0 0 1em; }
 .articolo-corpo th, .articolo-corpo td { text-align: left; padding: 9px 12px; border: 1px solid var(--border); }
 .articolo-corpo th { background: var(--surface-alt); font-weight: 600; }
 
+/* ---------- Immagini nelle guide ---------- */
+
+.articolo-corpo figure { margin: 0 0 1.5em; }
+.articolo-corpo figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--raggio-s);
+  background: var(--surface-alt);
+}
+.articolo-corpo figcaption {
+  font-size: .84rem;
+  color: var(--testo-tenue);
+  margin-top: 8px;
+  line-height: 1.45;
+}
+.articolo-corpo figure.stretta { max-width: 560px; }
+
 .nota {
   border-left: 3px solid var(--blu-500);
   background: var(--blu-050);
@@ -553,4 +572,5 @@ body.pagina-accesso {
   .articolo { border: none; padding: 0; }
   .due-colonne { display: block; padding: 0; }
   a { color: #000; text-decoration: none; }
+  .articolo-corpo figure { break-inside: avoid; page-break-inside: avoid; max-width: 480px; }
 }
