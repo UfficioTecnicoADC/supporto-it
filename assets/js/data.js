@@ -934,15 +934,15 @@ const KB = {
   <li>Annota <strong>Modello</strong> e <strong>Indirizzo IP IPv4</strong>.</li>
 </ol>
 <figure>
-  <img src="assets/img/stampante/03-pannello-stampante-home.jpg" alt="Schermata Home del pannello della stampante" loading="lazy">
+  <img src="assets/img/stampante/03-pannello-stampante-home.png" alt="Schermata Home del pannello della stampante" loading="lazy">
   <figcaption>Schermata Home: in basso la voce <strong>Informazioni dispositivo</strong>.</figcaption>
 </figure>
 <figure>
-  <img src="assets/img/stampante/04-informazioni-dispositivo.jpg" alt="Menu Informazioni dispositivo con la voce Identificazione/Rete" loading="lazy">
+  <img src="assets/img/stampante/04-informazioni-dispositivo.png" alt="Menu Informazioni dispositivo con la voce Identificazione/Rete" loading="lazy">
   <figcaption>Nel menu <strong>Informazioni dispositivo</strong> tocca <strong>Identificazione/Rete</strong>.</figcaption>
 </figure>
 <figure>
-  <img src="assets/img/stampante/05-identificazione-rete.jpg" alt="Schermata Identificazione/Rete con modello P-4035i MFP e indirizzo IP 192.168.100.54" loading="lazy">
+  <img src="assets/img/stampante/05-identificazione-rete.png" alt="Schermata Identificazione/Rete con modello P-4035i MFP e indirizzo IP 192.168.100.54" loading="lazy">
   <figcaption>Qui trovi il modello (nell'esempio <code>P-4035i MFP</code>) e l'indirizzo IP (<code>192.168.100.54</code>).</figcaption>
 </figure>
 
@@ -980,33 +980,33 @@ const KB = {
 <h2>4. Installare il driver</h2>
 <p>Se Windows non riconosce da solo il modello, si apre la finestra <strong>Installa il driver della stampante</strong>. L'elenco iniziale contiene solo driver generici: clicca <strong>Windows Update</strong> per scaricare l'elenco completo.</p>
 <figure>
-  <img src="assets/img/stampante/09-installa-driver.jpg" alt="Finestra Installa il driver della stampante con il pulsante Windows Update" loading="lazy">
+  <img src="assets/img/stampante/09-installa-driver.png" alt="Finestra Installa il driver della stampante con il pulsante Windows Update" loading="lazy">
   <figcaption>Clicca <strong>Windows Update</strong> per ottenere l'elenco completo dei produttori.</figcaption>
 </figure>
 <figure>
-  <img src="assets/img/stampante/10-aggiornamento-elenco-driver.jpg" alt="Messaggio Aggiornamento dell'elenco delle stampanti in corso" loading="lazy">
+  <img src="assets/img/stampante/10-aggiornamento-elenco-driver.png" alt="Messaggio Aggiornamento dell'elenco delle stampanti in corso" loading="lazy">
   <figcaption>L'aggiornamento dell'elenco pu&ograve; richiedere diversi minuti: lascia la finestra aperta.</figcaption>
 </figure>
 <p>Al termine seleziona il <strong>produttore</strong> nella colonna di sinistra e il <strong>modello</strong> in quella di destra, poi clicca <strong>Avanti</strong>.</p>
 <figure>
-  <img src="assets/img/stampante/11-produttore-utax.jpg" alt="Elenco dei produttori con UTAX selezionato e i modelli sulla destra" loading="lazy">
+  <img src="assets/img/stampante/11-produttore-utax.png" alt="Elenco dei produttori con UTAX selezionato e i modelli sulla destra" loading="lazy">
   <figcaption>Produttore a sinistra, modelli a destra: entrambi in ordine alfabetico.</figcaption>
 </figure>
 
 <h3>Esempio pratico</h3>
 <p>Per la multifunzione dell'esempio, il pannello riporta il modello <code>P-4035i MFP</code>.</p>
 <figure class="stretta">
-  <img src="assets/img/stampante/12-modello-sul-pannello.jpg" alt="Pannello della stampante con modello P-4035i MFP" loading="lazy">
+  <img src="assets/img/stampante/12-modello-sul-pannello.png" alt="Pannello della stampante con modello P-4035i MFP" loading="lazy">
   <figcaption>Il modello letto sul pannello della stampante.</figcaption>
 </figure>
 <p>Nell'elenco si seleziona quindi il produttore <strong>UTAX</strong>&hellip;</p>
 <figure class="stretta">
-  <img src="assets/img/stampante/13-selezione-produttore.jpg" alt="Selezione del produttore UTAX nell'elenco" loading="lazy">
+  <img src="assets/img/stampante/13-selezione-produttore.png" alt="Selezione del produttore UTAX nell'elenco" loading="lazy">
   <figcaption>Produttore: <strong>UTAX</strong>.</figcaption>
 </figure>
 <p>&hellip;e il modello corrispondente, <strong>P-4035i MFP XPS</strong>.</p>
 <figure class="stretta">
-  <img src="assets/img/stampante/14-selezione-modello.jpg" alt="Selezione del modello P-4035i MFP XPS nell'elenco" loading="lazy">
+  <img src="assets/img/stampante/14-selezione-modello.png" alt="Selezione del modello P-4035i MFP XPS nell'elenco" loading="lazy">
   <figcaption>Modello: <strong>P-4035i MFP XPS</strong>.</figcaption>
 </figure>
 
@@ -1018,14 +1018,14 @@ const KB = {
 <h2>5. Dare un nome alla stampante</h2>
 <p>Windows propone il nome del modello. Sostituiscilo con un nome che dica <strong>dove si trova</strong> la stampante: chi la usa deve riconoscerla dall'elenco di stampa senza pensarci.</p>
 <figure class="stretta">
-  <img src="assets/img/stampante/15-nome-stampante.jpg" alt="Campo Nome stampante compilato con UFFICIO 30" loading="lazy">
+  <img src="assets/img/stampante/15-nome-stampante.png" alt="Campo Nome stampante compilato con UFFICIO 30" loading="lazy">
   <figcaption>Nell'esempio la stampante viene chiamata <strong>UFFICIO 30</strong>.</figcaption>
 </figure>
 
 <h2>6. Fare la stampa di prova</h2>
 <p>All'ultimo passaggio clicca <strong>Stampa pagina di prova</strong>: &egrave; il modo pi&ugrave; rapido per sapere se driver e porta sono corretti, prima di scoprirlo con un documento urgente.</p>
 <figure class="stretta">
-  <img src="assets/img/stampante/16-installazione-completata.jpg" alt="Schermata di installazione completata con il pulsante Stampa pagina di prova" loading="lazy">
+  <img src="assets/img/stampante/16-installazione-completata.png" alt="Schermata di installazione completata con il pulsante Stampa pagina di prova" loading="lazy">
   <figcaption>Installazione completata: esegui sempre la stampa di prova, poi chiudi con <strong>Fine</strong>.</figcaption>
 </figure>
 
