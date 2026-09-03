@@ -1131,7 +1131,7 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 
      {
   id: "problemi-nnt-panoramico",
-  titolo: "Problemi di connessione tra NNT e panoramico",
+  titolo: "Problemi di connessione tra NNT e panoramico in sala OPT",
   categoria: "software",
   tag: [
     "nnt",
