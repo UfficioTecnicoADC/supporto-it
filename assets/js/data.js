@@ -947,31 +947,39 @@ const KB = {
 
 <h2>1. Aprire Dispositivi e stampanti</h2>
 <p>Apri il <strong>Pannello di controllo</strong> e, sotto <em>Hardware e suoni</em>, clicca su <strong>Visualizza dispositivi e stampanti</strong>.</p>
+
 <figure>
   <img src="assets/img/stampante/01-pannello-controllo.png" alt="Pannello di controllo di Windows con la voce Visualizza dispositivi e stampanti" loading="lazy">
   <figcaption>Pannello di controllo &rarr; Hardware e suoni &rarr; Visualizza dispositivi e stampanti.</figcaption>
 </figure>
+
 <p>Nella finestra che si apre clicca <strong>Aggiungi stampante</strong>, in alto a sinistra.</p>
+
 <figure>
   <img src="assets/img/stampante/02-dispositivi-stampanti.png" alt="Finestra Dispositivi e stampanti con il pulsante Aggiungi stampante" loading="lazy">
   <figcaption>Il pulsante <strong>Aggiungi stampante</strong> si trova nella barra in alto.</figcaption>
 </figure>
 
 <h2>2. Leggere indirizzo IP e modello sulla stampante</h2>
+
 <p>Vai fisicamente alla multifunzione e usa il pannello touch.</p>
+
 <ol>
   <li>Dalla schermata <strong>Home</strong> tocca <strong>Informazioni dispositivo</strong>.</li>
   <li>Tocca <strong>Identificazione/Rete</strong>.</li>
   <li>Annota <strong>Modello</strong> e <strong>Indirizzo IP IPv4</strong>.</li>
 </ol>
+
 <figure>
   <img src="assets/img/stampante/03-pannello-stampante-home.png" alt="Schermata Home del pannello della stampante" loading="lazy">
   <figcaption>Schermata Home: in basso la voce <strong>Informazioni dispositivo</strong>.</figcaption>
 </figure>
+
 <figure>
   <img src="assets/img/stampante/04-informazioni-dispositivo.png" alt="Menu Informazioni dispositivo con la voce Identificazione/Rete" loading="lazy">
   <figcaption>Nel menu <strong>Informazioni dispositivo</strong> tocca <strong>Identificazione/Rete</strong>.</figcaption>
 </figure>
+
 <figure>
   <img src="assets/img/stampante/05-identificazione-rete.png" alt="Schermata Identificazione/Rete con modello P-4035i MFP e indirizzo IP 192.168.100.54" loading="lazy">
   <figcaption>Qui trovi il modello (nell'esempio <code>P-4035i MFP</code>) e l'indirizzo IP (<code>192.168.100.54</code>).</figcaption>
@@ -983,21 +991,27 @@ const KB = {
 </div>
 
 <h2>3. Indicare l'indirizzo IP</h2>
+
 <p>Torna al PC, nella procedura guidata di aggiunta stampante.</p>
 <ol>
   <li>Se la stampante non compare nell'elenco automatico, clicca <strong>La stampante che voglio non &egrave; elencata</strong>.</li>
   <li>Scegli <strong>Aggiungi una stampante utilizzando un indirizzo IP o un nome host</strong> e clicca <strong>Avanti</strong>.</li>
 </ol>
+
 <figure>
   <img src="assets/img/stampante/06-trova-stampante-opzioni.png" alt="Opzione Aggiungi una stampante utilizzando un indirizzo IP o un nome host" loading="lazy">
   <figcaption>Seleziona la terza opzione: aggiunta tramite indirizzo IP o nome host.</figcaption>
 </figure>
+
 <p>Nella schermata successiva imposta <strong>Tipo di dispositivo</strong> su <strong>Dispositivo TCP/IP</strong>.</p>
+
 <figure>
   <img src="assets/img/stampante/07-tipo-dispositivo-tcpip.png" alt="Menu a discesa Tipo di dispositivo con Dispositivo TCP/IP selezionato" loading="lazy">
   <figcaption>Non lasciare <em>Rilevamento automatico</em>: scegli esplicitamente <strong>Dispositivo TCP/IP</strong>.</figcaption>
 </figure>
+
 <p>Scrivi l'indirizzo IP annotato in <strong>Nome host o indirizzo IP</strong>. Il campo <strong>Nome porta</strong> si compila da solo: lascialo com'&egrave;. Lascia spuntato <strong>Interroga la stampante e seleziona automaticamente il driver da utilizzare</strong> e clicca <strong>Avanti</strong>.</p>
+
 <figure>
   <img src="assets/img/stampante/08-nome-host-porta.png" alt="Campi Nome host o indirizzo IP e Nome porta compilati" loading="lazy">
   <figcaption>Inserisci solo l'indirizzo IP: il nome porta viene generato automaticamente.</figcaption>
@@ -1009,16 +1023,21 @@ const KB = {
 </div>
 
 <h2>4. Installare il driver</h2>
+
 <p>Se Windows non riconosce da solo il modello, si apre la finestra <strong>Installa il driver della stampante</strong>. L'elenco iniziale contiene solo driver generici: clicca <strong>Windows Update</strong> per scaricare l'elenco completo.</p>
+
 <figure>
   <img src="assets/img/stampante/09-installa-driver.png" alt="Finestra Installa il driver della stampante con il pulsante Windows Update" loading="lazy">
   <figcaption>Clicca <strong>Windows Update</strong> per ottenere l'elenco completo dei produttori.</figcaption>
 </figure>
+
 <figure>
   <img src="assets/img/stampante/10-aggiornamento-elenco-driver.png" alt="Messaggio Aggiornamento dell'elenco delle stampanti in corso" loading="lazy">
   <figcaption>L'aggiornamento dell'elenco pu&ograve; richiedere diversi minuti: lascia la finestra aperta.</figcaption>
 </figure>
+
 <p>Al termine seleziona il <strong>produttore</strong> nella colonna di sinistra e il <strong>modello</strong> in quella di destra, poi clicca <strong>Avanti</strong>.</p>
+
 <figure>
   <img src="assets/img/stampante/11-produttore-utax.png" alt="Elenco dei produttori con UTAX selezionato e i modelli sulla destra" loading="lazy">
   <figcaption>Produttore a sinistra, modelli a destra: entrambi in ordine alfabetico.</figcaption>
@@ -1026,16 +1045,21 @@ const KB = {
 
 <h3>Esempio pratico</h3>
 <p>Per la multifunzione dell'esempio, il pannello riporta il modello <code>P-4035i MFP</code>.</p>
+
 <figure class="stretta">
   <img src="assets/img/stampante/12-modello-sul-pannello.png" alt="Pannello della stampante con modello P-4035i MFP" loading="lazy">
   <figcaption>Il modello letto sul pannello della stampante.</figcaption>
 </figure>
+
 <p>Nell'elenco si seleziona quindi il produttore <strong>UTAX</strong>&hellip;</p>
+
 <figure class="stretta">
   <img src="assets/img/stampante/13-selezione-produttore.png" alt="Selezione del produttore UTAX nell'elenco" loading="lazy">
   <figcaption>Produttore: <strong>UTAX</strong>.</figcaption>
 </figure>
+
 <p>&hellip;e il modello corrispondente, <strong>P-4035i MFP XPS</strong>.</p>
+
 <figure class="stretta">
   <img src="assets/img/stampante/14-selezione-modello.png" alt="Selezione del modello P-4035i MFP XPS nell'elenco" loading="lazy">
   <figcaption>Modello: <strong>P-4035i MFP XPS</strong>.</figcaption>
@@ -1048,6 +1072,7 @@ const KB = {
 
 <h2>5. Dare un nome alla stampante</h2>
 <p>Windows propone il nome del modello. Sostituiscilo con un nome che dica <strong>dove si trova</strong> la stampante: chi la usa deve riconoscerla dall'elenco di stampa senza pensarci.</p>
+
 <figure class="stretta">
   <img src="assets/img/stampante/15-nome-stampante.png" alt="Campo Nome stampante compilato con UFFICIO 30" loading="lazy">
   <figcaption>Nell'esempio la stampante viene chiamata <strong>UFFICIO 30</strong>.</figcaption>
@@ -1055,6 +1080,7 @@ const KB = {
 
 <h2>6. Fare la stampa di prova</h2>
 <p>All'ultimo passaggio clicca <strong>Stampa pagina di prova</strong>: &egrave; il modo pi&ugrave; rapido per sapere se driver e porta sono corretti, prima di scoprirlo con un documento urgente.</p>
+
 <figure class="stretta">
   <img src="assets/img/stampante/16-installazione-completata.png" alt="Schermata di installazione completata con il pulsante Stampa pagina di prova" loading="lazy">
   <figcaption>Installazione completata: esegui sempre la stampa di prova, poi chiudi con <strong>Fine</strong>.</figcaption>
