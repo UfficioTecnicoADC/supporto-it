@@ -1520,6 +1520,316 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 `
 },
 
+     {
+  id: "manuale-sidexis",
+  titolo: "SIDEXIS – Configurazione e risoluzione dei problemi",
+  categoria: "software",
+  tag: [
+    "sidexis",
+    "radiografie",
+    "panoramica",
+    "ortopantomografia",
+    "tac",
+    "oris",
+    "orisdent",
+    "configurazione",
+    "gestione attività",
+    "multiutente"
+  ],
+  aggiornato: "2026-09-07",
+  minuti: 6,
+  sommario: "Come verificare la configurazione di SIDEXIS, il collegamento con OrisDent e risolvere i blocchi del programma.",
+  corpo: `
+
+<p><strong>SIDEXIS</strong> è il software utilizzato per effettuare e consultare sia l'<strong>ortopantomografia</strong> sia la <strong>TAC</strong>.</p>
+
+<p>Dopo l'installazione e la configurazione da parte del tecnico è importante verificare che SIDEXIS sia correttamente collegato alle anagrafiche dei pazienti presenti in OrisDent.</p>
+
+
+<h2>1. Controllare la configurazione di SIDEXIS</h2>
+
+<ol>
+  <li>Apri <strong>SIDEXIS</strong>.</li>
+  <li>Dal menu superiore seleziona <strong>Strumenti</strong>.</li>
+  <li>Seleziona <strong>Configura il sistema</strong>.</li>
+  <li>Apri la sezione <strong>Service</strong>.</li>
+</ol>
+
+<p>Nella sezione relativa alla banca dati verifica che il <strong>Percorso dati immagini</strong> sia:</p>
+
+<div class="nota">
+  <strong>Percorso dati immagini</strong>
+  \\srvsqlrel\\PDATA\\
+</div>
+
+<p>Verifica inoltre che sia attiva l'opzione <strong>Multiutente</strong>.</p>
+
+
+<h2>2. Controllare la Stazione di multiutenza</h2>
+
+<ol>
+  <li>Fai clic su <strong>Stazione di multiutenza</strong>.</li>
+  <li>Controlla il percorso configurato.</li>
+  <li>Verifica che sia impostato:</li>
+</ol>
+
+<div class="nota">
+  <strong>Percorso</strong>
+  C:\\pdata\\siomin.sdx
+</div>
+
+<p>Se il percorso è corretto, premi <strong>OK</strong>.</p>
+
+
+<h2>3. Salvare le modifiche</h2>
+
+<p>Durante il salvataggio può comparire una finestra che richiede l'inserimento della <strong>parola chiave di servizio</strong>.</p>
+
+<p>Secondo la procedura prevista, la parola chiave corrisponde alla <strong>data del giorno scritta al contrario</strong>.</p>
+
+<div class="nota">
+  <strong>Esempio</strong>
+  Se la data è 03/08, la parola chiave sarà <strong>8030</strong>.
+</div>
+
+<p>Inserisci la parola chiave richiesta e premi <strong>OK</strong>.</p>
+
+
+<h2>4. Verificare il collegamento tra SIDEXIS e OrisDent</h2>
+
+<p>Dopo aver verificato la configurazione di SIDEXIS, controlla il collegamento con OrisDent.</p>
+
+<ol>
+  <li>Accedi a <strong>OrisDent</strong> con un account amministratore.</li>
+  <li>Apri la sezione <strong>Studio</strong>.</li>
+  <li>Seleziona <strong>Configura</strong>.</li>
+  <li>Apri la sezione <strong>Personalizza</strong>.</li>
+  <li>Accedi alla configurazione relativa ai programmi radiografici.</li>
+  <li>Verifica che <strong>SIDEXIS</strong> sia configurato correttamente.</li>
+  <li>Controlla i percorsi configurati.</li>
+  <li>Salva le impostazioni utilizzando la spunta verde <strong>Conferma</strong>.</li>
+</ol>
+
+
+<h2>5. SIDEXIS è bloccato o non apre le cartelle dei pazienti</h2>
+
+<p>Può capitare che SIDEXIS si blocchi e non permetta di aprire le cartelle dei pazienti.</p>
+
+<p>In questo caso è necessario chiudere completamente i processi del programma.</p>
+
+<ol>
+  <li>
+    <strong>Premi CTRL + ALT + CANC</strong>.
+  </li>
+
+  <li>
+    Seleziona <strong>Gestione attività</strong>.
+  </li>
+
+  <li>
+    Apri la scheda <strong>Processi</strong>.
+  </li>
+
+  <li>
+    Individua le voci relative a SIDEXIS riconoscibili dalle relative icone.
+  </li>
+
+  <li>
+    Seleziona i processi interessati e utilizza <strong>Termina attività</strong>.
+  </li>
+
+  <li>
+    Apri successivamente la scheda <strong>Dettagli</strong>.
+  </li>
+
+  <li>
+    Verifica che non siano rimasti altri processi SIDEXIS attivi.
+  </li>
+
+  <li>
+    Termina gli eventuali processi rimasti.
+  </li>
+
+  <li>
+    Riapri SIDEXIS.
+  </li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Attenzione</strong>
+  Termina esclusivamente i processi riconducibili a SIDEXIS. Non chiudere altri processi di Windows.
+</div>
+
+
+<h2>6. Se il problema persiste</h2>
+
+<p>Se dopo aver chiuso completamente SIDEXIS il problema continua:</p>
+
+<ol>
+  <li>Chiudi il programma.</li>
+  <li><strong>Riavvia il computer</strong>.</li>
+  <li>Attendi il completo riavvio di Windows.</li>
+  <li>Riapri SIDEXIS.</li>
+  <li>Verifica nuovamente l'apertura della cartella del paziente.</li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Problema su più postazioni</strong>
+  Se la stessa anomalia si presenta contemporaneamente anche su altre postazioni, effettua immediatamente una segnalazione ai tecnici competenti.
+</div>
+
+
+<h2>7. Assistenza SIDEXIS</h2>
+
+<p>Per ulteriori richieste di assistenza relative a SIDEXIS è possibile contattare:</p>
+
+<div class="nota">
+  <strong>Marco Contrario – Henry Schein Krugg</strong><br>
+  E-mail: marco.contrario@henryschein.it<br>
+  Telefono: 344 2895083
+</div>
+
+`
+},
+
+     {
+  id: "manuale-vixwin",
+  titolo: "VIXWIN – Configurazione e collegamento con OrisDent",
+  categoria: "software",
+  tag: [
+    "vixwin",
+    "gendex",
+    "radiografie",
+    "endorali",
+    "rx",
+    "oris",
+    "orisdent",
+    "configurazione",
+    "licenza",
+    "radiografico"
+  ],
+  aggiornato: "2026-09-07",
+  minuti: 5,
+  sommario: "Come configurare VIXWIN e collegarlo correttamente alle cartelle dei pazienti presenti in OrisDent.",
+  corpo: `
+
+<p><strong>VIXWIN</strong> è il software utilizzato per effettuare e consultare le <strong>radiografie endorali</strong>.</p>
+
+<p>Dopo l'installazione e la configurazione da parte del tecnico è importante verificare le impostazioni del programma e successivamente il collegamento con le anagrafiche dei pazienti presenti in OrisDent.</p>
+
+
+<h2>1. Aprire le preferenze di VIXWIN</h2>
+
+<ol>
+  <li>Apri <strong>VIXWIN</strong>.</li>
+  <li>Dal menu superiore seleziona <strong>Opzioni</strong>.</li>
+  <li>Fai clic su <strong>Preferenze</strong>.</li>
+</ol>
+
+
+<h2>2. Controllare la configurazione</h2>
+
+<p>Nella finestra <strong>Preferenze</strong> verifica innanzitutto l'unità predefinita utilizzata per le immagini.</p>
+
+<div class="nota">
+  <strong>Unità predefinita per le immagini</strong>
+  Unità (Y:) remota
+</div>
+
+<p>Nella sezione <strong>Formato immagine predefinito</strong>, verifica le seguenti impostazioni:</p>
+
+<ul>
+  <li><strong>Intraorale 8 bit:</strong> TIFF</li>
+  <li><strong>Intraorale 16 bit:</strong> TIFF</li>
+  <li><strong>Panoramica 8 bit:</strong> TIFF</li>
+  <li><strong>Panoramica 16 bit:</strong> TIFF</li>
+  <li><strong>Ceph e altre radiografie 8 bit:</strong> TIFF</li>
+  <li><strong>Ceph e altre radiografie 16 bit:</strong> TIFF</li>
+  <li><strong>Immagini a colori 24 bit:</strong> JFIF (75)</li>
+</ul>
+
+<p>Terminato il controllo, premi <strong>OK</strong> per salvare le impostazioni.</p>
+
+
+<h2>3. Richiesta della licenza</h2>
+
+<p>Dopo una nuova installazione può capitare che VIXWIN richieda l'inserimento della <strong>licenza del programma</strong>.</p>
+
+<div class="nota attenzione">
+  <strong>Attenzione</strong>
+  Il manuale interno mostra la schermata relativa alla licenza di VixWin Platinum, ma non contiene la procedura completa per ottenere o generare una nuova licenza. In caso di richiesta della licenza, rivolgersi al supporto competente.
+</div>
+
+
+<h2>4. Collegare VIXWIN a OrisDent</h2>
+
+<p>Una delle configurazioni più importanti è il collegamento tra VIXWIN e le cartelle dei pazienti presenti in OrisDent.</p>
+
+<ol>
+  <li>Accedi a <strong>OrisDent</strong>.</li>
+  <li>Apri la sezione <strong>Studio</strong>.</li>
+  <li>Seleziona <strong>Configura</strong>.</li>
+  <li>Apri la sezione <strong>Personalizza</strong>.</li>
+  <li>Dal menu laterale seleziona <strong>Radiografici</strong>.</li>
+</ol>
+
+
+<h2>5. Configurare VIXWIN come radiografico</h2>
+
+<p>Nella sezione dedicata ai sistemi per la video radiografia digitale:</p>
+
+<ol>
+  <li>
+    Seleziona l'opzione <strong>Radiografico</strong>.
+  </li>
+
+  <li>
+    Come programma seleziona <strong>GENDEX VIXWIN</strong>.
+  </li>
+
+  <li>
+    Controlla il <strong>Percorso del programma</strong>.
+  </li>
+
+  <li>
+    Controlla il <strong>Percorso per il radiografo/scambio dati</strong>.
+  </li>
+
+  <li>
+    Inserisci i percorsi previsti dalla configurazione della postazione.
+  </li>
+
+  <li>
+    Salva le modifiche.
+  </li>
+
+  <li>
+    Fai clic sulla spunta verde <strong>Conferma</strong>.
+  </li>
+</ol>
+
+<p>Al termine della configurazione VIXWIN sarà collegato a OrisDent e potrà essere richiamato direttamente dalla cartella del paziente.</p>
+
+
+<h2>6. Utilizzo di VIXWIN dalla cartella del paziente</h2>
+
+<p>Quando dalla cartella del paziente viene aperta la funzione <strong>Radiografia digitale</strong>, OrisDent può mostrare la finestra <strong>Scelta del radiografico</strong>.</p>
+
+<p>Secondo la configurazione descritta nel manuale:</p>
+
+<div class="nota">
+  <strong>GENDEX VIXWIN</strong>
+  Utilizzare VIXWIN per consultare le vecchie immagini RX.
+</div>
+
+<div class="nota">
+  <strong>RAYMAGE</strong>
+  Utilizzare RAYMAGE quando è necessario acquisire nuove immagini tramite NNT.
+</div>
+
+`
+},
+
 
      {
   id: "problemi-nnt-panoramico",
