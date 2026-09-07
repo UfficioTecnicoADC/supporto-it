@@ -1298,6 +1298,228 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 `
 },
 
+     {
+  id: "manuale-nnt",
+  titolo: "NNT – Configurazione, acquisizione e gestione delle radiografie",
+  categoria: "software",
+  tag: [
+    "nnt",
+    "raymage",
+    "radiografie",
+    "radiografia",
+    "rx",
+    "sensore",
+    "icapture",
+    "newtom",
+    "myray",
+    "jpeg"
+  ],
+  aggiornato: "2026-09-07",
+  minuti: 8,
+  sommario: "Guida alla configurazione e all'utilizzo di NNT per l'acquisizione, il salvataggio e l'esportazione delle radiografie.",
+  corpo: `
+
+<p><strong>NNT</strong> viene utilizzato per la gestione e l'acquisizione delle immagini radiografiche.</p>
+
+<p>Questa guida descrive la configurazione iniziale del programma, il collegamento dei sensori, l'acquisizione delle radiografie, il salvataggio delle immagini e la loro esportazione.</p>
+
+
+<h2>1. Configurare il percorso condiviso di NNT</h2>
+
+<ol>
+  <li>
+    <strong>Apri NNT</strong>.
+  </li>
+
+  <li>
+    <strong>Apri il menu Tools</strong><br>
+    Dalla barra superiore seleziona <strong>Tools (Strumenti)</strong>.
+  </li>
+
+  <li>
+    <strong>Apri General Settings</strong><br>
+    Seleziona <strong>General Settings (Impostazioni generali)</strong>.
+  </li>
+
+  <li>
+    <strong>Inserisci la password</strong><br>
+    Quando compare la finestra <strong>Insert password</strong>, inserisci la password amministratore o la password di servizio configurata e premi <strong>OK</strong>.
+  </li>
+
+  <li>
+    <strong>Apri Work directions</strong><br>
+    Nella finestra General Settings individua la scheda <strong>Work directions</strong>.
+  </li>
+
+  <li>
+    <strong>Individua Shared path</strong><br>
+    Fai clic su <strong>Browse (Sfoglia)</strong> accanto al percorso.
+  </li>
+
+  <li>
+    Seleziona la <strong>cartella di rete condivisa</strong> utilizzata dalla sede.
+  </li>
+
+  <li>
+    Premi <strong>OK</strong>.
+  </li>
+</ol>
+
+<p>NNT mostrerà un avviso relativo alla modifica del percorso. Conferma premendo <strong>OK</strong>.</p>
+
+<p>Quando viene mostrato il messaggio relativo all'archivio <strong>SINGLE Folder primary archive</strong>, seleziona <strong>Yes</strong>.</p>
+
+<p>Infine premi <strong>OK</strong> nella finestra General Settings per salvare definitivamente la configurazione.</p>
+
+<div class="nota">
+  <strong>Nota</strong>
+  Dopo aver salvato il nuovo percorso, la lista dei pazienti presente sul server verrà aggiornata e comparirà nel programma.
+</div>
+
+
+<h2>2. Impostare NNT in italiano</h2>
+
+<ol>
+  <li>Apri nuovamente il menu <strong>File</strong> o <strong>Tools</strong>.</li>
+  <li>Seleziona la voce relativa alla <strong>Lingua</strong>.</li>
+  <li>Seleziona <strong>Italiano</strong>.</li>
+  <li>Premi <strong>OK</strong>.</li>
+  <li>Conferma il messaggio che richiede il riavvio del programma.</li>
+  <li>Riapri NNT per applicare la nuova lingua.</li>
+</ol>
+
+
+<h2>3. Collegare il sensore</h2>
+
+<p>Prima di acquisire una radiografia è necessario collegare al computer il <strong>sensore corrispondente alla sala</strong>.</p>
+
+<ol>
+  <li>Collega il sensore corretto al PC.</li>
+  <li>Attendi l'apertura automatica della piccola finestra di acquisizione.</li>
+  <li>Verifica che l'indicatore della finestra diventi <strong>verde</strong>.</li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Attenzione</strong>
+  Non chiudere mai la finestra di acquisizione mentre il sensore è collegato al PC.
+</div>
+
+
+<h2>4. Se il sensore non si attiva</h2>
+
+<p>Se dopo aver collegato il sensore la finestra di acquisizione non si attiva:</p>
+
+<ol>
+  <li>Apri la <strong>ricerca di Windows</strong>.</li>
+  <li>Digita <strong>iCapture</strong>.</li>
+  <li>Apri il programma <strong>iCapture</strong>.</li>
+  <li>Attendi l'attivazione del sensore.</li>
+  <li>Verifica che l'indicatore diventi <strong>verde</strong>.</li>
+</ol>
+
+
+<h2>5. Aprire il paziente in NNT</h2>
+
+<p>Dalla cartella clinica del paziente in OrisDent:</p>
+
+<ol>
+  <li>Individua sulla destra la sezione dedicata alle immagini RX.</li>
+  <li>Seleziona <strong>Radiografia digitale</strong>.</li>
+  <li>Si aprirà la finestra <strong>Scelta del radiografico</strong>.</li>
+  <li>Apri l'elenco dei programmi disponibili.</li>
+  <li>Seleziona <strong>RAYMAGE</strong>.</li>
+  <li>Conferma la selezione.</li>
+</ol>
+
+<div class="nota">
+  <strong>Scelta del programma</strong>
+  <strong>GENDEX VIXWIN</strong> viene utilizzato per consultare le vecchie immagini RX, mentre <strong>RAYMAGE</strong> viene utilizzato per acquisire nuove immagini.
+</div>
+
+<p>Selezionando RAYMAGE verrà aperta direttamente in NNT l'anagrafica del paziente selezionato.</p>
+
+
+<h2>6. Acquisire una radiografia</h2>
+
+<p>Prima di effettuare l'acquisizione verifica sempre che:</p>
+
+<ul>
+  <li>sia aperto il <strong>paziente corretto</strong>;</li>
+  <li>sia collegato il <strong>sensore corretto</strong>;</li>
+  <li>la finestra di acquisizione sia aperta;</li>
+  <li>l'indicatore del sensore sia <strong>verde</strong>.</li>
+</ul>
+
+<p>Quando il sensore è pronto è possibile effettuare la radiografia.</p>
+
+<p>Dopo l'acquisizione apparirà automaticamente la finestra per il salvataggio dell'immagine.</p>
+
+
+<h2>7. Salvare correttamente l'immagine RX</h2>
+
+<ol>
+  <li>
+    <strong>Controlla il paziente</strong><br>
+    Verifica il nome visualizzato in alto a sinistra e assicurati che l'immagine sia assegnata al paziente corretto.
+  </li>
+
+  <li>
+    <strong>Seleziona il dente</strong><br>
+    Seleziona il numero del dente al quale si riferisce la radiografia.
+  </li>
+
+  <li>
+    <strong>Compila Note immagine</strong><br>
+    Nella casella <strong>Note immagine</strong>, inserisci il numero del dente.
+  </li>
+
+  <li>
+    Conferma il salvataggio.
+  </li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Importante</strong>
+  La selezione del numero del dente è obbligatoria per questioni organizzative e amministrative.
+</div>
+
+
+<h2>8. Consultare le informazioni di una radiografia</h2>
+
+<p>Quando consulti un'immagine precedentemente salvata, utilizza l'icona <strong>Info</strong> presente nella parte superiore della schermata per visualizzare le informazioni associate alla radiografia.</p>
+
+<p>Per chiudere solamente la cartella del paziente senza chiudere NNT, utilizza l'<strong>icona della cartella con la X rossa</strong>.</p>
+
+
+<h2>9. Sensori utilizzati nelle sale</h2>
+
+<ul>
+  <li><strong>Sala 60:</strong> MyRay</li>
+  <li><strong>Sale 61 e 65:</strong> MyRay in condivisione</li>
+  <li><strong>Sale 62, 63 e 64:</strong> NewTom in condivisione</li>
+  <li><strong>Sale 24, 25 e 26:</strong> MyRay in condivisione</li>
+  <li><strong>Sala 31:</strong> NewTom</li>
+  <li><strong>Sala 32:</strong> NewTom</li>
+  <li><strong>Sala 33:</strong> MyRay</li>
+  <li><strong>Sale 37/38:</strong> MyRay in condivisione</li>
+  <li><strong>Sala 40:</strong> MyRay</li>
+</ul>
+
+
+<h2>10. Esportare un'immagine in formato JPEG</h2>
+
+<ol>
+  <li>Apri la radiografia da esportare.</li>
+  <li>Fai clic sull'<strong>icona di salvataggio</strong>.</li>
+  <li>Seleziona l'immagine RX da esportare.</li>
+  <li>Seleziona la cartella di destinazione.</li>
+  <li>Come formato seleziona <strong>Elaborato JPEG</strong>.</li>
+  <li>Premi <strong>OK</strong> per confermare il salvataggio.</li>
+</ol>
+
+`
+},
+
 
      {
   id: "problemi-nnt-panoramico",
