@@ -1167,14 +1167,14 @@ const KB = {
 
 
      {
-  id: "Problemi-ORIS-DENT",
-  titolo: "ORIS DENT non si apre, è bloccato o non risponde",
-  categoria: "software",
-  tag: ["oris", "oris dent", "orisdent", "gestionale", "bloccato", "non risponde", "gestione attività"],
-  aggiornato: "2026-09-02",
-  minuti: 4,
-  sommario: "Procedura semplice per chiudere, riavviare e ripristinare ORIS DENT quando non risponde.",
-  corpo: `
+      id: "Problemi-ORIS-DENT",
+      titolo: "ORIS DENT non si apre, è bloccato o non risponde",
+      categoria: "software",
+      tag: ["oris", "oris dent", "orisdent", "gestionale", "bloccato", "non risponde", "gestione attività"],
+      aggiornato: "2026-09-02",
+      minuti: 4,
+      sommario: "Procedura semplice per chiudere, riavviare e ripristinare ORIS DENT quando non risponde.",
+      corpo: `
 
 <p>Segui questa guida quando <strong>ORIS DENT non si apre, resta bloccato oppure non risponde ai comandi</strong>.</p>
 
@@ -1189,13 +1189,14 @@ const KB = {
 </div>
 
 <h2>Percorso rapido</h2>
-<ol>
-  <li>Chiudi e riapri ORIS DENT.</li>
-  <li>Se è bloccato, apri Gestione attività.</li>
-  <li>Termina esclusivamente <strong>OrisDentNet (32 bit)</strong>.</li>
-  <li>Riapri ORIS DENT.</li>
-  <li>Se necessario, riavvia il PC.</li>
-</ol>
+
+   <ol>
+     <li>Chiudi e riapri ORIS DENT.</li>
+     <li>Se è bloccato, apri Gestione attività.</li>
+     <li>Termina esclusivamente <strong>OrisDentNet (32 bit)</strong>.</li>
+     <li>Riapri ORIS DENT.</li>
+     <li>Se necessario, riavvia il PC.</li>
+   </ol>
 
 <h2>1. Chiudere e riaprire ORIS DENT</h2>
 
