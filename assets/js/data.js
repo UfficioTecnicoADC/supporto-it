@@ -1757,7 +1757,7 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 
 <div class="nota attenzione">
   <strong>Attenzione</strong>
-  Il manuale interno mostra la schermata relativa alla licenza di VixWin Platinum, ma non contiene la procedura completa per ottenere o generare una nuova licenza. In caso di richiesta della licenza, rivolgersi al supporto competente.
+  In caso di richiesta della licenza, rivolgersi al supporto IT.
 </div>
 
 
