@@ -1167,7 +1167,7 @@ const KB = {
 <p>Apri il <strong>Pannello di controllo</strong> e, sotto <em>Hardware e suoni</em>, clicca su <strong>Visualizza dispositivi e stampanti</strong>.</p>
 
 <figure>
-  <img src="assets/img/adc-logo.png" alt="Pannello di controllo di Windows con la voce Visualizza dispositivi e stampanti" loading="lazy">
+  <img src="assets/img/stampante/01-pannello-controllo.png" alt="Pannello di controllo di Windows con la voce Visualizza dispositivi e stampanti" loading="lazy">
   <figcaption>Pannello di controllo &rarr; Hardware e suoni &rarr; Visualizza dispositivi e stampanti.</figcaption>
 </figure>
 
