@@ -578,6 +578,224 @@ const KB = {
 `
     },
 
+     {
+  id: "manuale-wetransfer",
+  titolo: "WeTransfer – Come inviare e ricevere file",
+  categoria: "microsoft365",
+  tag: [
+    "wetransfer",
+    "file",
+    "invio file",
+    "download",
+    "link",
+    "email",
+    "condivisione",
+    "documenti"
+  ],
+  aggiornato: "2026-09-08",
+  minuti: 4,
+  sommario: "Guida base per inviare e ricevere file tramite WeTransfer.",
+  corpo: `
+
+<p><strong>WeTransfer</strong> è un servizio online che permette di inviare file di grandi dimensioni senza doverli allegare direttamente a una e-mail.</p>
+
+<p>Può essere utilizzato per condividere, ad esempio:</p>
+
+<ul>
+  <li>immagini;</li>
+  <li>PDF;</li>
+  <li>documenti;</li>
+  <li>cartelle compresse;</li>
+  <li>file troppo grandi per essere inviati come allegato e-mail.</li>
+</ul>
+
+
+<h2>1. Aprire WeTransfer</h2>
+
+<ol>
+  <li>
+    Apri il browser, ad esempio <strong>Google Chrome</strong> o <strong>Microsoft Edge</strong>.
+  </li>
+
+  <li>
+    Accedi al sito di <strong>WeTransfer</strong>.
+  </li>
+
+  <li>
+    Se richiesto, accetta i cookie o chiudi eventuali messaggi iniziali.
+  </li>
+</ol>
+
+
+<h2>2. Aggiungere i file da inviare</h2>
+
+<ol>
+  <li>
+    Fai clic su <strong>Aggiungi file</strong> oppure sul simbolo <strong>+</strong>.
+  </li>
+
+  <li>
+    Seleziona dal computer il file o i file che desideri inviare.
+  </li>
+
+  <li>
+    Attendi che i file vengano aggiunti alla schermata di WeTransfer.
+  </li>
+</ol>
+
+<div class="nota">
+  <strong>Nota</strong>
+  È possibile aggiungere più file nello stesso trasferimento.
+</div>
+
+
+<h2>3. Inserire il destinatario</h2>
+
+<p>Se utilizzi l'invio tramite e-mail:</p>
+
+<ol>
+  <li>
+    Inserisci l'<strong>indirizzo e-mail del destinatario</strong>.
+  </li>
+
+  <li>
+    Inserisci il <strong>tuo indirizzo e-mail</strong>, se richiesto.
+  </li>
+
+  <li>
+    Se WeTransfer richiede una verifica, controlla la tua casella di posta e inserisci il <strong>codice ricevuto via e-mail</strong>.
+  </li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Attenzione</strong>
+  Controlla sempre con attenzione l'indirizzo e-mail del destinatario prima di inviare i file.
+</div>
+
+
+<h2>4. Inserire titolo e messaggio</h2>
+
+<p>Se disponibili, compila i campi <strong>Titolo</strong> e <strong>Messaggio</strong>.</p>
+
+<p>È consigliabile inserire una breve descrizione che permetta al destinatario di capire subito il contenuto del trasferimento.</p>
+
+<div class="nota">
+  <strong>Esempio</strong>
+  Radiografie paziente – documentazione richiesta
+</div>
+
+
+<h2>5. Inviare i file</h2>
+
+<p>Prima di procedere verifica che:</p>
+
+<ul>
+  <li>i file selezionati siano corretti;</li>
+  <li>l'indirizzo e-mail del destinatario sia corretto;</li>
+  <li>il tuo indirizzo e-mail sia corretto, se richiesto.</li>
+</ul>
+
+<p>Quando tutto è corretto:</p>
+
+<ol>
+  <li>
+    Fai clic su <strong>Trasferisci</strong> o <strong>Invia</strong>.
+  </li>
+
+  <li>
+    Attendi il completamento del caricamento.
+  </li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Importante</strong>
+  Non chiudere la pagina del browser mentre il caricamento dei file è ancora in corso.
+</div>
+
+
+<h2>6. Verificare il completamento dell'invio</h2>
+
+<p>Quando il trasferimento è terminato, WeTransfer mostrerà un messaggio di conferma.</p>
+
+<p>Se hai utilizzato l'invio tramite e-mail, il destinatario riceverà un messaggio contenente il collegamento per scaricare i file.</p>
+
+
+<h2>7. Inviare i file tramite link</h2>
+
+<p>In alternativa all'invio diretto tramite e-mail, è possibile creare un <strong>link di download</strong>.</p>
+
+<ol>
+  <li>
+    Seleziona l'opzione per creare un <strong>link</strong>.
+  </li>
+
+  <li>
+    Aggiungi i file da inviare.
+  </li>
+
+  <li>
+    Avvia il trasferimento.
+  </li>
+
+  <li>
+    Attendi il completamento del caricamento.
+  </li>
+
+  <li>
+    Copia il link generato da WeTransfer.
+  </li>
+
+  <li>
+    Incolla il link nella e-mail, in Teams o nel sistema di comunicazione utilizzato.
+  </li>
+</ol>
+
+<div class="nota">
+  <strong>Quando usare il link</strong>
+  Questa modalità è utile quando vuoi condividere lo stesso trasferimento con più persone senza inserire ogni volta gli indirizzi e-mail dei destinatari.
+</div>
+
+
+<h2>8. Scaricare file ricevuti tramite WeTransfer</h2>
+
+<p>Se ricevi un collegamento WeTransfer:</p>
+
+<ol>
+  <li>
+    Apri il link ricevuto.
+  </li>
+
+  <li>
+    Fai clic su <strong>Scarica</strong>.
+  </li>
+
+  <li>
+    Attendi il completamento del download.
+  </li>
+
+  <li>
+    Apri la cartella <strong>Download</strong> del computer per trovare i file scaricati.
+  </li>
+</ol>
+
+<div class="nota">
+  <strong>Nota</strong>
+  Se il trasferimento contiene più file, questi possono essere scaricati all'interno di un unico archivio compresso.
+</div>
+
+
+<h2>9. Attenzione ai dati sensibili</h2>
+
+<p>Prima di utilizzare WeTransfer per inviare documentazione aziendale, dati personali o documentazione sanitaria, verifica sempre che l'utilizzo del servizio sia consentito dalle procedure interne dell'azienda.</p>
+
+<div class="nota attenzione">
+  <strong>Importante</strong>
+  Non inviare dati sensibili a destinatari non verificati e controlla sempre attentamente l'indirizzo e-mail prima di effettuare il trasferimento.
+</div>
+
+`
+},
+
     {
       id: "cassetta-postale-piena",
       titolo: "Cassetta postale piena o quasi al limite",
