@@ -119,6 +119,14 @@ p { margin: 0 0 1em; }
   font-weight: 700; font-size: .82rem; letter-spacing: .04em;
 }
 
+.logo-immagine {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+}
+
 .logo-testo { display: flex; flex-direction: column; line-height: 1.15; }
 .logo-testo strong { font-size: .98rem; color: var(--testo); }
 .logo-testo span { font-size: .74rem; color: var(--testo-tenue); letter-spacing: .06em; text-transform: uppercase; }
