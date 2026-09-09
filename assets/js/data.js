@@ -2248,6 +2248,365 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 
 `
 },
+
+     {
+  id: "nnt-esportazione-tac-wetransfer",
+  titolo: "NNT — Esportazione e invio TAC tramite WeTransfer",
+  categoria: "software",
+  tag: [
+    "nnt",
+    "tac",
+    "volumetrica",
+    "dicom",
+    "wetransfer",
+    "viewer",
+    "autorun",
+    "zip",
+    "esportazione",
+    "radiografie",
+    "invio tac"
+  ],
+  aggiornato: "2026-09-09",
+  minuti: 6,
+  sommario: "Come esportare una TAC da NNT completa di Viewer, comprimerla in formato ZIP e inviarla correttamente al paziente tramite WeTransfer.",
+  corpo: `
+
+<p>Segui questa guida quando devi <strong>esportare una TAC dal programma NNT</strong> e inviarla al paziente tramite <strong>WeTransfer</strong>.</p>
+
+<p>L'esportazione deve comprendere non solo le immagini della TAC, ma anche tutti i file necessari alla loro corretta visualizzazione, incluso il <strong>Viewer</strong>.</p>
+
+<div class="nota attenzione">
+  <strong>Importante</strong>
+  La TAC deve essere inviata come <strong>un unico file ZIP</strong> contenente l'intera cartella esportata da NNT. Non inviare mai i singoli file separatamente.
+</div>
+
+
+<h2>1. Aprire NNT e cercare il paziente</h2>
+
+<ol>
+  <li>
+    <strong>Apri NNT</strong>.
+  </li>
+
+  <li>
+    <strong>Cerca il paziente</strong> interessato.
+  </li>
+
+  <li>
+    Apri la <strong>cartella del paziente</strong>.
+  </li>
+
+  <li>
+    Individua l'esame che deve essere inviato.
+  </li>
+</ol>
+
+<h3>Come riconoscere una TAC</h3>
+
+<p>All'interno di NNT gli esami vengono identificati in modo diverso in base alla loro tipologia:</p>
+
+<ul>
+  <li>
+    <strong>Volumetrica</strong> = TAC / esame tridimensionale 3D.
+  </li>
+
+  <li>
+    <strong>Immagine 2D</strong> = panoramica, endorale o altra radiografia bidimensionale.
+  </li>
+</ul>
+
+<div class="nota attenzione">
+  <strong>Prima di procedere</strong>
+  Verifica che l'esame selezionato sia indicato come <strong>Volumetrica</strong>.
+</div>
+
+
+<h2>2. Aprire la TAC</h2>
+
+<ol>
+  <li>
+    Seleziona la <strong>Volumetrica</strong> desiderata.
+  </li>
+
+  <li>
+    Apri l'esame.
+  </li>
+
+  <li>
+    Attendi il <strong>caricamento completo della TAC</strong>.
+  </li>
+</ol>
+
+<div class="nota">
+  <strong>Nota</strong>
+  Il caricamento può richiedere qualche secondo perché i file delle TAC possono avere dimensioni elevate.
+</div>
+
+
+<h2>3. Preparare l'esportazione</h2>
+
+<p>Quando la TAC è completamente aperta, utilizza il menu del programma.</p>
+
+<ol>
+  <li>
+    Seleziona <strong>File</strong>.
+  </li>
+
+  <li>
+    Clicca su <strong>Masterizza disco</strong>.
+  </li>
+
+  <li>
+    Seleziona l'opzione che permette di esportare:
+    <br><strong>Viewer + tutte le immagini DICOM</strong>.
+  </li>
+
+  <li>
+    Verifica che siano inclusi tutti i dati necessari.
+  </li>
+</ol>
+
+<p>In particolare, l'esportazione deve comprendere:</p>
+
+<ul>
+  <li><strong>dati volumetrici</strong>;</li>
+  <li><strong>file DICOM</strong>;</li>
+  <li><strong>Viewer / visualizzatore</strong>.</li>
+</ul>
+
+<div class="nota attenzione">
+  <strong>Il Viewer è fondamentale</strong>
+  Il visualizzatore permette a chi riceve la TAC di aprire correttamente l'esame anche se sul proprio computer non è installato NNT.
+</div>
+
+
+<h2>4. Salvare i file sul computer</h2>
+
+<p>Dalla schermata di esportazione seleziona <strong>Salva file</strong>.</p>
+
+<ol>
+  <li>
+    Scegli come destinazione il <strong>Desktop</strong>.
+  </li>
+
+  <li>
+    Se possibile, assegna alla cartella il <strong>nome e cognome del paziente</strong>.
+  </li>
+
+  <li>
+    Conferma il salvataggio.
+  </li>
+
+  <li>
+    Attendi il completamento dell'esportazione.
+  </li>
+</ol>
+
+<div class="nota">
+  <strong>Attendere il completamento</strong>
+  L'operazione può richiedere alcuni minuti perché il pacchetto esportato può avere dimensioni elevate.
+</div>
+
+
+<h2>5. Controllare la cartella esportata</h2>
+
+<p>Terminata l'esportazione, torna sul <strong>Desktop</strong> e apri la cartella appena creata.</p>
+
+<p>All'interno devono essere presenti i file generati automaticamente da NNT, tra cui:</p>
+
+<ul>
+  <li><strong>dati DICOM</strong>;</li>
+  <li><strong>dati volumetrici</strong>;</li>
+  <li>cartelle o file relativi al <strong>Viewer</strong>;</li>
+  <li>eventuale file <strong>Autorun</strong>;</li>
+  <li>eventuali <strong>file di configurazione</strong> necessari al funzionamento del visualizzatore.</li>
+</ul>
+
+<div class="nota attenzione">
+  <strong>Non modificare il contenuto della cartella</strong>
+  Non eliminare, spostare o rinominare i singoli file presenti nell'esportazione. Il pacchetto deve rimanere integro affinché il Viewer possa funzionare correttamente.
+</div>
+
+
+<h2>6. Comprimere la cartella in formato ZIP</h2>
+
+<p>Prima di caricare la TAC su WeTransfer è necessario trasformare l'intera cartella in <strong>un unico file compresso</strong>.</p>
+
+<ol>
+  <li>
+    Individua sul Desktop la <strong>cartella del paziente</strong>.
+  </li>
+
+  <li>
+    Fai <strong>clic con il tasto destro</strong> sulla cartella.
+  </li>
+
+  <li>
+    Seleziona <strong>Invia a → Cartella compressa</strong>.
+  </li>
+
+  <li>
+    Attendi la creazione del file in formato <strong>.ZIP</strong>.
+  </li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Attenzione</strong>
+  Non caricare su WeTransfer i file della TAC singolarmente. Deve essere inviato <strong>un unico file ZIP contenente l'intera esportazione</strong>.
+</div>
+
+<p>Se i file vengono separati dalla loro struttura originale, il paziente o il professionista che riceve l'esame potrebbe <strong>non riuscire ad aprire correttamente la TAC</strong>.</p>
+
+
+<h2>7. Aprire WeTransfer</h2>
+
+<ol>
+  <li>
+    Accedi a <strong>WeTransfer</strong>.
+  </li>
+
+  <li>
+    Utilizza l'account registrato con la <strong>mail aziendale</strong>.
+  </li>
+
+  <li>
+    Seleziona <strong>Aggiungi file</strong>.
+  </li>
+
+  <li>
+    Carica esclusivamente il <strong>file ZIP</strong> appena creato.
+  </li>
+
+  <li>
+    Inserisci l'<strong>indirizzo e-mail del paziente</strong>.
+  </li>
+
+  <li>
+    Controlla che il mittente visualizzato sia la <strong>mail aziendale</strong>.
+  </li>
+</ol>
+
+
+<h2>8. Scrivere il messaggio al paziente</h2>
+
+<p>Nel campo dedicato al messaggio è possibile utilizzare il seguente testo:</p>
+
+<div class="nota">
+  <strong>Messaggio consigliato</strong><br><br>
+
+  Gentile Sig./Sig.ra [Cognome],<br><br>
+
+  le invio la sua TAC.<br><br>
+
+  Le ricordo di scaricare l'allegato entro 3 giorni dalla ricezione del link.<br><br>
+
+  Le chiedo cortesemente di confermarmi la corretta ricezione e di verificare che il file si apra correttamente.<br><br>
+
+  Grazie.
+</div>
+
+
+<h2>9. Verificare i dati e inviare</h2>
+
+<p>Prima di procedere con l'invio, effettua un ultimo controllo.</p>
+
+<ul>
+  <li>
+    Verifica che sia stato caricato il <strong>file ZIP corretto</strong>.
+  </li>
+
+  <li>
+    Verifica che la TAC appartenga al <strong>paziente corretto</strong>.
+  </li>
+
+  <li>
+    Controlla attentamente l'<strong>indirizzo e-mail del destinatario</strong>.
+  </li>
+
+  <li>
+    Verifica che il mittente sia la <strong>mail aziendale</strong>.
+  </li>
+</ul>
+
+<p>Dopo aver effettuato tutti i controlli, seleziona <strong>Trasferisci</strong>.</p>
+
+<div class="nota attenzione">
+  <strong>Controllo dati paziente</strong>
+  Prima dell'invio assicurati sempre che l'indirizzo e-mail inserito corrisponda al paziente a cui appartiene l'esame.
+</div>
+
+
+<h2>10. Come dovrà aprire la TAC il paziente</h2>
+
+<p>Se il paziente chiede assistenza per l'apertura della TAC, indicare di seguire questi passaggi:</p>
+
+<ol>
+  <li>
+    Scaricare il file ricevuto tramite <strong>WeTransfer</strong>.
+  </li>
+
+  <li>
+    Individuare il file <strong>.ZIP</strong> scaricato.
+  </li>
+
+  <li>
+    <strong>Decomprimere completamente il file ZIP</strong>.
+  </li>
+
+  <li>
+    Aprire la cartella ottenuta dopo la decompressione.
+  </li>
+
+  <li>
+    Individuare il <strong>Viewer</strong> o l'eventuale file <strong>Autorun</strong>.
+  </li>
+
+  <li>
+    Avviare il visualizzatore per aprire la TAC.
+  </li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Importante</strong>
+  La TAC non deve essere aperta direttamente dall'interno del file ZIP. Prima di utilizzare il Viewer, l'intera cartella deve essere <strong>completamente decompressa</strong>.
+</div>
+
+
+<h2>11. Verificare la ricezione</h2>
+
+<p>Dopo l'invio, attendi la conferma del paziente relativa alla corretta ricezione e apertura del file.</p>
+
+<p>Se entro circa <strong>24 ore</strong> non arriva alcun riscontro:</p>
+
+<ol>
+  <li>
+    <strong>Contatta il paziente</strong>.
+  </li>
+
+  <li>
+    Verifica che abbia <strong>ricevuto il link WeTransfer</strong>.
+  </li>
+
+  <li>
+    Verifica che abbia <strong>scaricato il file ZIP</strong>.
+  </li>
+
+  <li>
+    Assicurati che abbia <strong>decompresso completamente la cartella</strong>.
+  </li>
+
+  <li>
+    Chiedi conferma della <strong>corretta apertura della TAC tramite Viewer</strong>.
+  </li>
+</ol>
+
+<div class="nota">
+  <strong>Procedura conclusa</strong>
+  Quando il paziente conferma di aver ricevuto, scaricato e aperto correttamente la TAC, la procedura può considerarsi completata.
+</div>
+
+`
+},
  
 
     {
