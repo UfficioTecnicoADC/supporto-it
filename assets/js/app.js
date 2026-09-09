@@ -425,13 +425,20 @@ function inizializzaAIMode() {
 
     /* Form di ricerca presenti nella pagina */
     $$("form.cerca").forEach(function (form) {
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        var input = $("input", form);
-        var valore = input ? input.value.trim() : "";
-        window.location.href = "ricerca.html?q=" + encodeURIComponent(valore);
-      });
-    });
+
+  /* La barra principale della home viene gestita da AI Mode */
+  if (form.id === "cerca-principale") return;
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    var input = $("input", form);
+    var valore = input ? input.value.trim() : "";
+
+    window.location.href =
+      "ricerca.html?q=" + encodeURIComponent(valore);
+  });
+});
 
     /* Voce di menu attiva */
     var pagina = document.body.getAttribute("data-pagina");
