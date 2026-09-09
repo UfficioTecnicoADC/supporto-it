@@ -30,10 +30,31 @@
   <div class="contenitore">
     <h1>Come possiamo aiutarti?</h1>
     <p class="sottotitolo">Guide, procedure e soluzioni ai problemi informatici più frequenti. Cerca una parola chiave o sfoglia le categorie.</p>
-    <form class="cerca" role="search">
-      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 2a8 8 0 1 0 4.9 14.3l5.4 5.4 1.4-1.4-5.4-5.4A8 8 0 0 0 10 2Zm0 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>
-      <input type="search" placeholder="Es. password, rete, stampante, oris..." aria-label="Cerca nella knowledge base" autofocus>
-    </form>
+    <div class="modalita-ricerca">
+  <button type="button" class="modalita-btn attivo" id="btn-ricerca">
+    Cerca nelle guide
+  </button>
+
+  <button type="button" class="modalita-btn" id="btn-ai">
+    ✨ AI Mode
+  </button>
+</div>
+
+<form class="cerca" id="form-principale" role="search">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M10 2a8 8 0 1 0 4.9 14.3l5.4 5.4 1.4-1.4-5.4-5.4A8 8 0 0 0 10 2Zm0 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/>
+  </svg>
+
+  <input
+    id="campo-principale"
+    type="search"
+    placeholder="Es. password, rete, stampante, oris..."
+    aria-label="Cerca nella knowledge base"
+    autofocus
+  >
+</form>
+
+<div id="risposta-ai" class="risposta-ai" hidden></div>
     <div class="hero-suggerimenti">
       Ricerche frequenti:
       <a href="articolo.html?id=reimpostare-password">reimpostare la password</a>
