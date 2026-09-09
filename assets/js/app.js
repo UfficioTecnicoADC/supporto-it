@@ -460,13 +460,17 @@ function inizializzaAIMode() {
   /* ---------- Avvio ---------- */
 
   document.addEventListener("DOMContentLoaded", function () {
-    inizializzaComuni();
-    var pagina = document.body.getAttribute("data-pagina");
-    if (pagina === "home") renderHome();
-    else if (pagina === "categoria") renderCategoria();
-    else if (pagina === "articolo") renderArticolo();
-    else if (pagina === "ricerca") renderRicerca();
-    else if (pagina === "contatti") renderLateraleCategorie(null);
-  });
+  inizializzaComuni();
+  inizializzaAIMode();
+
+  var pagina = document.body.getAttribute("data-pagina");
+
+  if (pagina === "home") renderHome();
+  else if (pagina === "categoria") renderCategoria();
+  else if (pagina === "articolo") renderArticolo();
+  else if (pagina === "ricerca") renderRicerca();
+  else if (pagina === "contatti") renderLateraleCategorie(null);
+});
+
 
 })();
