@@ -2435,7 +2435,7 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 
 <p>
   Ora che sai cos'è un ticket, puoi leggere anche la guida
-  <a href="aprire-ticket"><strong>Come aprire un ticket al supporto IT</strong></a>.
+  <a href="articolo.html?id=aprire-ticket"><strong>Come aprire un ticket al supporto IT</strong></a>.
 </p>
 `
 },
