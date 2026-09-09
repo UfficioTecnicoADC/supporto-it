@@ -2292,6 +2292,154 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 
     /* ---------------- PROCEDURE E RICHIESTE ---------------- */
 
+     {
+  id: "cos-e-un-ticket",
+  titolo: "Cos'è un ticket?",
+  categoria: "procedure",
+  tag: ["ticket", "assistenza", "supporto", "richiesta", "problema", "help desk"],
+  aggiornato: "2026-09-09",
+  minuti: 3,
+  sommario: "Una spiegazione semplice di cos'è un ticket, a cosa serve e cosa succede dopo averlo aperto.",
+  corpo: `
+<h2>Cos'è un ticket?</h2>
+
+<p>
+  Un <strong>ticket</strong> è semplicemente una <strong>richiesta di aiuto inviata al supporto IT</strong>.
+</p>
+
+<p>
+  Immagina di avere un problema con il computer e di scrivere su un foglietto:
+</p>
+
+<div class="nota">
+  <strong>Ho bisogno di aiuto</strong>
+  Il mio computer non si collega a Internet. Mi trovo nell'ufficio amministrazione.
+</div>
+
+<p>
+  Quel foglietto viene consegnato al reparto IT e gli viene assegnato un numero.
+  Da quel momento il reparto IT sa che c'è un problema da controllare.
+</p>
+
+<p>
+  Quel "foglietto digitale" è il <strong>ticket</strong>.
+</p>
+
+<h2>A cosa serve?</h2>
+
+<p>
+  Il ticket permette al reparto IT di <strong>non dimenticare le richieste</strong> e di sapere
+  quali problemi devono essere risolti.
+</p>
+
+<p>Serve quindi a tenere tutto in ordine:</p>
+
+<ul>
+  <li>chi ha segnalato il problema;</li>
+  <li>qual è il problema;</li>
+  <li>dove si trova la persona che ha bisogno di aiuto;</li>
+  <li>quando è stato segnalato;</li>
+  <li>chi del reparto IT lo sta controllando;</li>
+  <li>se il problema è stato risolto oppure no.</li>
+</ul>
+
+<h2>Un esempio semplice</h2>
+
+<p>
+  Supponiamo che la stampante del tuo ufficio non funzioni.
+</p>
+
+<p>
+  Invece di dire semplicemente a qualcuno:
+</p>
+
+<div class="nota">
+  <strong>"La stampante non funziona!"</strong>
+</div>
+
+<p>
+  puoi inviare una richiesta al supporto IT spiegando:
+</p>
+
+<div class="nota ok">
+  <strong>Esempio di ticket</strong>
+  La stampante dell'ufficio reception non stampa.<br>
+  Il problema è iniziato questa mattina.<br>
+  Sullo schermo compare il messaggio "Stampante non disponibile".
+</div>
+
+<p>
+  In questo modo chi si occupa dell'assistenza ha già delle informazioni utili
+  per capire cosa sta succedendo.
+</p>
+
+<h2>Cosa succede dopo?</h2>
+
+<p>Dopo aver inviato la richiesta:</p>
+
+<ol>
+  <li>Il supporto IT riceve il ticket.</li>
+  <li>Il ticket viene registrato.</li>
+  <li>Un tecnico controlla il problema.</li>
+  <li>Se servono altre informazioni, può contattarti.</li>
+  <li>Quando il problema viene risolto, il ticket viene chiuso.</li>
+</ol>
+
+<h2>Perché non basta dirlo a voce?</h2>
+
+<p>
+  Dire un problema a voce può essere utile in alcuni casi, ma può anche essere facile dimenticarlo.
+</p>
+
+<p>
+  Con un ticket, invece, la richiesta <strong>rimane registrata</strong> e può essere seguita
+  fino alla sua risoluzione.
+</p>
+
+<div class="nota ok">
+  <strong>Pensalo come una lista delle cose da fare</strong>
+  Ogni ticket è un'attività che il reparto IT deve controllare e completare.
+</div>
+
+<h2>Devo conoscere qualche termine tecnico?</h2>
+
+<p>
+  <strong>No.</strong> Non è necessario sapere quale sia la causa del problema.
+</p>
+
+<p>
+  Basta spiegare con parole semplici <strong>cosa stavi facendo e cosa non funziona</strong>.
+</p>
+
+<p>Ad esempio:</p>
+
+<ul>
+  <li>"Non riesco ad aprire Outlook."</li>
+  <li>"Internet non funziona sul mio computer."</li>
+  <li>"La stampante non stampa."</li>
+  <li>"Non ricordo la password."</li>
+  <li>"Il programma ORIS mostra un errore."</li>
+</ul>
+
+<div class="nota">
+  <strong>Ricorda</strong>
+  Non devi risolvere il problema da solo prima di aprire un ticket.
+  Il tuo compito è semplicemente spiegare cosa sta succedendo nel modo più chiaro possibile.
+</div>
+
+<h2>In poche parole</h2>
+
+<p>
+  <strong>Problema → invii una richiesta → viene creato un ticket → il reparto IT lo controlla → il problema viene risolto.</strong>
+</p>
+
+<p>
+  Ora che sai cos'è un ticket, puoi leggere anche la guida
+  <a href="#aprire-ticket"><strong>Come aprire un ticket al supporto IT</strong></a>.
+</p>
+`
+},
+
     {
       id: "aprire-ticket",
       titolo: "Come aprire un ticket al supporto IT",
