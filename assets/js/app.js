@@ -339,6 +339,80 @@ async function chiediAI(messaggio) {
   }
 }
 
+   /* ---------- AI Mode home ---------- */
+
+function inizializzaAIMode() {
+  var form = $("#cerca-principale");
+  var pulsante = $("#ai-mode-btn");
+  var campo = $("#campo-ai");
+  var risposta = $("#risposta-ai");
+
+  if (!form || !pulsante || !campo || !risposta) return;
+
+  var aiAttiva = false;
+
+  pulsante.addEventListener("click", function () {
+    aiAttiva = !aiAttiva;
+
+    pulsante.classList.toggle("attivo", aiAttiva);
+    form.classList.toggle("ai-attiva", aiAttiva);
+
+    if (aiAttiva) {
+      campo.placeholder = "Chiedi qualcosa all'assistente IT...";
+      campo.setAttribute("aria-label", "Chiedi all'assistente AI");
+    } else {
+      campo.placeholder = "Es. password, rete, stampante, oris...";
+      campo.setAttribute("aria-label", "Cerca nella knowledge base");
+
+      risposta.hidden = true;
+      risposta.innerHTML = "";
+    }
+
+    campo.focus();
+  });
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    var messaggio = campo.value.trim();
+
+    if (!messaggio) return;
+
+    /* Ricerca tradizionale */
+    if (!aiAttiva) {
+      window.location.href =
+        "ricerca.html?q=" + encodeURIComponent(messaggio);
+      return;
+    }
+
+    /* Modalità AI */
+    risposta.hidden = false;
+    risposta.className = "risposta-ai risposta-ai-caricamento";
+    risposta.textContent = "Sto preparando la risposta...";
+
+    pulsante.disabled = true;
+    campo.disabled = true;
+
+    try {
+      var testo = await chiediAI(messaggio);
+
+      risposta.className = "risposta-ai";
+      risposta.textContent =
+        testo || "Non ho ricevuto una risposta dall'assistente.";
+
+    } catch (errore) {
+      risposta.className = "risposta-ai risposta-ai-errore";
+      risposta.textContent =
+        "Non riesco a contattare l'assistente AI. Riprova tra poco.";
+
+    } finally {
+      pulsante.disabled = false;
+      campo.disabled = false;
+      campo.focus();
+    }
+  });
+}
+
   /* ---------- Comportamenti comuni ---------- */
 
   function inizializzaComuni() {
