@@ -310,6 +310,35 @@
       riquadroAiuto();
   }
 
+   /* ---------- Assistente AI ---------- */
+
+async function chiediAI(messaggio) {
+  try {
+    var risposta = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: messaggio
+      })
+    });
+
+    var dati = await risposta.json();
+
+    if (!risposta.ok) {
+      console.error("Errore API:", dati);
+      throw new Error(dati.error || "Errore durante la richiesta");
+    }
+
+    return dati.answer;
+
+  } catch (errore) {
+    console.error("Errore Assistente AI:", errore);
+    throw errore;
+  }
+}
+
   /* ---------- Comportamenti comuni ---------- */
 
   function inizializzaComuni() {
