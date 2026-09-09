@@ -2607,6 +2607,1055 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 
 `
 },
+
+     {
+  id: "nnt-masterizzazione-tac-disco",
+  titolo: "NNT — Masterizzazione TAC su disco",
+  categoria: "software",
+  tag: [
+    "nnt",
+    "tac",
+    "volumetrica",
+    "dicom",
+    "viewer",
+    "masterizzazione",
+    "disco",
+    "radiografie",
+    "esportazione",
+    "cd",
+    "dvd"
+  ],
+  aggiornato: "2026-09-09",
+  minuti: 5,
+  sommario: "Come esportare una TAC da NNT e masterizzarla su disco includendo dati DICOM e Viewer per la corretta visualizzazione dell'esame.",
+  corpo: `
+
+<p>Segui questa guida quando devi <strong>esportare una TAC dal programma NNT</strong> e consegnarla al paziente o a un altro professionista tramite <strong>disco masterizzato</strong>.</p>
+
+<p>La masterizzazione deve comprendere non solo le immagini della TAC, ma anche i <strong>dati DICOM</strong> e il <strong>Viewer</strong> necessario per aprire correttamente l'esame.</p>
+
+<div class="nota attenzione">
+  <strong>Importante</strong>
+  Il <strong>Viewer deve essere sempre incluso</strong>. Il disco deve contenere tutti i file necessari alla corretta visualizzazione della TAC.
+</div>
+
+
+<h2>1. Aprire NNT e cercare il paziente</h2>
+
+<ol>
+  <li>
+    <strong>Apri NNT</strong>.
+  </li>
+
+  <li>
+    Cerca il <strong>paziente interessato</strong>.
+  </li>
+
+  <li>
+    Apri la <strong>cartella del paziente</strong>.
+  </li>
+
+  <li>
+    Individua l'esame che deve essere masterizzato.
+  </li>
+</ol>
+
+<h3>Come riconoscere una TAC</h3>
+
+<p>All'interno di NNT gli esami vengono identificati in modo diverso in base alla loro tipologia:</p>
+
+<ul>
+  <li>
+    <strong>Volumetrica</strong> = TAC / esame tridimensionale 3D.
+  </li>
+
+  <li>
+    <strong>Immagine 2D</strong> = panoramica, endorale o altra radiografia bidimensionale.
+  </li>
+</ul>
+
+<div class="nota attenzione">
+  <strong>Prima di procedere</strong>
+  Verifica che l'esame selezionato sia la <strong>Volumetrica corretta</strong>.
+</div>
+
+
+<h2>2. Aprire la TAC</h2>
+
+<ol>
+  <li>
+    Seleziona l'<strong>esame volumetrico</strong>.
+  </li>
+
+  <li>
+    Apri la TAC.
+  </li>
+
+  <li>
+    Attendi il <strong>caricamento completo dell'esame</strong>.
+  </li>
+</ol>
+
+<p>Prima di procedere con la masterizzazione, controlla nuovamente che la TAC visualizzata appartenga al <strong>paziente corretto</strong>.</p>
+
+<div class="nota">
+  <strong>Nota</strong>
+  Il caricamento può richiedere qualche secondo perché i file delle TAC possono avere dimensioni elevate.
+</div>
+
+
+<h2>3. Avviare la procedura di masterizzazione</h2>
+
+<p>Quando la TAC è completamente aperta, utilizza il menu superiore del programma.</p>
+
+<ol>
+  <li>
+    Seleziona <strong>File</strong>.
+  </li>
+
+  <li>
+    Clicca su <strong>Masterizza disco</strong>.
+  </li>
+
+  <li>
+    Seleziona l'opzione:
+    <br><strong>Viewer + tutte le immagini DICOM</strong>.
+  </li>
+</ol>
+
+
+<h2>4. Selezionare i dati da inserire sul disco</h2>
+
+<p>Prima di avviare la masterizzazione, assicurati che siano inclusi tutti i dati necessari.</p>
+
+<p>Devono essere selezionati:</p>
+
+<ul>
+  <li><strong>dati volumetrici</strong>;</li>
+  <li><strong>immagini e file DICOM</strong>;</li>
+  <li><strong>Viewer / visualizzatore</strong>.</li>
+</ul>
+
+<div class="nota attenzione">
+  <strong>Il Viewer è fondamentale</strong>
+  Il disco non deve contenere soltanto le immagini della TAC. Deve includere anche il programma necessario per poter visualizzare correttamente l'esame.
+</div>
+
+
+<h2>5. Inserire un disco vuoto</h2>
+
+<p>Inserisci nella postazione un <strong>disco vuoto compatibile con il computer</strong>.</p>
+
+<ol>
+  <li>
+    Inserisci il disco nell'apposito lettore/masterizzatore.
+  </li>
+
+  <li>
+    Attendi qualche secondo.
+  </li>
+
+  <li>
+    Verifica che il sistema abbia <strong>riconosciuto correttamente il disco</strong>.
+  </li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Prima di continuare</strong>
+  Assicurati che il disco sia vuoto e che disponga dello spazio necessario per contenere l'intera TAC.
+</div>
+
+
+<h2>6. Avviare la masterizzazione</h2>
+
+<p>Dopo aver verificato che siano selezionati tutti i dati necessari:</p>
+
+<ol>
+  <li>
+    Conferma il <strong>disco come destinazione</strong>.
+  </li>
+
+  <li>
+    Avvia la <strong>masterizzazione</strong>.
+  </li>
+
+  <li>
+    Attendi il completamento della scrittura dei file.
+  </li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Non rimuovere il disco</strong>
+  Durante la masterizzazione non espellere il disco e non interrompere la procedura. Un'interruzione potrebbe rendere il disco inutilizzabile o incompleto.
+</div>
+
+
+<h2>7. Attendere il completamento</h2>
+
+<p>I file TAC possono avere dimensioni elevate e la masterizzazione può quindi richiedere <strong>alcuni minuti</strong>.</p>
+
+<p>Durante questa fase:</p>
+
+<ul>
+  <li>non chiudere NNT;</li>
+  <li>non spegnere il computer;</li>
+  <li>non rimuovere il disco;</li>
+  <li>attendi il messaggio di conferma del completamento.</li>
+</ul>
+
+<div class="nota">
+  <strong>Attendere la conferma</strong>
+  Rimuovi il disco soltanto quando NNT o il sistema conferma che la masterizzazione è terminata.
+</div>
+
+
+<h2>8. Controllare il contenuto del disco</h2>
+
+<p>Terminata la masterizzazione, è importante verificare che il disco contenga tutti i file necessari.</p>
+
+<ol>
+  <li>
+    Apri il <strong>contenuto del disco</strong>.
+  </li>
+
+  <li>
+    Verifica che siano presenti i file generati da NNT.
+  </li>
+
+  <li>
+    Controlla in particolare la presenza dei <strong>dati DICOM</strong>.
+  </li>
+
+  <li>
+    Verifica la presenza del <strong>Viewer / visualizzatore</strong>.
+  </li>
+
+  <li>
+    Se presente, controlla anche l'eventuale file <strong>Autorun</strong> e gli altri file di configurazione generati automaticamente.
+  </li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Non modificare i file</strong>
+  Non eliminare, rinominare o spostare i singoli file presenti sul disco. La struttura generata da NNT deve rimanere invariata.
+</div>
+
+
+<h2>9. Effettuare una prova di apertura</h2>
+
+<p>Quando possibile, prima di consegnare il disco effettua una <strong>prova di apertura</strong>.</p>
+
+<ol>
+  <li>
+    Apri il contenuto del disco.
+  </li>
+
+  <li>
+    Individua il <strong>Viewer</strong> o l'eventuale file <strong>Autorun</strong>.
+  </li>
+
+  <li>
+    Avvia il visualizzatore.
+  </li>
+
+  <li>
+    Verifica che la TAC venga caricata correttamente.
+  </li>
+</ol>
+
+<div class="nota">
+  <strong>Se la TAC si apre correttamente</strong>
+  Il disco è pronto per essere consegnato.
+</div>
+
+<div class="nota attenzione">
+  <strong>Se la TAC non si apre</strong>
+  Non consegnare il disco. Ripeti la procedura di masterizzazione verificando che siano stati inclusi <strong>Viewer, dati DICOM e dati volumetrici</strong>.
+</div>
+
+
+<h2>10. Indicazioni da dare al paziente</h2>
+
+<p>Al momento della consegna, informa il paziente che il disco contiene:</p>
+
+<ul>
+  <li>la <strong>TAC</strong>;</li>
+  <li>i relativi <strong>dati DICOM</strong>;</li>
+  <li>il <strong>programma di visualizzazione</strong>.</li>
+</ul>
+
+<p>Per visualizzare correttamente l'esame, il paziente dovrà:</p>
+
+<ol>
+  <li>
+    Inserire il disco nel computer.
+  </li>
+
+  <li>
+    Aprire il contenuto del disco.
+  </li>
+
+  <li>
+    Individuare il <strong>Viewer</strong> o l'eventuale file <strong>Autorun</strong>.
+  </li>
+
+  <li>
+    Avviare il visualizzatore.
+  </li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Importante</strong>
+  Per aprire correttamente la TAC è necessario utilizzare il <strong>Viewer presente sul disco</strong>. Non è sufficiente aprire singolarmente i file DICOM.
+</div>
+
+
+<h2>11. Verifica finale</h2>
+
+<p>Prima di consegnare il disco, controlla sempre:</p>
+
+<ul>
+  <li>che il disco appartenga al <strong>paziente corretto</strong>;</li>
+  <li>che la <strong>TAC corretta</strong> sia stata masterizzata;</li>
+  <li>che siano presenti i <strong>dati DICOM</strong>;</li>
+  <li>che sia presente il <strong>Viewer</strong>;</li>
+  <li>che la masterizzazione sia stata completata senza errori.</li>
+</ul>
+
+<div class="nota">
+  <strong>Procedura conclusa</strong>
+  Se tutti i controlli sono corretti, il disco può essere consegnato al paziente o al professionista destinatario.
+</div>
+
+`
+},
+
+     {
+  id: "sidexis-esportazione-tac-wetransfer",
+  titolo: "SIDEXIS — Esportazione e invio TAC tramite WeTransfer",
+  categoria: "software",
+  tag: [
+    "sidexis",
+    "tac",
+    "3d",
+    "dicom",
+    "wetransfer",
+    "viewer",
+    "autorun",
+    "zip",
+    "esportazione",
+    "radiografie",
+    "wrap&go"
+  ],
+  aggiornato: "2026-09-09",
+  minuti: 6,
+  sommario: "Come esportare una o più TAC da SIDEXIS, includere dati DICOM e Viewer, creare un file ZIP unico e inviarlo correttamente tramite WeTransfer.",
+  corpo: `
+
+<p>Segui questa guida quando devi <strong>esportare una o più TAC dal programma SIDEXIS</strong> e inviarle al paziente tramite <strong>WeTransfer</strong>.</p>
+
+<p>L'esportazione deve comprendere tutti i file necessari alla corretta visualizzazione dell'esame, inclusi i <strong>dati DICOM</strong> e il <strong>Viewer</strong>.</p>
+
+<div class="nota attenzione">
+  <strong>Importante</strong>
+  Tutti i file generati da SIDEXIS devono essere mantenuti insieme. Per l'invio tramite WeTransfer deve essere creato <strong>un unico file ZIP</strong>.
+</div>
+
+
+<h2>1. Aprire SIDEXIS e cercare il paziente</h2>
+
+<ol>
+  <li>
+    <strong>Apri SIDEXIS</strong>.
+  </li>
+
+  <li>
+    Cerca il <strong>paziente interessato</strong>.
+  </li>
+
+  <li>
+    Apri la <strong>cartella del paziente</strong>.
+  </li>
+
+  <li>
+    Seleziona la funzione <strong>Seleziona immagine</strong>.
+  </li>
+</ol>
+
+
+<h2>2. Individuare la TAC</h2>
+
+<p>All'interno degli esami del paziente, individua quelli identificati dalla dicitura:</p>
+
+<p><strong>3D</strong></p>
+
+<p>La dicitura <strong>3D</strong> identifica una TAC.</p>
+
+<p>Gli altri esami radiografici possono essere indicati con sigle differenti. Ad esempio:</p>
+
+<ul>
+  <li>
+    <strong>3D</strong> = TAC / esame tridimensionale;
+  </li>
+
+  <li>
+    <strong>XP</strong> = panoramica o altro esame bidimensionale.
+  </li>
+</ul>
+
+<div class="nota attenzione">
+  <strong>Prima di procedere</strong>
+  Assicurati di aver individuato gli esami contrassegnati come <strong>3D</strong> che devono effettivamente essere inviati.
+</div>
+
+
+<h2>3. Selezionare tutte le TAC necessarie</h2>
+
+<p>Per uno stesso paziente possono essere presenti uno o più esami 3D.</p>
+
+<p>Ad esempio:</p>
+
+<ul>
+  <li>una sola TAC;</li>
+  <li>più TAC sezionali;</li>
+  <li>TAC di una singola arcata;</li>
+  <li>TAC di entrambe le arcate;</li>
+  <li>acquisizioni effettuate in momenti differenti.</li>
+</ul>
+
+<p>Se devono essere consegnati più esami, seleziona <strong>tutti i file 3D interessati</strong> prima di avviare l'esportazione.</p>
+
+<div class="nota attenzione">
+  <strong>Controllo obbligatorio</strong>
+  Prima di procedere verifica sempre:
+  <ul>
+    <li>il <strong>paziente corretto</strong>;</li>
+    <li>la <strong>data dell'esame</strong>;</li>
+    <li>la <strong>TAC o le TAC da inviare</strong>.</li>
+  </ul>
+</div>
+
+
+<h2>4. Avviare l'esportazione</h2>
+
+<p>Dopo aver selezionato tutti gli esami necessari, utilizza il menu di SIDEXIS.</p>
+
+<ol>
+  <li>
+    Seleziona <strong>Esame</strong>.
+  </li>
+
+  <li>
+    Seleziona <strong>Esportazione DICOM</strong>.
+  </li>
+
+  <li>
+    Clicca su <strong>Export Wrap&amp;Go</strong>.
+  </li>
+</ol>
+
+<p>Il percorso completo è quindi:</p>
+
+<p><strong>Esame → Esportazione DICOM → Export Wrap&amp;Go</strong></p>
+
+
+<h2>5. Selezionare USB</h2>
+
+<p>Quando SIDEXIS chiede dove esportare il pacchetto, seleziona:</p>
+
+<p><strong>USB</strong></p>
+
+<div class="nota">
+  <strong>Nota</strong>
+  In questa procedura l'opzione <strong>USB</strong> viene utilizzata per generare i file sul computer. I file non verranno necessariamente copiati su una chiavetta USB, ma verranno salvati sul Desktop e successivamente inviati tramite WeTransfer.
+</div>
+
+
+<h2>6. Scegliere dove salvare i file</h2>
+
+<ol>
+  <li>
+    Seleziona come destinazione il <strong>Desktop</strong>.
+  </li>
+
+  <li>
+    Se possibile, assegna alla cartella o all'esportazione il <strong>nome e cognome del paziente</strong>.
+  </li>
+
+  <li>
+    Conferma il salvataggio.
+  </li>
+
+  <li>
+    Attendi il completamento dell'esportazione.
+  </li>
+</ol>
+
+<div class="nota">
+  <strong>Attendere il completamento</strong>
+  L'esportazione può richiedere alcuni minuti, soprattutto se sono state selezionate più TAC o file di grandi dimensioni.
+</div>
+
+
+<h2>7. Controllare i file generati</h2>
+
+<p>Terminata l'esportazione, controlla il <strong>Desktop</strong>.</p>
+
+<p>SIDEXIS potrebbe non creare automaticamente un'unica cartella. In alcuni casi possono comparire più elementi separati, tra cui:</p>
+
+<ul>
+  <li>cartelle <strong>DICOM</strong> o <strong>DICOM Media</strong>;</li>
+  <li>cartella o file del <strong>Viewer</strong>;</li>
+  <li>file <strong>Autorun</strong>;</li>
+  <li>altri file di configurazione necessari per l'apertura dell'esame.</li>
+</ul>
+
+<div class="nota attenzione">
+  <strong>Non eliminare nessun elemento</strong>
+  Tutti i file generati durante l'esportazione possono essere necessari al corretto funzionamento del Viewer.
+</div>
+
+
+<h2>8. Se i file sono separati, creare una cartella unica</h2>
+
+<p>Se SIDEXIS ha salvato sul Desktop più file e cartelle separati, è necessario raccoglierli in <strong>un'unica cartella</strong>.</p>
+
+<ol>
+  <li>
+    Crea una <strong>nuova cartella</strong> sul Desktop.
+  </li>
+
+  <li>
+    Nominala con il <strong>nome e cognome del paziente</strong>.
+  </li>
+
+  <li>
+    Individua tutti i file e le cartelle appena generati dall'esportazione SIDEXIS.
+  </li>
+
+  <li>
+    Sposta <strong>tutti gli elementi generati</strong> all'interno della nuova cartella.
+  </li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Importante</strong>
+  Non lasciare fuori nessun elemento generato da SIDEXIS e non rinominare arbitrariamente i singoli file o le cartelle interne.
+</div>
+
+
+<h2>9. Comprimere la cartella in formato ZIP</h2>
+
+<p>Prima dell'invio tramite WeTransfer, crea un unico file compresso.</p>
+
+<ol>
+  <li>
+    Individua la <strong>cartella del paziente</strong>.
+  </li>
+
+  <li>
+    Fai <strong>clic con il tasto destro</strong> sulla cartella.
+  </li>
+
+  <li>
+    Seleziona <strong>Invia a → Cartella compressa</strong>.
+  </li>
+
+  <li>
+    Attendi la creazione del file in formato <strong>.ZIP</strong>.
+  </li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Non inviare i file separatamente</strong>
+  Viewer, dati DICOM e file di configurazione devono mantenere la struttura generata da SIDEXIS. Su WeTransfer deve essere caricato <strong>un unico file ZIP</strong>.
+</div>
+
+
+<h2>10. Aprire WeTransfer</h2>
+
+<ol>
+  <li>
+    Accedi a <strong>WeTransfer</strong>.
+  </li>
+
+  <li>
+    Utilizza l'account collegato alla <strong>mail aziendale</strong>.
+  </li>
+
+  <li>
+    Seleziona <strong>Aggiungi file</strong>.
+  </li>
+
+  <li>
+    Carica il <strong>file ZIP</strong> appena creato.
+  </li>
+
+  <li>
+    Inserisci l'<strong>indirizzo e-mail del paziente</strong>.
+  </li>
+
+  <li>
+    Verifica che il mittente visualizzato sia la <strong>mail aziendale</strong>.
+  </li>
+</ol>
+
+
+<h2>11. Inserire il messaggio</h2>
+
+<p>Nel campo dedicato al messaggio puoi utilizzare il seguente testo:</p>
+
+<div class="nota">
+  <strong>Messaggio consigliato</strong><br><br>
+
+  Gentile Sig./Sig.ra [Cognome],<br><br>
+
+  le invio la sua TAC.<br><br>
+
+  Le ricordo di scaricare l'allegato entro 3 giorni dalla ricezione del link.<br><br>
+
+  Le chiedo cortesemente di confermarmi la corretta ricezione e di verificare che il file si apra correttamente.<br><br>
+
+  Grazie.
+</div>
+
+
+<h2>12. Verificare i dati e inviare</h2>
+
+<p>Prima di procedere con l'invio, effettua un ultimo controllo.</p>
+
+<ul>
+  <li>
+    Verifica che il <strong>paziente sia corretto</strong>.
+  </li>
+
+  <li>
+    Controlla attentamente l'<strong>indirizzo e-mail</strong>.
+  </li>
+
+  <li>
+    Verifica che sia stato allegato il <strong>file ZIP corretto</strong>.
+  </li>
+
+  <li>
+    Controlla che il file contenga tutte le TAC che devono essere consegnate.
+  </li>
+</ul>
+
+<p>Dopo aver verificato tutti i dati, seleziona <strong>Trasferisci</strong>.</p>
+
+<div class="nota attenzione">
+  <strong>Controllo dati paziente</strong>
+  Prima dell'invio assicurati sempre che l'indirizzo e-mail inserito corrisponda al paziente a cui appartengono gli esami.
+</div>
+
+
+<h2>13. Come dovrà aprire la TAC il paziente</h2>
+
+<p>Se il paziente necessita di indicazioni per aprire l'esame, spiegagli di seguire questi passaggi:</p>
+
+<ol>
+  <li>
+    Scaricare il file ricevuto tramite <strong>WeTransfer</strong>.
+  </li>
+
+  <li>
+    Individuare il file <strong>.ZIP</strong> scaricato.
+  </li>
+
+  <li>
+    <strong>Decomprimere completamente il file ZIP</strong>.
+  </li>
+
+  <li>
+    Aprire la cartella decompressa.
+  </li>
+
+  <li>
+    Individuare il <strong>Viewer</strong> o l'eventuale file <strong>Autorun</strong>.
+  </li>
+
+  <li>
+    Avviare il visualizzatore per aprire la TAC.
+  </li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Importante</strong>
+  Il paziente non deve aprire, rinominare o spostare singolarmente i file DICOM. Prima di utilizzare il Viewer, l'intero pacchetto deve essere <strong>completamente decompresso</strong>.
+</div>
+
+
+<h2>14. Verificare la ricezione</h2>
+
+<p>Dopo l'invio, attendi la conferma del paziente relativa alla corretta ricezione e apertura della TAC.</p>
+
+<p>Se entro circa <strong>24 ore</strong> non arriva alcun riscontro:</p>
+
+<ol>
+  <li>
+    <strong>Contatta il paziente</strong>.
+  </li>
+
+  <li>
+    Verifica che abbia <strong>ricevuto il link WeTransfer</strong>.
+  </li>
+
+  <li>
+    Controlla che abbia <strong>scaricato il file ZIP</strong>.
+  </li>
+
+  <li>
+    Verifica che abbia <strong>decompresso completamente il file</strong>.
+  </li>
+
+  <li>
+    Assicurati che abbia individuato e avviato il <strong>Viewer</strong> o il file <strong>Autorun</strong>.
+  </li>
+
+  <li>
+    Chiedi conferma che la <strong>TAC si apra correttamente</strong>.
+  </li>
+</ol>
+
+<div class="nota">
+  <strong>Procedura conclusa</strong>
+  Quando il paziente conferma di aver ricevuto, scaricato e aperto correttamente la TAC, la procedura può considerarsi completata.
+</div>
+
+`
+},
+
+     {
+  id: "sidexis-masterizzazione-tac-dvd",
+  titolo: "SIDEXIS — Masterizzazione TAC su DVD",
+  categoria: "software",
+  tag: [
+    "sidexis",
+    "tac",
+    "3d",
+    "dicom",
+    "viewer",
+    "autorun",
+    "dvd",
+    "masterizzazione",
+    "esportazione",
+    "radiografie",
+    "wrap&go"
+  ],
+  aggiornato: "2026-09-09",
+  minuti: 5,
+  sommario: "Come esportare una o più TAC da SIDEXIS e masterizzarle direttamente su DVD includendo dati DICOM, Viewer e file necessari alla corretta visualizzazione.",
+  corpo: `
+
+<p>Segui questa guida quando devi <strong>esportare una o più TAC dal programma SIDEXIS</strong> e consegnarle al paziente tramite <strong>DVD masterizzato</strong>.</p>
+
+<p>La procedura deve includere non solo le immagini della TAC, ma anche i <strong>dati DICOM</strong>, il <strong>Viewer</strong> e gli eventuali file necessari alla corretta apertura dell'esame.</p>
+
+<div class="nota attenzione">
+  <strong>Importante</strong>
+  Il <strong>Viewer deve essere sempre incluso</strong>. Il DVD deve contenere tutto il pacchetto generato da SIDEXIS per permettere la corretta visualizzazione della TAC.
+</div>
+
+
+<h2>1. Aprire SIDEXIS e cercare il paziente</h2>
+
+<ol>
+  <li>
+    <strong>Apri SIDEXIS</strong>.
+  </li>
+
+  <li>
+    Cerca il <strong>paziente interessato</strong>.
+  </li>
+
+  <li>
+    Apri la <strong>cartella del paziente</strong>.
+  </li>
+
+  <li>
+    Accedi alla funzione <strong>Seleziona immagine</strong>.
+  </li>
+</ol>
+
+
+<h2>2. Individuare le TAC</h2>
+
+<p>All'interno degli esami del paziente, individua quelli identificati dalla dicitura:</p>
+
+<p><strong>3D</strong></p>
+
+<p>La dicitura <strong>3D</strong> identifica una TAC.</p>
+
+<p>Gli altri esami radiografici possono essere indicati con sigle differenti. Ad esempio:</p>
+
+<ul>
+  <li>
+    <strong>3D</strong> = TAC / esame tridimensionale;
+  </li>
+
+  <li>
+    <strong>XP</strong> = panoramica o altro esame bidimensionale.
+  </li>
+</ul>
+
+<div class="nota attenzione">
+  <strong>Prima di procedere</strong>
+  Assicurati di aver individuato gli esami contrassegnati come <strong>3D</strong> che devono effettivamente essere consegnati al paziente.
+</div>
+
+
+<h2>3. Selezionare gli esami da masterizzare</h2>
+
+<p>Per uno stesso paziente possono essere presenti uno o più esami TAC.</p>
+
+<p>Ad esempio:</p>
+
+<ul>
+  <li>una sola TAC;</li>
+  <li>una TAC sezionale;</li>
+  <li>una TAC relativa a una singola arcata;</li>
+  <li>più TAC effettuate in momenti differenti;</li>
+  <li>TAC relative a entrambe le arcate.</li>
+</ul>
+
+<p>Se devono essere consegnati più esami, seleziona <strong>tutti i file 3D interessati</strong>.</p>
+
+<div class="nota attenzione">
+  <strong>Controllo obbligatorio</strong>
+  Prima di avviare l'esportazione verifica sempre:
+  <ul>
+    <li>il <strong>paziente corretto</strong>;</li>
+    <li>la <strong>data degli esami</strong>;</li>
+    <li>la <strong>TAC o le TAC da masterizzare</strong>.</li>
+  </ul>
+</div>
+
+
+<h2>4. Avviare l'esportazione DICOM</h2>
+
+<p>Dopo aver selezionato tutti gli esami necessari, utilizza il menu di SIDEXIS.</p>
+
+<ol>
+  <li>
+    Seleziona <strong>Esame</strong>.
+  </li>
+
+  <li>
+    Seleziona <strong>Esportazione DICOM</strong>.
+  </li>
+
+  <li>
+    Clicca su <strong>Export Wrap&amp;Go</strong>.
+  </li>
+</ol>
+
+<p>Il percorso completo è:</p>
+
+<p><strong>Esame → Esportazione DICOM → Export Wrap&amp;Go</strong></p>
+
+
+<h2>5. Selezionare DVD</h2>
+
+<p>Quando SIDEXIS chiede la destinazione dell'esportazione, seleziona:</p>
+
+<p><strong>DVD</strong></p>
+
+<div class="nota">
+  <strong>Nota</strong>
+  In questa procedura non è necessario creare preventivamente una cartella sul Desktop. SIDEXIS preparerà direttamente il pacchetto necessario per la masterizzazione sul DVD.
+</div>
+
+
+<h2>6. Inserire un DVD vuoto</h2>
+
+<p>Quando richiesto dal programma:</p>
+
+<ol>
+  <li>
+    Inserisci un <strong>DVD vuoto</strong> nell'unità del computer.
+  </li>
+
+  <li>
+    Attendi qualche secondo.
+  </li>
+
+  <li>
+    Verifica che SIDEXIS o il sistema abbia <strong>riconosciuto correttamente il DVD</strong>.
+  </li>
+
+  <li>
+    Conferma il supporto selezionato.
+  </li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Prima di continuare</strong>
+  Assicurati che il DVD sia vuoto e disponga dello spazio necessario per contenere tutti gli esami selezionati.
+</div>
+
+
+<h2>7. Avviare la masterizzazione</h2>
+
+<p>Dopo aver confermato il DVD come destinazione, procedi con la <strong>masterizzazione</strong>.</p>
+
+<p>SIDEXIS preparerà sul disco il pacchetto contenente:</p>
+
+<ul>
+  <li><strong>dati della TAC</strong>;</li>
+  <li><strong>file DICOM</strong>;</li>
+  <li><strong>Viewer / visualizzatore</strong>;</li>
+  <li>eventuale file <strong>Autorun</strong>;</li>
+  <li>eventuali <strong>file di configurazione</strong> necessari alla corretta apertura dell'esame.</li>
+</ul>
+
+<div class="nota attenzione">
+  <strong>Non interrompere la procedura</strong>
+  Non rimuovere il DVD, non chiudere SIDEXIS e non spegnere il computer durante la masterizzazione.
+</div>
+
+
+<h2>8. Attendere il completamento</h2>
+
+<p>Le TAC possono avere dimensioni elevate e la procedura di masterizzazione può quindi richiedere <strong>alcuni minuti</strong>.</p>
+
+<p>Durante questa fase:</p>
+
+<ul>
+  <li>non rimuovere il DVD;</li>
+  <li>non chiudere SIDEXIS;</li>
+  <li>non spegnere il computer;</li>
+  <li>attendi il messaggio di conferma del programma.</li>
+</ul>
+
+<div class="nota">
+  <strong>Attendere la conferma</strong>
+  Estrai il DVD soltanto quando SIDEXIS segnala che la masterizzazione è stata completata correttamente.
+</div>
+
+
+<h2>9. Controllare il contenuto del DVD</h2>
+
+<p>Terminata la masterizzazione, è importante verificare che il DVD contenga tutti i file necessari.</p>
+
+<ol>
+  <li>
+    Apri il <strong>contenuto del DVD</strong>.
+  </li>
+
+  <li>
+    Verifica che siano presenti i file esportati da SIDEXIS.
+  </li>
+
+  <li>
+    Controlla la presenza dei <strong>dati DICOM</strong>.
+  </li>
+
+  <li>
+    Verifica la presenza del <strong>Viewer / visualizzatore</strong>.
+  </li>
+
+  <li>
+    Controlla la presenza degli eventuali file <strong>Autorun</strong> e di configurazione.
+  </li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Non modificare i file</strong>
+  Non eliminare, rinominare o spostare i singoli file presenti sul DVD. Il pacchetto generato da SIDEXIS deve rimanere integro.
+</div>
+
+
+<h2>10. Effettuare una prova di apertura</h2>
+
+<p>Quando possibile, prima della consegna effettua una <strong>prova di apertura della TAC</strong>.</p>
+
+<ol>
+  <li>
+    Apri il contenuto del DVD.
+  </li>
+
+  <li>
+    Individua il <strong>Viewer</strong> o l'eventuale file <strong>Autorun</strong>.
+  </li>
+
+  <li>
+    Avvia il visualizzatore.
+  </li>
+
+  <li>
+    Verifica che gli esami 3D selezionati vengano caricati correttamente.
+  </li>
+</ol>
+
+<div class="nota">
+  <strong>Se la TAC si apre correttamente</strong>
+  Il DVD è pronto per essere consegnato.
+</div>
+
+<div class="nota attenzione">
+  <strong>Se la TAC non si apre</strong>
+  Non consegnare il DVD. Ripeti la procedura verificando di aver selezionato correttamente gli esami e che siano stati inclusi <strong>dati DICOM, Viewer e file necessari alla visualizzazione</strong>.
+</div>
+
+
+<h2>11. Consegnare il DVD</h2>
+
+<p>Al momento della consegna, informa il paziente che il DVD contiene:</p>
+
+<ul>
+  <li>l'<strong>esame TAC</strong>;</li>
+  <li>i relativi <strong>dati DICOM</strong>;</li>
+  <li>il <strong>Viewer</strong> necessario per la visualizzazione;</li>
+  <li>gli eventuali file di configurazione generati da SIDEXIS.</li>
+</ul>
+
+<p>Per visualizzare correttamente l'esame, il paziente dovrà:</p>
+
+<ol>
+  <li>
+    Inserire il DVD nel computer.
+  </li>
+
+  <li>
+    Aprire il contenuto del disco.
+  </li>
+
+  <li>
+    Individuare il <strong>Viewer</strong> o l'eventuale file <strong>Autorun</strong>.
+  </li>
+
+  <li>
+    Avviare il visualizzatore.
+  </li>
+</ol>
+
+<div class="nota attenzione">
+  <strong>Importante</strong>
+  Il paziente deve utilizzare il <strong>Viewer presente sul DVD</strong> per consultare correttamente l'esame tridimensionale. Non deve modificare o spostare singolarmente i file DICOM.
+</div>
+
+
+<h2>12. Verifica finale</h2>
+
+<p>Prima di consegnare il DVD, controlla sempre:</p>
+
+<ul>
+  <li>che il DVD appartenga al <strong>paziente corretto</strong>;</li>
+  <li>che siano presenti <strong>tutte le TAC richieste</strong>;</li>
+  <li>che siano presenti i <strong>dati DICOM</strong>;</li>
+  <li>che sia presente il <strong>Viewer</strong>;</li>
+  <li>che la masterizzazione sia stata completata senza errori;</li>
+  <li>che, quando possibile, sia stata effettuata una <strong>prova di apertura</strong>.</li>
+</ul>
+
+<div class="nota">
+  <strong>Procedura conclusa</strong>
+  Se tutti i controlli sono corretti, il DVD può essere consegnato al paziente o al professionista destinatario.
+</div>
+
+`
+},
  
 
     {
