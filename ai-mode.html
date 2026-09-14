@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assistente AI - Supporto IT ADCO HUB</title>
+<meta name="description" content="Chiedi in linguaggio naturale all'assistente AI del supporto IT: risponde usando le guide della knowledge base.">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-pagina="ai-mode">
+
+<header class="intestazione">
+  <div class="contenitore intestazione-riga">
+    <a class="logo" href="index.html">
+      <img src="assets/img/adc-logo.png" alt="Logo ADC" class="logo-immagine">
+      <span class="logo-testo"><strong>Supporto IT</strong><span>ADCO HUB</span></span>
+    </a>
+    <form class="cerca cerca-compatta" role="search">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 2a8 8 0 1 0 4.9 14.3l5.4 5.4 1.4-1.4-5.4-5.4A8 8 0 0 0 10 2Zm0 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>
+      <input id="campo-ricerca" type="search" placeholder="Cerca una guida..." aria-label="Cerca nella knowledge base">
+    </form>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Apri il menu">&#9776;</button>
+    <nav class="nav" id="nav">
+      <a href="index.html">Home</a>
+      <a href="ricerca.html">Cerca</a>
+      <a data-voce="contatti" href="contatti.html">Contatti</a>
+      <a class="esci" href="/api/logout">Esci</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="contenitore">
+    <div class="ai-intestazione-riga">
+      <div>
+        <h1><span class="ai-scintilla">✦</span> Assistente AI</h1>
+        <p class="sottotitolo">Fai una domanda con parole tue: cerco nella knowledge base e ti rispondo. Le risposte si basano sulle guide interne.</p>
+      </div>
+      <a class="ai-torna" href="index.html">&larr; Torna alla ricerca classica</a>
+    </div>
+
+    <form class="cerca cerca-ai-pagina" id="modulo-ai" role="search">
+      <svg class="cerca-icona" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M10 2a8 8 0 1 0 4.9 14.3l5.4 5.4 1.4-1.4-5.4-5.4A8 8 0 0 0 10 2Zm0 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/>
+      </svg>
+      <input
+        id="campo-ai-pagina"
+        type="search"
+        placeholder="Chiedi qualcosa all'assistente IT..."
+        aria-label="Chiedi all'assistente AI"
+        autocomplete="off"
+        autofocus
+      >
+      <button type="submit" class="ai-invia" id="ai-invia" aria-label="Invia domanda">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3 4 11h5v10h6V11h5L12 3Z"/></svg>
+      </button>
+    </form>
+
+    <div class="hero-suggerimenti" id="ai-suggerimenti">
+      Prova a chiedere:
+      <a href="ai-mode.html?q=Come%20reimposto%20la%20password%3F">come reimposto la password?</a>
+      <a href="ai-mode.html?q=Il%20PC%20%C3%A8%20lento%2C%20cosa%20posso%20fare%3F">il PC è lento, cosa posso fare?</a>
+      <a href="ai-mode.html?q=Come%20richiedo%20l%27installazione%20di%20un%20software%3F">come richiedo un software?</a>
+    </div>
+  </div>
+</section>
+
+<main>
+  <section class="sezione">
+    <div class="contenitore">
+      <div class="ai-conversazione" id="conversazione-ai">
+        <div class="ai-vuoto" id="ai-vuoto">
+          <p>Scrivi una domanda qui sopra per iniziare la conversazione con l'assistente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="piede">
+  <div class="contenitore piede-riga">
+    <div>
+      <a href="index.html">Home</a><a href="ricerca.html">Cerca</a><a href="contatti.html">Contatti</a>
+    </div>
+    <div>Knowledge base &middot; ADCO HUB &copy; <span class="anno"></span></div>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  function $(sel, ctx) { return (ctx || document).querySelector(sel); }
+
+  function parametroQ() {
+    var m = /[?&]q=([^&]*)/.exec(window.location.search);
+    return m ? decodeURIComponent(m[1].replace(/\+/g, " ")) : "";
+  }
+
+  function escHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var form = $("#modulo-ai");
+    var campo = $("#campo-ai-pagina");
+    var invia = $("#ai-invia");
+    var conversazione = $("#conversazione-ai");
+    var vuoto = $("#ai-vuoto");
+    var suggerimenti = $("#ai-suggerimenti");
+
+    if (!form || !campo || !conversazione || !window.KBAiuto) return;
+
+    async function chiedi(messaggio) {
+      if (vuoto) vuoto.hidden = true;
+      if (suggerimenti) suggerimenti.hidden = true;
+
+      var turno = document.createElement("div");
+      turno.className = "ai-turno";
+      turno.innerHTML =
+        '<div class="ai-domanda">' + escHtml(messaggio) + "</div>" +
+        '<div class="risposta-ai risposta-ai-caricamento">Sto preparando la risposta...</div>';
+      conversazione.appendChild(turno);
+      turno.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      var box = turno.querySelector(".risposta-ai");
+      invia.disabled = true;
+      campo.disabled = true;
+
+      try {
+        var testo = await window.KBAiuto.chiediAI(messaggio);
+        box.className = "risposta-ai";
+        box.textContent = testo || "Non ho ricevuto una risposta dall'assistente.";
+      } catch (errore) {
+        box.className = "risposta-ai risposta-ai-errore";
+        box.textContent = "Non riesco a contattare l'assistente AI. Riprova tra poco.";
+      } finally {
+        invia.disabled = false;
+        campo.disabled = false;
+        campo.focus();
+      }
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var messaggio = campo.value.trim();
+      if (!messaggio) return;
+      campo.value = "";
+      chiedi(messaggio);
+    });
+
+    var iniziale = parametroQ();
+    if (iniziale) chiedi(iniziale);
+  });
+})();
+</script>
+</body>
+</html>
