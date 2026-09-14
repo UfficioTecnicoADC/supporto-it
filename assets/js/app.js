@@ -312,15 +312,82 @@
 
    /* ---------- Assistente AI ---------- */
 
+/*
+ * AI Mode non invia tutta la knowledge base a ogni richiesta.
+ * Seleziona prima, nel browser, le guide piu pertinenti e manda
+ * all'endpoint /api/chat solo gli estratti utili.
+ */
+var PAROLE_COMUNI_AI = {
+  a: true, ad: true, al: true, alla: true, alle: true, allo: true, ai: true, agli: true,
+  che: true, chi: true, come: true, con: true, cosa: true, da: true, dal: true, dalla: true,
+  dei: true, del: true, della: true, delle: true, di: true, e: true, ed: true, gli: true,
+  ha: true, hai: true, ho: true, i: true, il: true, in: true, io: true, la: true, le: true,
+  lo: true, ma: true, mi: true, nel: true, nella: true, non: true, o: true, per: true,
+  pero: true, piu: true, quale: true, quando: true, se: true, si: true, sono: true, su: true,
+  sul: true, sulla: true, un: true, una: true, uno: true, vorrei: true
+};
+
+function terminiPerAI(messaggio) {
+  var termini = normalizza(messaggio)
+    .split(" ")
+    .filter(function (x) {
+      return x.length > 1 && !PAROLE_COMUNI_AI[x];
+    });
+
+  /* Evita duplicati mantenendo l'ordine originale. */
+  return termini.filter(function (x, i) {
+    return termini.indexOf(x) === i;
+  });
+}
+
+function testoArticoloPerAI(html) {
+  var contenitore = document.createElement("div");
+  contenitore.innerHTML = String(html || "");
+  return (contenitore.textContent || contenitore.innerText || "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function trovaGuidePerAI(messaggio) {
+  var termini = terminiPerAI(messaggio);
+
+  if (!termini.length) return [];
+
+  return KB.articoli
+    .map(function (a) {
+      return { articolo: a, punti: punteggio(a, termini) };
+    })
+    .filter(function (r) { return r.punti > 0; })
+    .sort(function (a, b) {
+      return b.punti - a.punti || perData(a.articolo, b.articolo);
+    })
+    .slice(0, 3)
+    .map(function (r) {
+      var a = r.articolo;
+      var cat = categoria(a.categoria);
+
+      return {
+        id: a.id,
+        titolo: a.titolo,
+        categoria: cat ? cat.nome : a.categoria,
+        sommario: a.sommario,
+        contenuto: testoArticoloPerAI(a.corpo).slice(0, 5000)
+      };
+    });
+}
+
 async function chiediAI(messaggio) {
   try {
+    var guide = trovaGuidePerAI(messaggio);
+
     var risposta = await fetch("/api/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        message: messaggio
+        message: messaggio,
+        articles: guide
       })
     });
 
