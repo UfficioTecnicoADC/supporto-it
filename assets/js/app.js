@@ -433,11 +433,9 @@ function inizializzaAIMode() {
       toggle.addEventListener("click", function () { nav.classList.toggle("aperto"); });
     }
 
-    /* Form di ricerca presenti nella pagina */
+    /* Form di ricerca presenti nella pagina (il modulo di ai-mode.html
+       usa una classe diversa e gestisce da sé il proprio invio) */
     $$("form.cerca").forEach(function (form) {
-
-  /* Il modulo della pagina ai-mode.html gestisce da sé il proprio invio */
-  if (form.id === "modulo-ai") return;
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
