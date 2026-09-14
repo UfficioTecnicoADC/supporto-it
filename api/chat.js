@@ -77,7 +77,40 @@ REGOLE IMPORTANTI:
       });
     }
 
-    const answer = data.output_text;
+    // Con una chiamata REST diretta, il testo e contenuto dentro data.output.
+    // Alcuni SDK ufficiali espongono anche output_text come scorciatoia,
+    // ma non possiamo fare affidamento su quella proprieta nel JSON grezzo.
+    function estraiTestoRisposta(payload) {
+      if (typeof payload?.output_text === "string" && payload.output_text.trim()) {
+        return payload.output_text.trim();
+      }
+
+      if (!Array.isArray(payload?.output)) return "";
+
+      const parti = [];
+
+      for (const item of payload.output) {
+        if (item?.type !== "message" || !Array.isArray(item.content)) continue;
+
+        for (const contenuto of item.content) {
+          if (contenuto?.type === "output_text" && typeof contenuto.text === "string") {
+            const testo = contenuto.text.trim();
+            if (testo) parti.push(testo);
+          }
+        }
+      }
+
+      return parti.join("\n\n");
+    }
+
+    const answer = estraiTestoRisposta(data);
+
+    if (!answer) {
+      console.error("OpenAI ha risposto senza testo utilizzabile:", data);
+      return res.status(502).json({
+        error: "OpenAI non ha restituito una risposta testuale",
+      });
+    }
 
     return res.status(200).json({
       answer,
