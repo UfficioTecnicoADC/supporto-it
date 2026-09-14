@@ -1349,37 +1349,6 @@ const KB = {
 `
     },
 
-    {
-      id: "stampa-sicura-badge",
-      titolo: "Stampa sicura con badge",
-      categoria: "stampa",
-      tag: ["badge", "stampa sicura", "riservatezza", "follow me", "rilascio"],
-      aggiornato: "2026-08-28",
-      minuti: 2,
-      sommario: "I documenti restano in attesa finché non passi il badge sulla stampante: come funziona e perché.",
-      corpo: `
-<p>Con la stampa sicura il documento non esce subito: resta in coda sul server e viene rilasciato solo quando ti presenti fisicamente alla macchina. Evita che documenti riservati restino incustoditi nel vassoio.</p>
-
-<h2>Come stampare</h2>
-<ol>
-  <li>Stampa normalmente scegliendo la coda <strong>Stampa sicura</strong>.</li>
-  <li>Recati a una qualsiasi multifunzione aziendale.</li>
-  <li>Appoggia il badge sul lettore.</li>
-  <li>Seleziona i documenti da rilasciare e conferma.</li>
-</ol>
-
-<div class="nota">
-  <strong>I lavori scadono dopo 24 ore</strong>
-  I documenti non rilasciati vengono eliminati automaticamente. Se hai stampato ieri e oggi non trovi nulla, rinvia la stampa.
-</div>
-
-<h2>Prima registrazione del badge</h2>
-<p>Al primo utilizzo la macchina chiede di associare il badge all'account: inserisci le credenziali aziendali una sola volta, l'associazione resta memorizzata.</p>
-
-<h2>Badge non riconosciuto</h2>
-<p>Puoi comunque accedere digitando il codice utente sul pannello. Se il problema si ripete, apri un ticket: il badge potrebbe essere smagnetizzato e va sostituito.</p>
-`
-    },
 
     /* ---------------- SOFTWARE E LICENZE ---------------- */
 
