@@ -57,7 +57,7 @@ const KB = {
       id: "stampa",
       nome: "Stampa e scansione",
       icona: "stampante",
-      descrizione: "Stampanti di rete, stampa sicura con badge, scansioni e toner."
+      descrizione: "Stampanti di rete, stampa, scansioni e toner."
     },
     {
       id: "software",
@@ -1044,7 +1044,7 @@ const KB = {
       tag: ["furto", "smarrimento", "portatile", "telefono", "emergenza", "blocco"],
       aggiornato: "2026-08-28",
       minuti: 3,
-      sommario: "Cosa fare nelle prime ore dopo la perdita di un portatile, telefono o badge aziendale.",
+      sommario: "Cosa fare nelle prime ore dopo la perdita di un portatile, telefono o altro.",
       corpo: `
 <div class="nota critico">
   <strong>Segnala entro un'ora</strong>
