@@ -1063,7 +1063,6 @@ const KB = {
 <ul>
   <li>Revoca le sessioni attive e i token di accesso dell'account.</li>
   <li>Avvia la cancellazione remota dei dati aziendali sul dispositivo, che scatta al primo collegamento a Internet.</li>
-  <li>Blocca il badge di accesso agli uffici, se coinvolto.</li>
   <li>Prepara la sostituzione del dispositivo.</li>
 </ul>
 
