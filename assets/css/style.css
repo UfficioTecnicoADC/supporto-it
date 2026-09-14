@@ -677,3 +677,78 @@ body.pagina-accesso {
     padding-right: 58px !important;
   }
 }
+
+/* ---------- Pagina dedicata Assistente AI ---------- */
+
+.ai-intestazione-riga {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.ai-torna {
+  color: rgba(255, 255, 255, .85);
+  font-size: .88rem;
+  white-space: nowrap;
+  padding: 9px 0;
+}
+.ai-torna:hover { color: #fff; }
+
+.cerca-ai-pagina { max-width: 720px; }
+.cerca-ai-pagina input { padding-right: 54px !important; border-radius: 26px !important; }
+
+.ai-invia {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: var(--blu-600);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background .15s;
+}
+.ai-invia:hover { background: var(--blu-700); }
+.ai-invia:disabled { opacity: .6; cursor: default; }
+.ai-invia svg { width: 16px; height: 16px; }
+
+.ai-conversazione {
+  max-width: 760px;
+  margin: 0 auto;
+  display: grid;
+  gap: 22px;
+}
+
+.ai-vuoto {
+  text-align: center;
+  color: var(--testo-tenue);
+  padding: 30px 12px;
+  font-size: .95rem;
+}
+
+.ai-turno { display: grid; gap: 10px; }
+
+.ai-domanda {
+  justify-self: end;
+  max-width: 82%;
+  background: var(--blu-600);
+  color: #fff;
+  padding: 11px 16px;
+  border-radius: 16px 16px 4px 16px;
+  font-size: .95rem;
+}
+
+.ai-turno .risposta-ai { max-width: none; margin-top: 0; }
+
+@media (max-width: 720px) {
+  .ai-torna { order: 2; }
+  .ai-domanda { max-width: 92%; }
+}
