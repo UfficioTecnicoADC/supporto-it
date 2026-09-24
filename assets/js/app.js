@@ -1853,77 +1853,232 @@
 
   /* ---------- Chiamata API OpenAI ---------- */
 
-  async function chiediAI(
-    messaggio
-  ) {
+/* ---------- Memoria conversazione per AI Mode ---------- */
 
-    try {
+function messaggioSembraFollowUpAI(messaggio) {
+  var testo = normalizza(messaggio);
+  var termini = terminiPerAI(messaggio);
 
-      /*
-       * Prima cerchiamo localmente
-       * le guide pertinenti.
-       */
+  var riferimenti = [
+    "questo",
+    "questa",
+    "quello",
+    "quella",
+    "primo",
+    "secondo",
+    "terzo",
+    "punto",
+    "entrambi",
+    "stesso",
+    "stessa",
+    "ancora",
+    "gia",
+    "fatto",
+    "provato",
+    "continua",
+    "adesso",
+    "poi"
+  ];
 
-      var guide =
-        trovaGuidePerAI(
-          messaggio
-        );
+  var haRiferimento = riferimenti.some(function (parola) {
+    return testo.split(" ").indexOf(parola) !== -1;
+  });
 
-      /*
-       * Poi inviamo domanda + guide
-       * al nostro endpoint Vercel.
-       */
+  /*
+   * Messaggi molto brevi come:
+   *
+   * "non funziona"
+   * "e adesso?"
+   *
+   * vengono interpretati come continuazione
+   * della conversazione precedente.
+   */
+  return haRiferimento || termini.length <= 2;
+}
 
-      var risposta =
-        await fetch(
-          "/api/chat",
-          {
-            method: "POST",
 
-            headers: {
-              "Content-Type":
-                "application/json"
-            },
+function testoRicercaConCronologiaAI(messaggio, storico) {
 
-            body:
-              JSON.stringify({
-                message:
-                  messaggio,
+  if (!Array.isArray(storico) || !storico.length) {
+    return messaggio;
+  }
 
-                articles:
-                  guide
-              })
-          }
-        );
+  /*
+   * Se la nuova domanda è autonoma,
+   * non mischiamo il vecchio argomento
+   * nella ricerca delle guide.
+   */
+  if (!messaggioSembraFollowUpAI(messaggio)) {
+    return messaggio;
+  }
 
-      var dati =
-        await risposta.json();
+  /*
+   * Prendiamo solamente le ultime 2
+   * domande dell'utente.
+   */
+  var domandePrecedenti = storico
+    .filter(function (m) {
+      return (
+        m &&
+        m.role === "user" &&
+        typeof m.content === "string"
+      );
+    })
+    .slice(-2)
+    .map(function (m) {
+      return m.content.trim();
+    })
+    .filter(Boolean);
 
-      if (!risposta.ok) {
+  return domandePrecedenti
+    .concat([messaggio])
+    .join(" ");
+}
 
-        console.error(
-          "Errore API:",
-          dati
-        );
 
-        throw new Error(
-          dati.error ||
-          "Errore durante la richiesta"
-        );
-      }
+/* ---------- Chiamata API OpenAI ---------- */
 
-      return dati.answer;
+async function chiediAI(messaggio, storico) {
 
-    } catch (errore) {
+  try {
 
-      console.error(
-        "Errore Assistente AI:",
-        errore
+    /*
+     * Ripuliamo e limitiamo
+     * la cronologia ricevuta da ai-mode.html.
+     */
+    var cronologia = Array.isArray(storico)
+      ? storico
+
+          .filter(function (m) {
+            return (
+              m &&
+              (
+                m.role === "user" ||
+                m.role === "assistant"
+              ) &&
+              typeof m.content === "string" &&
+              m.content.trim()
+            );
+          })
+
+          .slice(-10)
+
+          .map(function (m) {
+            return {
+              role: m.role,
+              content: m.content
+                .trim()
+                .slice(0, 4000)
+            };
+          })
+
+      : [];
+
+
+    /*
+     * Se la domanda è un follow-up,
+     * usiamo anche le ultime domande
+     * per trovare la guida corretta.
+     *
+     * Esempio:
+     *
+     * Prima:
+     * "NNT non comunica con il panoramico"
+     *
+     * Dopo:
+     * "Ho già fatto il primo punto"
+     *
+     * La ricerca diventa concettualmente:
+     *
+     * "NNT non comunica con il panoramico
+     *  Ho già fatto il primo punto"
+     */
+
+    var testoRicerca =
+      testoRicercaConCronologiaAI(
+        messaggio,
+        cronologia
       );
 
-      throw errore;
+
+    /*
+     * Utilizziamo il motore AI
+     * migliorato che abbiamo
+     * aggiunto precedentemente.
+     */
+
+    var guide =
+      trovaGuidePerAI(
+        testoRicerca
+      );
+
+
+    /*
+     * Inviamo:
+     *
+     * - nuova domanda
+     * - cronologia
+     * - guide pertinenti
+     *
+     * al server Vercel.
+     */
+
+    var risposta =
+      await fetch(
+        "/api/chat",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+              message:
+                messaggio,
+
+              history:
+                cronologia,
+
+              articles:
+                guide
+            })
+        }
+      );
+
+
+    var dati =
+      await risposta.json();
+
+
+    if (!risposta.ok) {
+
+      console.error(
+        "Errore API:",
+        dati
+      );
+
+      throw new Error(
+        dati.error ||
+        "Errore durante la richiesta"
+      );
     }
+
+
+    return dati.answer;
+
+  } catch (errore) {
+
+    console.error(
+      "Errore Assistente AI:",
+      errore
+    );
+
+    throw errore;
   }
+}
 
   /* ---------- AI Mode home ---------- */
 
