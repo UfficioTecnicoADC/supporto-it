@@ -81,5 +81,885 @@
 
 <script src="assets/js/data.js"></script>
 <script src="assets/js/app.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  function $(sel, ctx) {
+    return (ctx || document).querySelector(sel);
+  }
+
+
+  function parametroQ() {
+    var m =
+      /[?&]q=([^&]*)/.exec(
+        window.location.search
+      );
+
+    return m
+      ? decodeURIComponent(
+          m[1].replace(/\+/g, " ")
+        )
+      : "";
+  }
+
+
+  function escHtml(s) {
+
+    return String(s).replace(
+      /[&<>"']/g,
+      function (c) {
+
+        return {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+        }[c];
+
+      }
+    );
+
+  }
+
+
+  /*
+   * Formattazione minima:
+   *
+   * **grassetto**
+   *
+   * + paragrafi
+   *
+   * senza consentire HTML arbitrario.
+   */
+
+  function formattaRisposta(testo) {
+
+    var sicuro =
+      escHtml(testo).replace(
+        /\*\*(.+?)\*\*/g,
+        "<strong>$1</strong>"
+      );
+
+    return sicuro
+
+      .split(/\n{2,}/)
+
+      .map(function (blocco) {
+
+        return (
+          "<p>" +
+          blocco.replace(
+            /\n/g,
+            "<br>"
+          ) +
+          "</p>"
+        );
+
+      })
+
+      .join("");
+
+  }
+
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+      var form =
+        $("#modulo-ai");
+
+      var campo =
+        $("#campo-ai-pagina");
+
+      var invia =
+        $("#ai-invia");
+
+      var vuoto =
+        $("#ai-vuoto");
+
+      var conversazione =
+        $("#conversazione-ai");
+
+      var suggerimenti =
+        $("#ai-suggerimenti");
+
+      var composerFissa =
+        $("#ai-composer-fissa");
+
+      var composerFissaInterno =
+        composerFissa
+          ? $(
+              ".ai-composer-fissa-interno",
+              composerFissa
+            )
+          : null;
+
+
+      if (
+        !form ||
+        !campo ||
+        !conversazione ||
+        !composerFissa ||
+        !window.KBAiuto
+      ) {
+        return;
+      }
+
+
+      /*
+       * ========================================================
+       * MEMORIA CONVERSAZIONE
+       * ========================================================
+       */
+
+      var CHIAVE_MEMORIA =
+        "adco_helpo_conversazione_v1";
+
+      /*
+       * 10 messaggi:
+       *
+       * 5 domande utente
+       * +
+       * 5 risposte Helpo
+       */
+
+      var MAX_MESSAGGI = 10;
+
+      var inConversazione = false;
+
+      var cronologia =
+        caricaCronologia();
+
+
+      /*
+       * Recupera la conversazione
+       * dal browser.
+       *
+       * sessionStorage dura finché
+       * rimane aperta la scheda.
+       */
+
+      function caricaCronologia() {
+
+        try {
+
+          var salvata =
+            JSON.parse(
+              sessionStorage.getItem(
+                CHIAVE_MEMORIA
+              ) || "[]"
+            );
+
+
+          if (!Array.isArray(salvata)) {
+            return [];
+          }
+
+
+          return salvata
+
+            .filter(function (m) {
+
+              return (
+                m &&
+
+                (
+                  m.role === "user" ||
+                  m.role === "assistant"
+                ) &&
+
+                typeof m.content ===
+                  "string" &&
+
+                m.content.trim()
+              );
+
+            })
+
+            .map(function (m) {
+
+              return {
+                role:
+                  m.role,
+
+                content:
+                  m.content
+                    .trim()
+                    .slice(0, 4000)
+              };
+
+            })
+
+            .slice(
+              -MAX_MESSAGGI
+            );
+
+
+        } catch (e) {
+
+          return [];
+
+        }
+
+      }
+
+
+      /*
+       * Salva la conversazione.
+       */
+
+      function salvaCronologia() {
+
+        try {
+
+          sessionStorage.setItem(
+
+            CHIAVE_MEMORIA,
+
+            JSON.stringify(
+              cronologia.slice(
+                -MAX_MESSAGGI
+              )
+            )
+
+          );
+
+        } catch (e) {}
+
+      }
+
+
+      /*
+       * Aggiunge un messaggio
+       * alla memoria.
+       */
+
+      function aggiungiAllaCronologia(
+        role,
+        content
+      ) {
+
+        cronologia.push({
+          role:
+            role,
+
+          content:
+            String(content || "")
+              .trim()
+              .slice(0, 4000)
+        });
+
+
+        cronologia =
+          cronologia.slice(
+            -MAX_MESSAGGI
+          );
+
+
+        salvaCronologia();
+
+      }
+
+
+      /*
+       * Cancella la vecchia chat.
+       */
+
+      function nuovaConversazione() {
+
+        cronologia = [];
+
+        salvaCronologia();
+
+        conversazione.innerHTML =
+          "";
+
+      }
+
+
+      /*
+       * ========================================================
+       * INTERFACCIA CHAT
+       * ========================================================
+       */
+
+
+      function passaAllaConversazione() {
+
+        if (inConversazione) {
+          return;
+        }
+
+
+        inConversazione =
+          true;
+
+
+        vuoto.hidden =
+          true;
+
+
+        composerFissa.hidden =
+          false;
+
+
+        composerFissaInterno.appendChild(
+          form
+        );
+
+
+        campo.placeholder =
+          "Chiedi un'altra cosa...";
+
+      }
+
+
+      function copiaRisposta(
+        testo,
+        pulsante
+      ) {
+
+        if (
+          !navigator.clipboard
+        ) {
+          return;
+        }
+
+
+        navigator.clipboard
+          .writeText(testo)
+
+          .then(function () {
+
+            var originale =
+              pulsante.getAttribute(
+                "aria-label"
+              );
+
+
+            pulsante.setAttribute(
+              "aria-label",
+              "Copiato"
+            );
+
+
+            setTimeout(
+              function () {
+
+                pulsante.setAttribute(
+                  "aria-label",
+                  originale
+                );
+
+              },
+              1500
+            );
+
+          })
+
+          .catch(
+            function () {}
+          );
+
+      }
+
+
+      /*
+       * Disclaimer e pulsante copia.
+       */
+
+      function aggiungiDettagliRisposta(
+        turno,
+        risposta
+      ) {
+
+        var disclaimer =
+          document.createElement(
+            "p"
+          );
+
+
+        disclaimer.className =
+          "ai-disclaimer";
+
+
+        disclaimer.innerHTML =
+          "Le risposte dell'assistente possono contenere imprecisioni: " +
+          "per i casi importanti verifica con il " +
+          '<a href="contatti.html">supporto IT</a>.';
+
+
+        turno.appendChild(
+          disclaimer
+        );
+
+
+        var azioni =
+          document.createElement(
+            "div"
+          );
+
+
+        azioni.className =
+          "ai-risposta-azioni";
+
+
+        azioni.innerHTML =
+
+          '<button type="button" ' +
+          'class="ai-azione" ' +
+          'aria-label="Copia risposta">' +
+
+          '<svg viewBox="0 0 24 24" ' +
+          'fill="currentColor" ' +
+          'aria-hidden="true">' +
+
+          '<path d="' +
+          'M8 3h9a2 2 0 0 1 2 2v12h-2V5H8V3Z' +
+          'm-3 4h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5' +
+          'a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Zm0 2v10h9V9H5Z' +
+          '"/>' +
+
+          "</svg>" +
+
+          "</button>";
+
+
+        turno.appendChild(
+          azioni
+        );
+
+
+        azioni
+          .querySelector(
+            ".ai-azione"
+          )
+          .addEventListener(
+            "click",
+            function (e) {
+
+              copiaRisposta(
+                risposta,
+                e.currentTarget
+              );
+
+            }
+          );
+
+      }
+
+
+      /*
+       * Crea graficamente
+       * un turno della conversazione.
+       */
+
+      function creaTurno(
+        messaggio,
+        risposta
+      ) {
+
+        var turno =
+          document.createElement(
+            "div"
+          );
+
+
+        turno.className =
+          "ai-turno";
+
+
+        turno.innerHTML =
+
+          '<div class="ai-domanda">' +
+          escHtml(messaggio) +
+          "</div>" +
+
+          '<div class="risposta-ai"></div>';
+
+
+        var box =
+          turno.querySelector(
+            ".risposta-ai"
+          );
+
+
+        /*
+         * Se abbiamo già la risposta
+         * significa che stiamo
+         * ripristinando una vecchia chat.
+         */
+
+        if (
+          typeof risposta ===
+          "string"
+        ) {
+
+          box.innerHTML =
+            formattaRisposta(
+              risposta
+            );
+
+
+          aggiungiDettagliRisposta(
+            turno,
+            risposta
+          );
+
+
+        } else {
+
+          box.className =
+            "risposta-ai " +
+            "risposta-ai-caricamento";
+
+
+          box.textContent =
+            "Sto preparando la risposta...";
+
+        }
+
+
+        conversazione.appendChild(
+          turno
+        );
+
+
+        return {
+          turno:
+            turno,
+
+          box:
+            box
+        };
+
+      }
+
+
+      /*
+       * ========================================================
+       * RIPRISTINO CHAT DOPO REFRESH
+       * ========================================================
+       */
+
+      function ripristinaCronologia() {
+
+        if (!cronologia.length) {
+          return;
+        }
+
+
+        passaAllaConversazione();
+
+
+        if (suggerimenti) {
+          suggerimenti.hidden =
+            true;
+        }
+
+
+        var domanda =
+          null;
+
+
+        cronologia.forEach(
+          function (messaggio) {
+
+            if (
+              messaggio.role ===
+              "user"
+            ) {
+
+              domanda =
+                messaggio.content;
+
+              return;
+
+            }
+
+
+            if (
+              messaggio.role ===
+                "assistant" &&
+              domanda
+            ) {
+
+              creaTurno(
+                domanda,
+                messaggio.content
+              );
+
+
+              domanda =
+                null;
+
+            }
+
+          }
+        );
+
+
+        window.scrollTo(
+          0,
+          document.body.scrollHeight
+        );
+
+      }
+
+
+      /*
+       * ========================================================
+       * INVIO DOMANDA
+       * ========================================================
+       */
+
+      async function chiedi(
+        messaggio
+      ) {
+
+        passaAllaConversazione();
+
+
+        if (suggerimenti) {
+          suggerimenti.hidden =
+            true;
+        }
+
+
+        /*
+         * Questa è la cronologia
+         * PRIMA della nuova domanda.
+         */
+
+        var storicoPrimaDellaDomanda =
+          cronologia.slice();
+
+
+        /*
+         * Mostriamo subito
+         * la domanda a schermo.
+         */
+
+        var elementi =
+          creaTurno(
+            messaggio,
+            null
+          );
+
+
+        var turno =
+          elementi.turno;
+
+
+        var box =
+          elementi.box;
+
+
+        turno.scrollIntoView({
+          behavior:
+            "smooth",
+
+          block:
+            "start"
+        });
+
+
+        invia.disabled =
+          true;
+
+
+        campo.disabled =
+          true;
+
+
+        try {
+
+          /*
+           * IMPORTANTE:
+           *
+           * adesso app.js riceve:
+           *
+           * 1. domanda corrente
+           * 2. cronologia precedente
+           */
+
+          var testo =
+            await window.KBAiuto
+              .chiediAI(
+
+                messaggio,
+
+                storicoPrimaDellaDomanda
+
+              );
+
+
+          var risposta =
+            testo ||
+            "Non ho ricevuto una risposta dall'assistente.";
+
+
+          box.className =
+            "risposta-ai";
+
+
+          box.innerHTML =
+            formattaRisposta(
+              risposta
+            );
+
+
+          aggiungiDettagliRisposta(
+            turno,
+            risposta
+          );
+
+
+          /*
+           * Salviamo nella memoria
+           * solamente dopo aver
+           * ricevuto correttamente
+           * la risposta.
+           */
+
+          aggiungiAllaCronologia(
+            "user",
+            messaggio
+          );
+
+
+          aggiungiAllaCronologia(
+            "assistant",
+            risposta
+          );
+
+
+        } catch (errore) {
+
+          box.className =
+            "risposta-ai " +
+            "risposta-ai-errore";
+
+
+          box.textContent =
+            "Non riesco a contattare l'assistente AI. " +
+            "Riprova tra poco.";
+
+        } finally {
+
+          invia.disabled =
+            false;
+
+
+          campo.disabled =
+            false;
+
+
+          campo.focus();
+
+        }
+
+      }
+
+
+      /*
+       * Invio tramite il form.
+       */
+
+      form.addEventListener(
+        "submit",
+        function (e) {
+
+          e.preventDefault();
+
+
+          var messaggio =
+            campo.value.trim();
+
+
+          if (!messaggio) {
+            return;
+          }
+
+
+          campo.value =
+            "";
+
+
+          chiedi(
+            messaggio
+          );
+
+        }
+      );
+
+
+      /*
+       * ========================================================
+       * APERTURA PAGINA
+       * ========================================================
+       */
+
+      var iniziale =
+        parametroQ();
+
+
+      if (iniziale) {
+
+        /*
+         * Una domanda ricevuta dalla home
+         * viene considerata l'inizio
+         * di una nuova conversazione.
+         */
+
+        nuovaConversazione();
+
+
+        /*
+         * Togliamo ?q= dall'URL.
+         *
+         * Così facendo F5 non invierà
+         * nuovamente la stessa domanda.
+         */
+
+        if (
+          window.history &&
+          window.history.replaceState
+        ) {
+
+          window.history.replaceState(
+            null,
+            "",
+            "ai-mode.html"
+          );
+
+        }
+
+
+        chiedi(
+          iniziale
+        );
+
+
+      } else {
+
+        /*
+         * Se invece aggiorniamo la pagina
+         * durante una conversazione,
+         * ripristiniamo la chat.
+         */
+
+        ripristinaCronologia();
+
+      }
+
+    }
+  );
+
+})();
+</script>
 </body>
 </html>
