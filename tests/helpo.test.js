@@ -72,6 +72,10 @@ test('API usa fonti ufficiali, nasconde errori e gestisce risposte incomplete', 
     assert.equal(res.statusCode,200);
     assert.equal(res.headers['Cache-Control'],'no-store');
     assert.ok(!JSON.stringify(sent).includes('SEGRETO FALSO'));
+    // I contatti ufficiali arrivano sempre, anche se nessuna guida li contiene.
+    const { knowledgeBase } = await import('../lib/knowledge-base.js');
+    assert.ok(sent.instructions.includes(knowledgeBase.contatti.email.valore));
+    assert.ok(sent.instructions.includes(knowledgeBase.contatti.whatsapp.valore));
     // Argomento nuovo: arriva solo l'ultimo scambio, non tutto il vecchio problema.
     assert.ok(!JSON.stringify(sent.input).includes('NNT'));
     assert.deepEqual(sent.input.slice(0,-1),old.slice(2));
