@@ -19,6 +19,11 @@
 
 import { next } from '@vercel/functions';
 
+/* Runtime Node.js: il runtime "edge", predefinito per middleware.js,
+   è deprecato da Vercel. Il codice usa solo API disponibili in entrambi
+   (Request, Response, crypto.subtle, process.env). */
+export const config = { runtime: 'nodejs' };
+
 /* Risorse raggiungibili senza autenticazione: la pagina di accesso
    e ciò che le serve per mostrarsi correttamente. */
 const PUBBLICHE = new Set([
