@@ -143,7 +143,9 @@ test('middleware: API scaduta restituisce JSON 401; sessione valida passa', asyn
   const { readFileSync } = await import('node:fs');
   const { runInNewContext } = await import('node:vm');
   const { webcrypto, createHmac } = await import('node:crypto');
-  const source=readFileSync('middleware.js','utf8').replace("import { next } from '@vercel/functions';", 'const next = () => "PASS";').replace('export default async function middleware', 'async function middleware');
+  const source=readFileSync('middleware.js','utf8').replace("import { next } from '@vercel/functions';", 'const next = () => "PASS";').replace('export const config', 'const config').replace('export default async function middleware', 'async function middleware');
+  // Vercel ha deprecato il runtime edge: il middleware deve dichiarare Node.js.
+  assert.match(source, /const config = \{ runtime: 'nodejs' \}/);
   const middleware=runInNewContext(source+';middleware', {URL,Response,TextEncoder,crypto:webcrypto,process:{env:{SITO_PASSWORD:'test',SITO_SEGRETO:'test-secret'}}});
   const expired=await middleware(new Request('https://example.test/api/chat'));
   assert.equal(expired.status,401);assert.equal((await expired.json()).code,'SESSION_EXPIRED');
