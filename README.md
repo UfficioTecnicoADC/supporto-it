@@ -130,7 +130,7 @@ Aggiorna anche `KB.aggiornamento` in cima al file: è la data mostrata nel piè 
 
 ## Nota sui contenuti
 
-Le 30 guide sono state scritte come base di partenza realistica per un ambiente
+Le 40 guide sono state scritte come base di partenza realistica per un ambiente
 Windows con Microsoft 365. Prima della pubblicazione vanno verificate rispetto
 alle procedure effettive dell'azienda: durata delle password, soglie di blocco
 account, tempi di consegna hardware, ciclo di vita dei dispositivi e livelli di
@@ -146,5 +146,53 @@ servizio sono valori plausibili ma da confermare.
   `middleware.js` e `api/` funzionano solo su Vercel; su un altro server il
   controllo di accesso va rifatto con gli strumenti di quel server.
 
-Le pagine non usano librerie esterne e non effettuano chiamate di rete oltre a
-quella di accesso: la consultazione delle guide funziona anche offline.
+La consultazione delle guide funziona anche offline. Login e Helpo richiedono il server; Helpo invia domanda, cronologia pertinente e guide selezionate a OpenAI.
+
+
+## Helpo: revisione per il lancio
+
+La ricerca classica resta nel browser. La ricerca AI è ora sul server:
+
+- `lib/knowledge-base.js`: adapter che carica il file fidato `assets/js/data.js` del repository. Nessun contenuto inviato dall'utente viene eseguito. L'adapter potrà essere sostituito con un database.
+- `lib/retrieval.js`: indice lessicale, sinonimi, punteggi con peso maggiore ai termini meno frequenti, riconoscimento del contesto attivo e selezione delle guide ufficiali.
+- `api/chat.js`: validazione, istruzioni di primo livello, richiesta OpenAI e gestione errori. Ignora `articles` inviati dal browser.
+- `assets/js/chat.js`: conversazione, fonti cliccabili, nuova chat e memoria temporanea.
+- `vercel.json`: include l'archivio nella funzione e imposta una durata massima di 30 secondi, con timeout applicativo di 25 secondi.
+
+Variabili aggiuntive: `OPENAI_API_KEY` obbligatoria per le risposte generate; `OPENAI_MODEL` facoltativa. Il valore predefinito rimane quello del progetto originale (`gpt-5.6-luna`): verificarne l'accessibilità sull'account prima del rilascio.
+
+Le guide attuali sono fornite complete (fino a 14.000 caratteri per guida, massimo tre guide). Per documenti più lunghi vengono selezionate sezioni intere con indicazione di estratto; sezioni monolitiche oltre limite richiedono la consultazione della guida. Le immagini non vengono inviate al modello. Le fonti mostrate sono le guide fornite come contesto, non una certificazione delle singole affermazioni.
+
+La domanda è limitata a 4.000 caratteri, la cronologia a dieci messaggi di 4.000 caratteri, l'output del modello a 2.500 token. Il limite di output include gli eventuali token di ragionamento: una risposta incompleta viene segnalata come errore, non mostrata come procedura completa. La chat non esegue azioni sui dispositivi e non apre ticket.
+
+La cronologia v2 conserva anche i riferimenti alle guide. “Nuova conversazione”, il logout dall'interfaccia e il riconoscimento della sessione scaduta la cancellano. Resta memoria locale della scheda, non una sessione utente individuale. Le guide restano accessibili nel repository pubblico.
+
+### Verifiche automatiche
+
+Dalla radice del repository, con Node.js moderno:
+
+```sh
+npm test
+```
+
+I test verificano recupero delle guide, cambi di argomento, follow-up, ambiguità, cronologia, validazione, fonti ufficiali ed errori API. Le chiamate al fornitore sono simulate: i test non consumano API e non attestano la qualità delle risposte generate o la configurazione Vercel.
+
+### Percorso di rilascio entro due settimane
+
+1. **Prima settimana:** pubblicare una preview del branch; verificare variabili, modello, inclusione dell'archivio e login; far approvare dall'IT le procedure da rendere disponibili al lancio. Le guide attuali sono di prova e non diventano procedure approvate con questa modifica.
+2. **Seconda settimana:** prova con un piccolo gruppo di colleghi e domande reali; verificare correttezza dei passaggi, domande di chiarimento, cambi di argomento, collegamenti e passaggio al supporto. Correggere gli errori prima della pubblicazione.
+
+Gate di lancio: login valido/scaduto; chiamata AI reale; nessuna procedura inventata nei casi provati; guide approvate; comportamento su desktop e telefono; timeout/errori leggibili; consumi osservati e limiti di utilizzo configurati sulla piattaforma. Non è implementato un rate limiter distribuito nel codice: il limite del modello per risposta non è un tetto alla spesa complessiva.
+
+Rollback: ripristinare il commit precedente sul deployment. Le modifiche non migrano database e non alterano le guide. La ricerca resta lessicale e richiede valutazione su nuove guide e domande reali; embeddings, account e database sono evoluzioni successive, non inclusi in questa revisione.
+
+Riferimenti tecnici per il packaging e i limiti: https://vercel.com/kb/guide/how-can-i-use-files-in-serverless-functions e https://developers.openai.com/api/docs/guides/token-counting.
+
+
+### Esito della verifica locale di questa revisione
+
+- Sette gruppi di test automatici superati (`npm test`), inclusi controllo middleware e sessioni.
+- Tutte le 40 guide recuperate cercando il rispettivo titolo (controllo di completezza, non una misura della qualità sulle domande reali).
+- Flussi della chat verificati con DOM simulato: invio, fonti, memoria, nuova chat, sessione scaduta, recupero domanda fallita e pulizia al logout.
+- Rendering grafico non verificato: browser di test non disponibile nell'ambiente.
+- OpenAI reale e deployment Vercel non verificati. La revisione non è stata pubblicata.

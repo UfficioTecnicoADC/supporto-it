@@ -96,6 +96,13 @@ export default async function middleware(request) {
   const valido = await sessioneValida(leggiCookie(request.headers.get('cookie'), COOKIE), segreto);
   if (valido) return next();
 
+  if (percorso.startsWith('/api/')) {
+    return new Response(JSON.stringify({ error: 'Sessione scaduta.', code: 'SESSION_EXPIRED' }), {
+      status: 401,
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }
+    });
+  }
+
   const destinazione = new URL('/login.html', url.origin);
   if (percorso !== '/' && percorso !== '/index.html') {
     destinazione.searchParams.set('da', percorso + url.search);
