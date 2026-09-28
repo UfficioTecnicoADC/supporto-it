@@ -200,6 +200,92 @@
     );
   }
 
+  /* ---------- Contatti (dati in KB.contatti) ---------- */
+
+  function soloCifre(numero) {
+    return String(numero).replace(/[^\d]/g, "");
+  }
+
+  function linkEmail(c) {
+    return (
+      '<a href="mailto:' + esc(c.email.valore) +
+      '?subject=Richiesta%20assistenza%20IT&body=Ciao%2C%20avrei%20bisogno%20di%20assistenza.">' +
+      esc(c.email.valore) + "</a>"
+    );
+  }
+
+  function linkTelefono(numero) {
+    return '<a href="tel:+' + soloCifre(numero) + '">' + esc(numero) + "</a>";
+  }
+
+  function linkWhatsapp(c) {
+    return (
+      '<a href="https://wa.me/' + soloCifre(c.whatsapp.valore) +
+      '?text=Ciao%2C%20avrei%20bisogno%20di%20assistenza%20IT." target="_blank" rel="noopener noreferrer">' +
+      esc(c.whatsapp.valore) + "</a>"
+    );
+  }
+
+  function renderContatti() {
+    var c = KB.contatti;
+    var canali = $("#canali-contatto");
+    var orari = $("#orari-contatto");
+
+    if (canali) {
+      canali.innerHTML =
+        '<div class="scheda"><h3>Email</h3>' +
+        "<p>" + esc(c.email.uso) + "</p>" +
+        '<p class="dato">' + linkEmail(c) + "</p></div>" +
+
+        '<div class="scheda"><h3>Telefono</h3>' +
+        "<p>" + esc(c.telefono.uso) + "</p>" +
+        '<p class="dato">interno ' + esc(c.telefono.interno) + "</p>" +
+        '<p style="font-size:.86rem">Dall\'esterno: ' + linkTelefono(c.telefono.esterno) + "</p></div>" +
+
+        '<div class="scheda"><h3>Chat WhatsApp</h3>' +
+        "<p>" + esc(c.whatsapp.uso) + "</p>" +
+        '<p class="dato">Numero: ' + linkWhatsapp(c) + "</p></div>";
+    }
+
+    if (orari) {
+      orari.innerHTML =
+        "<tr><th>Servizio</th><th>Copertura</th></tr>" +
+        c.orari.map(function (o) {
+          return "<tr><td>" + esc(o.servizio) + "</td><td>" + esc(o.copertura) + "</td></tr>";
+        }).join("");
+    }
+  }
+
+  /* Chi cerca "telefono supporto" o "orari" vuole i recapiti, che non sono una guida. */
+  var PAROLE_CONTATTI = ["contatti", "contatto", "contattare", "recapiti", "recapito", "telefono", "telefonare",
+    "chiamare", "numero", "whatsapp", "orari", "orario", "reperibilita"];
+
+  function cercaContatti(termini) {
+    var supporto = termini.some(function (t) {
+      return ["supporto", "assistenza", "it", "ufficio", "tecnico"].indexOf(t) !== -1;
+    });
+
+    return termini.some(function (t) {
+      return PAROLE_CONTATTI.indexOf(t) !== -1 ||
+        (supporto && (t === "email" || t === "mail"));
+    });
+  }
+
+  function riquadroContatti() {
+    var c = KB.contatti;
+
+    return (
+      '<div class="nota" style="margin-bottom:22px">' +
+      "<strong>Contatti del supporto IT</strong>" +
+      "Email: " + linkEmail(c) +
+      " &middot; Telefono: interno " + esc(c.telefono.interno) +
+      ", dall'esterno " + linkTelefono(c.telefono.esterno) +
+      " &middot; WhatsApp: " + linkWhatsapp(c) +
+      '<br><a href="contatti.html">Orari, priorità e cosa indicare nella richiesta &rarr;</a>' +
+      "</div>"
+    );
+  }
+
   /* ---------- Pagina: home ---------- */
 
   function renderHome() {
@@ -721,6 +807,21 @@
           return r.a;
         });
 
+    var contatti =
+      cercaContatti(termini)
+        ? riquadroContatti()
+        : "";
+
+    if (!risultati.length && contatti) {
+      contenuto.innerHTML =
+        "<h1>Risultati per &laquo;" +
+        esc(q) +
+        "&raquo;</h1>" +
+        contatti;
+
+      return;
+    }
+
     if (!risultati.length) {
       contenuto.innerHTML =
         "<h1>Nessun risultato per &laquo;" +
@@ -767,6 +868,8 @@
 
       "</div>" +
       "</div>" +
+
+      contatti +
 
       '<div class="elenco-articoli">' +
 
@@ -1041,6 +1144,8 @@
       } else if (
         pagina === "contatti"
       ) {
+
+        renderContatti();
 
         renderLateraleCategorie(
           null
