@@ -4,6 +4,7 @@ import { retrieve, cleanHistory, htmlToText } from '../lib/retrieval.js';
 import handler from '../api/chat.js';
 
 const user = content => ({ role: 'user', content });
+const assistant = content => ({ role: 'assistant', content });
 const ids = (q, history = []) => retrieve(q, history).guides.map(g => g.id);
 
 test('recupera procedure specifiche e scarta documenti secondari non pertinenti', () => {
@@ -28,6 +29,17 @@ test('cambio argomento breve e continuazioni multiple', () => {
   assert.equal(result.historyStart, 1);
   assert.match(result.guides[0].titolo, /Teams/);
   assert.match(retrieve('NNT', [user('Come esporto una TAC?')]).query, /TAC/);
+});
+test('la replica a una domanda di Helpo resta nello stesso argomento', () => {
+  const printer = [user('La stampante non stampa'), assistant('Controlla il display della macchina.\n\nLa stampante è accesa? Che cosa compare sul display?')];
+  const reply = retrieve('sì è accesa, la spia lampeggia arancione', printer);
+  assert.equal(reply.followUp, true);
+  assert.ok(reply.guides.some(g => g.id === 'stampante-non-stampa'));
+  // Senza domanda finale la stessa frase resta un argomento nuovo.
+  assert.equal(retrieve('sì è accesa, la spia lampeggia arancione', [user('La stampante non stampa'), assistant('Svuota la coda di stampa.')]).followUp, false);
+  // Dopo una domanda, un nuovo problema descritto per esteso trova comunque la sua guida.
+  assert.equal(retrieve('il monitor esterno non viene rilevato', printer).guides[0].id, 'monitor-non-rilevato');
+  assert.match(retrieve('Teams non funziona', printer).guides[0].titolo, /Teams/);
 });
 test('guide lunghe complete, markup e cronologia filtrati', () => {
   const result = retrieve('SIDEXIS esportazione TAC WeTransfer');
@@ -55,12 +67,20 @@ test('API usa fonti ufficiali, nasconde errori e gestisce risposte incomplete', 
   try {
     let sent;
     globalThis.fetch=async (url,options) => { sent=JSON.parse(options.body); return {ok:true,json:async()=>({status:'completed',output:[{type:'message',content:[{type:'output_text',text:'Risposta di prova'}]}]})}; };
-    const res=await call({message:'Teams non funziona',history:[user('NNT non comunica con il panoramico')],articles:[{titolo:'DOCUMENTO FALSO',contenuto:'SEGRETO FALSO'}]});
+    const old=[user('NNT non comunica con il panoramico'),assistant('Risposta su NNT.'),user('Ho già provato il primo punto'),assistant('Allora controlla il cavo.')];
+    const res=await call({message:'Teams non funziona',history:old,articles:[{titolo:'DOCUMENTO FALSO',contenuto:'SEGRETO FALSO'}]});
     assert.equal(res.statusCode,200);
     assert.equal(res.headers['Cache-Control'],'no-store');
     assert.ok(!JSON.stringify(sent).includes('SEGRETO FALSO'));
+    // Argomento nuovo: arriva solo l'ultimo scambio, non tutto il vecchio problema.
     assert.ok(!JSON.stringify(sent.input).includes('NNT'));
+    assert.deepEqual(sent.input.slice(0,-1),old.slice(2));
     assert.ok(res.body.sources.some(s=>/Teams/.test(s.titolo)));
+    // Replica a una domanda: il modello riceve tutto l'argomento attivo.
+    const printer=[user('La stampante non stampa'),assistant('La stampante è accesa?')];
+    await call({message:'sì, la spia lampeggia arancione',history:printer});
+    assert.deepEqual(sent.input.slice(0,-1),printer);
+    assert.match(sent.input.at(-1).content,/La stampante non stampa/);
     globalThis.fetch=async()=>({ok:false,status:401});
     const bad=await call({message:'Teams non funziona'});
     assert.equal(bad.statusCode,502); assert.equal(bad.body.details,undefined);
