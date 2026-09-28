@@ -865,7 +865,7 @@ const KB = {
 
 <div class="nota attenzione">
   <strong>Prima di iniziare</strong>
-  Assicurati che il PC sia collegato alla rete aziendale. Se la rete non funziona, consulta prima il manuale “Problemi di connessione alla rete”.
+  Assicurati che il PC sia collegato alla rete aziendale. Se la rete non funziona, consulta prima la guida <a href="articolo.html?id=rete-lenta">“Connessione lenta o instabile”</a>.
 </div>
 
 <h2>Aprire il server</h2>
@@ -896,7 +896,7 @@ const KB = {
 <ol>
   <li><strong>Il server non si apre</strong><br>
   Dopo aver scritto &#92;&#92;srvdc e premuto Invio compare un errore oppure il server non viene visualizzato.<br>
-  <strong>Cosa fare:</strong> Verifica che il PC sia collegato alla rete aziendale e consulta il manuale “Problemi di connessione alla rete”.</li>
+  <strong>Cosa fare:</strong> Verifica che il PC sia collegato alla rete aziendale e consulta la guida <a href="articolo.html?id=rete-lenta">“Connessione lenta o instabile”</a>.</li>
   <li><strong>Il server si apre, ma la cartella non compare</strong><br>
   Riesci a vedere le altre cartelle condivise, ma non trovi quella di cui hai bisogno.<br>
   <strong>Cosa fare:</strong> Potresti non avere i permessi necessari. Contatta l’IT indicando con precisione il nome della cartella.</li>
@@ -1490,7 +1490,7 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 
 <div class="nota attenzione">
   <strong>Possibile problema di rete</strong>
-  Se oltre a ORIS DENT noti problemi con Internet, le cartelle di rete o altri servizi aziendali, consulta il manuale <strong>“Problemi di connessione alla rete”</strong>.
+  Se oltre a ORIS DENT noti problemi con Internet, le cartelle di rete o altri servizi aziendali, consulta la guida <a href="articolo.html?id=rete-lenta"><strong>“Connessione lenta o instabile”</strong></a>.
 </div>
 
 <h2>Se il problema resta</h2>
