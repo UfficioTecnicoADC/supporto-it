@@ -79,8 +79,14 @@ export default async function handler(req, res) {
       body: JSON.stringify({ model: process.env.OPENAI_MODEL || 'gpt-5.6-luna', instructions, input, store: false, max_output_tokens: 2500 })
     });
     if (!response.ok) {
-      // Non registrare domande, guide, chiavi o dettagli del fornitore.
-      console.error('Helpo upstream error', { status: response.status });
+      // Non registrare domande, guide o chiavi. Il codice d'errore del fornitore
+      // (es. model_not_found, insufficient_quota) non contiene dati degli utenti
+      // e distingue un modello errato da un credito esaurito.
+      let detail = null;
+      try { detail = await response.json(); } catch { /* corpo assente o non JSON */ }
+      const code = typeof detail?.error?.code === 'string' ? detail.error.code.slice(0, 60) : undefined;
+      const type = typeof detail?.error?.type === 'string' ? detail.error.type.slice(0, 60) : undefined;
+      console.error('Helpo upstream error', { status: response.status, code, type });
       return reply(res, response.status === 429 ? 429 : 502, { error: response.status === 429 ? 'L’assistente è momentaneamente occupato. Riprova tra poco.' : 'L’assistente non è disponibile al momento. Riprova o consulta le guide.' });
     }
     const data = await response.json();
