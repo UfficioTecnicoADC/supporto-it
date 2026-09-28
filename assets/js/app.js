@@ -261,9 +261,18 @@
     "chiamare", "numero", "whatsapp", "orari", "orario", "reperibilita"];
 
   function cercaContatti(termini) {
+    var PAROLE_SUPPORTO = ["supporto", "assistenza", "it", "ufficio", "tecnico", "helpdesk", "help", "desk"];
+
     var supporto = termini.some(function (t) {
-      return ["supporto", "assistenza", "it", "ufficio", "tecnico"].indexOf(t) !== -1;
+      return PAROLE_SUPPORTO.indexOf(t) !== -1;
     });
+
+    /* "supporto it" o "assistenza" da soli: chi scrive così cerca il supporto, non una guida. */
+    if (termini.length && termini.every(function (t) {
+      return PAROLE_SUPPORTO.indexOf(t) !== -1;
+    })) {
+      return true;
+    }
 
     return termini.some(function (t) {
       return PAROLE_CONTATTI.indexOf(t) !== -1 ||
@@ -629,6 +638,29 @@
 
   /* ---------- Pagina: ricerca ---------- */
 
+  /* Parole che compaiono in quasi tutte le guide: da sole non distinguono nulla.
+     "it" è qui perché "supporto IT" è citato ovunque. */
+  var PAROLE_VUOTE = ("a ad al alla alle allo ai agli con da dal dalla dalle dagli dei del della delle di e ed " +
+    "gli i il in la le lo nel nella nelle nei non o per su sul sulla sulle sui un una uno come cosa che chi " +
+    "mi ti si ci ho ha hai sono posso puoi devo vorrei voglio riesco serve fare funziona piu it").split(" ");
+
+  function significativi(termini) {
+    var utili = termini.filter(function (q) {
+      return PAROLE_VUOTE.indexOf(q) === -1;
+    });
+
+    return utili.length ? utili : termini;
+  }
+
+  /* Le parole corte (pc, ip, tac, vpn) valgono solo intere: "it" non deve
+     trovare "criteri". Le più lunghe anche come parte di parola: "stampa"
+     trova "stampante". I testi arrivano già normalizzati, parole separate da spazi. */
+  function contiene(testo, q) {
+    return q.length <= 3
+      ? (" " + testo + " ").indexOf(" " + q + " ") !== -1
+      : testo.indexOf(q) !== -1;
+  }
+
   function punteggio(art, termini) {
     var t =
       normalizza(art.titolo);
@@ -648,23 +680,26 @@
 
     var tot = 0;
     var trovati = 0;
+    var forte = false;
 
     termini.forEach(function (q) {
       var p = 0;
 
-      if (t.indexOf(q) !== -1) {
+      if (contiene(t, q)) {
         p += 12;
+        forte = true;
       }
 
-      if (g.indexOf(q) !== -1) {
+      if (contiene(g, q)) {
         p += 7;
+        forte = true;
       }
 
-      if (s.indexOf(q) !== -1) {
+      if (contiene(s, q)) {
         p += 4;
       }
 
-      if (c.indexOf(q) !== -1) {
+      if (contiene(c, q)) {
         p += 1;
       }
 
@@ -676,14 +711,14 @@
     });
 
     if (trovati === 0) {
-      return 0;
+      return { punti: 0, completo: false, forte: false };
     }
 
     if (trovati === termini.length) {
       tot += 10;
     }
 
-    return tot;
+    return { punti: tot, completo: trovati === termini.length, forte: forte };
   }
 
   function evidenziatore(termini) {
@@ -696,21 +731,22 @@
           return;
         }
 
-        var re =
-          new RegExp(
-            "(" +
-            q.replace(
-              /[.*+?^${}()|[\]\\]/g,
-              "\\$&"
-            ) +
-            ")",
-            "gi"
+        var parola =
+          q.replace(
+            /[.*+?^${}()|[\]\\]/g,
+            "\\$&"
           );
+
+        /* Come nella ricerca: le parole corte si evidenziano solo intere. */
+        var re =
+          q.length <= 3
+            ? new RegExp("(^|[^a-z0-9àèéìòù])(" + parola + ")(?![a-z0-9àèéìòù])", "gi")
+            : new RegExp("()(" + parola + ")", "gi");
 
         out =
           out.replace(
             re,
-            "<mark>$1</mark>"
+            "$1<mark>$2</mark>"
           );
       });
 
@@ -768,32 +804,53 @@
       return;
     }
 
-    var termini =
+    var tutti =
       normalizza(q)
         .split(" ")
         .filter(function (x) {
           return x.length > 1;
         });
 
-    var risultati =
+    var termini =
+      significativi(tutti);
+
+    var trovate =
       KB.articoli
 
         .map(function (a) {
+          var r = punteggio(
+            a,
+            termini
+          );
+
           return {
             a: a,
-            p: punteggio(
-              a,
-              termini
-            )
+            p: r.punti,
+            completo: r.completo,
+            forte: r.forte
           };
         })
 
         .filter(function (r) {
           return r.p > 0;
-        })
+        });
+
+    /* Prima le guide che contengono tutte le parole cercate, poi quelle che
+       ne hanno almeno una nel titolo o nei tag ("teams microfono" trova anche
+       la guida di Teams). Una parola trovata solo nel testo non basta, a meno
+       che non ci sia nient'altro da mostrare. */
+    var pertinenti =
+      trovate.filter(function (r) {
+        return r.completo || r.forte;
+      });
+
+    var risultati =
+      (pertinenti.length ? pertinenti : trovate)
 
         .sort(function (x, y) {
           return (
+            (y.completo ? 1 : 0) -
+            (x.completo ? 1 : 0) ||
             y.p -
             x.p ||
             perData(
@@ -808,7 +865,7 @@
         });
 
     var contatti =
-      cercaContatti(termini)
+      cercaContatti(tutti)
         ? riquadroContatti()
         : "";
 
