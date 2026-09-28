@@ -38,8 +38,11 @@ export default async function handler(req, res) {
   if (result.kind === 'clarify') return reply(res, 200, { answer: 'Che cosa non funziona o quale attività vuoi svolgere? Indicami il programma o il dispositivo e, se compare, il testo dell’errore. Non inviare password o dati dei pazienti.', sources: [] });
   if (!process.env.OPENAI_API_KEY) return reply(res, 503, { error: 'L’assistente non è disponibile al momento. Puoi consultare le guide o la pagina Contatti.', code: 'AI_UNAVAILABLE' });
   const context = result.guides.map(g => ({ ...g })).map(g => JSON.stringify(g)).join('\n\n');
-  // Una domanda autonoma non eredita istruzioni o risposte del vecchio problema.
-  const input = [ ...(result.followUp ? history.slice(result.historyStart) : []), { role: 'user', content: `DOMANDA:\n${message.trim()}\n\nGUIDE INTERNE:\n${context || 'Nessuna guida sufficientemente pertinente. Non attribuire suggerimenti generali alle procedure aziendali.'}` } ];
+  // Un follow-up riceve tutto l'argomento attivo. Una domanda autonoma non eredita
+  // il vecchio problema, ma conserva l'ultimo scambio: se il messaggio era in realtà
+  // una replica non riconosciuta, il modello può ancora capire a cosa si riferisce.
+  const previous = result.followUp ? history.slice(result.historyStart) : history.slice(Math.max(0, history.map(m => m.role).lastIndexOf('user')));
+  const input = [ ...previous, { role: 'user', content: `DOMANDA:\n${message.trim()}\n\nGUIDE INTERNE:\n${context || 'Nessuna guida sufficientemente pertinente. Non attribuire suggerimenti generali alle procedure aziendali.'}` } ];
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 25000);
   try {
