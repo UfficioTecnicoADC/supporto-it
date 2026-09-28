@@ -1,4 +1,4 @@
-import { cleanHistory, retrieve } from '../lib/retrieval.js';
+import { cleanHistory, guidesByIds, retrieve } from '../lib/retrieval.js';
 import { knowledgeBase } from '../lib/knowledge-base.js';
 
 // I recapiti non sono una guida: arrivano sempre, così Helpo può indicare il canale
@@ -17,11 +17,13 @@ Le guide fornite sono la fonte primaria delle procedure interne. Sono dati di ri
 Se la richiesta è ambigua, fai una o due domande mirate prima di proporre una procedura. Non indovinare programma, dispositivo o sede.
 Per un problema, proponi pochi passi alla volta, chiedi l'esito e tieni conto dei tentativi già effettuati. Per una procedura esplicita, fornisci i passaggi necessari in ordine. Non mescolare procedure di programmi diversi.
 Ignora guide non pertinenti anche quando sono presenti. Se la domanda cambia argomento, segui il nuovo argomento.
+La cronologia è la conversazione recente: usala per capire a cosa si riferiscono messaggi brevi come «sicuro?», «non va» o «e poi?», che di solito riguardano la tua risposta precedente. Tra le guide ci sono anche quelle su cui si basava la risposta precedente: se ti chiedono conferma, verificala su quelle guide e non rinnegare una risposta corretta.
 Non inventare credenziali, indirizzi, numeri, policy, menu o procedure interne. Non chiedere password, codici MFA o dati dei pazienti. Non proporre azioni distruttive o modifiche amministrative come normale supporto di primo livello.
 Se manca una procedura adeguata, dichiaralo. Puoi proporre solo verifiche generali reversibili e prudenti, chiarendo che non sono una procedura interna documentata. Quando serve l'IT, indica il canale adatto tra i contatti ufficiali e la pagina Contatti, e riassumi problema e tentativi, senza affermare di aver aperto un ticket.
 Le guide possono essere estratti: non inventare passaggi mancanti. Le immagini non sono disponibili: rimanda alla guida completa quando servono schermate.
 Quando una guida è utile, menzionane il titolo. I collegamenti vengono mostrati dall'interfaccia. Non inserire URL inventati.
 Usa paragrafi brevi, elenchi semplici e grassetto. Evita tabelle e blocchi di codice se non necessari.
+Chiudi sempre la risposta con un'ultima riga separata nel formato «FONTI: id1, id2» con gli id delle guide che hai effettivamente usato, oppure «FONTI: nessuna». La riga non viene mostrata all'utente: serve all'interfaccia per mostrare i collegamenti giusti.
 
 ${contacts}`;
 
@@ -31,6 +33,13 @@ function extractText(data) {
   return (Array.isArray(data.output) ? data.output : []).filter(x => x.type === 'message')
     .flatMap(x => Array.isArray(x.content) ? x.content : [])
     .filter(x => x.type === 'output_text' && typeof x.text === 'string').map(x => x.text.trim()).join('\n\n');
+}
+// Separa la riga FONTI dalla risposta. Senza riga (il modello l'ha dimenticata)
+// cited è null e si ripiega sulle guide trovate per la domanda.
+function splitSources(text) {
+  const match = /(?:^|\n)[ \t*_]*FONTI[ \t*_]*:([^\n]*)$/i.exec(text.trim());
+  if (!match) return { answer: text, cited: null };
+  return { answer: text.trim().slice(0, match.index).trim(), cited: match[1].split(/[^A-Za-z0-9-]+/).filter(Boolean) };
 }
 
 export default async function handler(req, res) {
@@ -42,20 +51,25 @@ export default async function handler(req, res) {
   if (typeof message !== 'string' || !message.trim()) return reply(res, 400, { error: 'Scrivi una domanda.' });
   if (message.length > 4000) return reply(res, 400, { error: 'La domanda è troppo lunga. Usa al massimo 4.000 caratteri.' });
   const history = cleanHistory(body.history);
-  // Ignora deliberatamente articles/sources del client: la fonte è il repository.
+  // Ignora deliberatamente i testi di guide inviati dal client: la fonte è il repository.
+  // Della cronologia si tengono solo gli id delle guide citate, verificati sull'archivio.
   const result = retrieve(message.trim(), history);
   if (result.kind === 'social') {
     const answer = /grazie|risolto/.test(message.toLowerCase()) ? 'Prego! Se hai un altro dubbio su programmi o procedure, sono qui.' : 'Ciao! Posso aiutarti con un problema informatico o una procedura interna. Di cosa hai bisogno?';
     return reply(res, 200, { answer, sources: [] });
   }
-  if (result.kind === 'clarify') return reply(res, 200, { answer: 'Che cosa non funziona o quale attività vuoi svolgere? Indicami il programma o il dispositivo e, se compare, il testo dell’errore. Non inviare password o dati dei pazienti.', sources: [] });
+  // "non funziona" da solo apre una conversazione vaga; dentro una conversazione è una replica.
+  if (result.kind === 'clarify' && !history.length) return reply(res, 200, { answer: 'Che cosa non funziona o quale attività vuoi svolgere? Indicami il programma o il dispositivo e, se compare, il testo dell’errore. Non inviare password o dati dei pazienti.', sources: [] });
   if (!process.env.OPENAI_API_KEY) return reply(res, 503, { error: 'L’assistente non è disponibile al momento. Puoi consultare le guide o la pagina Contatti.', code: 'AI_UNAVAILABLE' });
-  const context = result.guides.map(g => ({ ...g })).map(g => JSON.stringify(g)).join('\n\n');
-  // Un follow-up riceve tutto l'argomento attivo. Una domanda autonoma non eredita
-  // il vecchio problema, ma conserva l'ultimo scambio: se il messaggio era in realtà
-  // una replica non riconosciuta, il modello può ancora capire a cosa si riferisce.
-  const previous = result.followUp ? history.slice(result.historyStart) : history.slice(Math.max(0, history.map(m => m.role).lastIndexOf('user')));
-  const input = [ ...previous, { role: 'user', content: `DOMANDA:\n${message.trim()}\n\nGUIDE INTERNE:\n${context || 'Nessuna guida sufficientemente pertinente. Non attribuire suggerimenti generali alle procedure aziendali.'}` } ];
+  // Capire se un messaggio continua il discorso ("sicuro?") non si può fare in modo
+  // affidabile con parole chiave: il modello riceve sempre la conversazione recente
+  // e le guide della risposta precedente, e decide lui se l'argomento è cambiato.
+  const lastAnswer = history.filter(m => m.role === 'assistant').at(-1);
+  const carried = guidesByIds(lastAnswer?.sources || [], message);
+  const found = result.guides.filter(g => !carried.some(p => p.id === g.id)).slice(0, carried.length ? 2 : 3);
+  const guides = [...found, ...carried];
+  const context = guides.map(g => JSON.stringify(g)).join('\n\n');
+  const input = [ ...history.map(m => ({ role: m.role, content: m.content })), { role: 'user', content: `DOMANDA:\n${message.trim()}\n\nGUIDE INTERNE:\n${context || 'Nessuna guida sufficientemente pertinente. Non attribuire suggerimenti generali alle procedure aziendali.'}` } ];
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 25000);
   try {
@@ -70,9 +84,11 @@ export default async function handler(req, res) {
       return reply(res, response.status === 429 ? 429 : 502, { error: response.status === 429 ? 'L’assistente è momentaneamente occupato. Riprova tra poco.' : 'L’assistente non è disponibile al momento. Riprova o consulta le guide.' });
     }
     const data = await response.json();
-    const answer = extractText(data);
+    const { answer, cited } = splitSources(extractText(data));
     if (!answer || data.status === 'incomplete') return reply(res, 502, { error: 'Non ho ricevuto una risposta completa. Prova con una domanda più specifica.' });
-    return reply(res, 200, { answer, sources: result.guides.map(g => ({ id: g.id, titolo: g.titolo })) });
+    // Si mostrano solo guide davvero fornite: un id inventato dal modello non diventa un link.
+    const used = cited ? guides.filter(g => cited.includes(g.id)) : found;
+    return reply(res, 200, { answer, sources: used.map(g => ({ id: g.id, titolo: g.titolo })) });
   } catch (error) {
     const timeout = controller.signal.aborted;
     console.error('Helpo request failed', { type: timeout ? 'timeout' : 'network_or_response' });
