@@ -3,7 +3,7 @@
   var KEY = 'adco_helpo_conversazione_v2';
   function esc(text) { return String(text).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function format(text) { return esc(text).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').split(/\n{2,}/).map(function (p) { return '<p>' + p.replace(/\n/g, '<br>') + '</p>'; }).join(''); }
-  function sources(list) { return Array.isArray(list) ? list.filter(function (s) { return s && typeof s.id === 'string' && /^[a-z0-9-]+$/.test(s.id) && typeof s.titolo === 'string'; }).slice(0, 3).map(function (s) { return { id: s.id, titolo: s.titolo.slice(0, 250) }; }) : []; }
+  function sources(list) { return Array.isArray(list) ? list.filter(function (s) { return s && typeof s.id === 'string' && /^[A-Za-z0-9-]+$/.test(s.id) && typeof s.titolo === 'string'; }).slice(0, 3).map(function (s) { return { id: s.id, titolo: s.titolo.slice(0, 250) }; }) : []; }
   document.addEventListener('DOMContentLoaded', function () {
     var form = document.getElementById('modulo-ai');
     var field = document.getElementById('campo-ai-pagina');
@@ -56,7 +56,8 @@
       activate(); setBusy(true);
       var nodes = create(message); nodes.turn.scrollIntoView({ behavior: 'smooth', block: 'start' });
       try {
-        var result = await window.KBAiuto.chiediAI(message, history.map(function (m) { return { role: m.role, content: m.content }; }));
+        // Solo gli id delle guide citate: il server ne rilegge il contenuto dall'archivio.
+        var result = await window.KBAiuto.chiediAI(message, history.map(function (m) { return m.role === 'assistant' ? { role: m.role, content: m.content, sources: (m.sources || []).map(function (s) { return s.id; }) } : { role: m.role, content: m.content }; }));
         if (!result || typeof result.answer !== 'string' || !result.answer.trim()) throw new Error('Non ho ricevuto una risposta. Riprova.');
         finish(nodes.turn, nodes.box, result.answer, result.sources);
         history.push({ role: 'user', content: message }, { role: 'assistant', content: result.answer.slice(0, 4000), sources: sources(result.sources) });
