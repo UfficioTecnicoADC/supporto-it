@@ -16,11 +16,34 @@
 
    Nessun altro file va modificato: home, categorie e ricerca si
    aggiornano da sole.
+
+   I recapiti del supporto IT stanno in KB.contatti: li usano la
+   pagina Contatti, la ricerca e Helpo. Vanno modificati solo qui.
    ============================================================ */
 
 const KB = {
   organizzazione: "ADCO HUB",
   aggiornamento: "2026-08-28",
+
+  contatti: {
+    email: {
+      valore: "ufficiotecnico@assistenzadentistica.it",
+      uso: "Canale principale per le richieste ordinarie. Il messaggio apre automaticamente un ticket e ricevi il numero di riferimento."
+    },
+    telefono: {
+      interno: "8",
+      esterno: "+39 378 309 2969",
+      uso: "Per blocchi che impediscono di lavorare o quando non riesci ad accedere alla posta."
+    },
+    whatsapp: {
+      valore: "+39 378 309 2969",
+      uso: "Per domande brevi e aggiornamenti su ticket già aperti."
+    },
+    orari: [
+      { servizio: "Assistenza ordinaria", copertura: "Lunedì – venerdì, 9:00 – 18:00" },
+      { servizio: "Presidio in sede", copertura: "Lunedì – venerdì, 9:00 – 18:00" }
+    ]
+  },
 
   categorie: [
     {
@@ -3830,8 +3853,9 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
   <tr><th>Canale</th><th>Quando usarlo</th></tr>
   <tr><td>Email al supporto IT</td><td>Canale principale per richieste ordinarie. Apre automaticamente un ticket.</td></tr>
   <tr><td>Telefono</td><td>Blocchi che impediscono di lavorare, o quando non riesci ad accedere alla posta.</td></tr>
-  <tr><td>Chat Teams</td><td>Domande brevi e chiarimenti su ticket già aperti.</td></tr>
+  <tr><td>Chat WhatsApp</td><td>Domande brevi e chiarimenti su ticket già aperti.</td></tr>
 </table>
+<p>Indirizzo email, numeri e orari sono nella pagina <a href="contatti.html">Contatti</a>.</p>
 
 <h2>Informazioni da includere sempre</h2>
 <ul>
