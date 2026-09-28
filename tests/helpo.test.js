@@ -93,6 +93,17 @@ test('API usa fonti ufficiali, nasconde errori e gestisce risposte incomplete', 
     globalThis.fetch=async()=>({ok:false,status:401});
     const bad=await call({message:'Teams non funziona'});
     assert.equal(bad.statusCode,502); assert.equal(bad.body.details,undefined);
+    // Il log riporta il codice del fornitore, mai la domanda; l'utente non lo vede.
+    const originalError=console.error, logged=[];
+    console.error=(...args)=>logged.push(JSON.stringify(args));
+    try {
+      globalThis.fetch=async()=>({ok:false,status:404,json:async()=>({error:{code:'model_not_found',type:'invalid_request_error',message:'dettagli'}})});
+      const missing=await call({message:'Teams non funziona'});
+      assert.equal(missing.statusCode,502);
+      assert.ok(!JSON.stringify(missing.body).includes('model_not_found'));
+      assert.match(logged.join(),/model_not_found/);
+      assert.ok(!logged.join().includes('Teams'));
+    } finally { console.error=originalError; }
     globalThis.fetch=async()=>({ok:true,json:async()=>({status:'incomplete',output_text:'Tagliato'})});
     assert.equal((await call({message:'Teams non funziona'})).statusCode,502);
     delete process.env.OPENAI_API_KEY;
