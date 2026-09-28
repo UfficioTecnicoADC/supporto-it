@@ -41,6 +41,11 @@ test('la replica a una domanda di Helpo resta nello stesso argomento', () => {
   assert.equal(retrieve('il monitor esterno non viene rilevato', printer).guides[0].id, 'monitor-non-rilevato');
   assert.match(retrieve('Teams non funziona', printer).guides[0].titolo, /Teams/);
 });
+test('una parola comune trovata solo nel testo non basta per scegliere una guida', () => {
+  // "lavoro" compare nel sommario di "Aggiornamenti Windows", che non c'entra.
+  assert.equal(retrieve('a cosa mi serve per il lavoro?').kind, 'no_match');
+  assert.deepEqual(cleanHistory([{...assistant('ok'), sources:['pc-lento','guida-fantasma',3]}]), [{...assistant('ok'), sources:['pc-lento']}]);
+});
 test('guide lunghe complete, markup e cronologia filtrati', () => {
   const result = retrieve('SIDEXIS esportazione TAC WeTransfer');
   const guide = result.guides.find(g => /Esportazione/.test(g.titolo));
@@ -76,9 +81,9 @@ test('API usa fonti ufficiali, nasconde errori e gestisce risposte incomplete', 
     const { knowledgeBase } = await import('../lib/knowledge-base.js');
     assert.ok(sent.instructions.includes(knowledgeBase.contatti.email.valore));
     assert.ok(sent.instructions.includes(knowledgeBase.contatti.whatsapp.valore));
-    // Argomento nuovo: arriva solo l'ultimo scambio, non tutto il vecchio problema.
-    assert.ok(!JSON.stringify(sent.input).includes('NNT'));
-    assert.deepEqual(sent.input.slice(0,-1),old.slice(2));
+    // Il modello riceve la conversazione recente e decide lui se l'argomento è cambiato;
+    // la ricerca delle guide segue invece il nuovo argomento.
+    assert.deepEqual(sent.input.slice(0,-1),old);
     assert.ok(res.body.sources.some(s=>/Teams/.test(s.titolo)));
     // Replica a una domanda: il modello riceve tutto l'argomento attivo.
     const printer=[user('La stampante non stampa'),assistant('La stampante è accesa?')];
@@ -92,6 +97,34 @@ test('API usa fonti ufficiali, nasconde errori e gestisce risposte incomplete', 
     assert.equal((await call({message:'Teams non funziona'})).statusCode,502);
     delete process.env.OPENAI_API_KEY;
     assert.equal((await call({message:'Teams non funziona'})).statusCode,503);
+  } finally { globalThis.fetch=originalFetch; if(originalKey===undefined) delete process.env.OPENAI_API_KEY; else process.env.OPENAI_API_KEY=originalKey; }
+});
+test('API: conferme brevi, guide della risposta precedente e fonti citate', async () => {
+  const originalFetch=globalThis.fetch, originalKey=process.env.OPENAI_API_KEY;
+  process.env.OPENAI_API_KEY='test-only';
+  let sent, text;
+  globalThis.fetch=async (url,options) => { sent=JSON.parse(options.body); return {ok:true,json:async()=>({status:'completed',output_text:text})}; };
+  try {
+    const slow=[user('Il PC è lento, cosa posso fare?'),{...assistant('Riavvia il PC e controlla Gestione attività.'),sources:['pc-lento','guida-fantasma']}];
+    text='Sì, sono le verifiche della guida.\n\nFONTI: pc-lento';
+    const res=await call({message:'sicuro?',history:slow});
+    // "sicuro" richiama "Condividere file in modo sicuro", ma torna anche la guida della risposta precedente.
+    assert.match(sent.input.at(-1).content,/"id":"pc-lento"/);
+    assert.ok(!JSON.stringify(sent.input).includes('guida-fantasma'));
+    assert.deepEqual(sent.input.slice(0,-1),slow.map(m=>({role:m.role,content:m.content})));
+    // Si mostrano solo le guide citate e la riga FONTI non arriva all'utente.
+    assert.equal(res.body.answer,'Sì, sono le verifiche della guida.');
+    assert.deepEqual(res.body.sources.map(s=>s.id),['pc-lento']);
+    text='WhatsApp è un’app di messaggistica.\n**FONTI:** nessuna';
+    const general=await call({message:'voglio sapere in generale come funziona',history:slow});
+    assert.equal(general.body.answer,'WhatsApp è un’app di messaggistica.');
+    assert.deepEqual(general.body.sources,[]);
+    // Un id inventato dal modello non diventa un collegamento.
+    text='Risposta.\nFONTI: guida-inventata';
+    assert.deepEqual((await call({message:'sicuro?',history:slow})).body.sources,[]);
+    // "non funziona" dentro una conversazione va al modello, non alla domanda standard.
+    text='Proviamo altro.\nFONTI: pc-lento';
+    assert.equal((await call({message:'non funziona',history:slow})).body.answer,'Proviamo altro.');
   } finally { globalThis.fetch=originalFetch; if(originalKey===undefined) delete process.env.OPENAI_API_KEY; else process.env.OPENAI_API_KEY=originalKey; }
 });
 
