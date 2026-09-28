@@ -878,3 +878,9 @@ body.pagina-accesso {
   .ai-saluto { font-size: 1.5rem; }
   .ai-domanda { max-width: 92%; }
 }
+
+/* Fonti verificate dal server per la chat Helpo. */
+.ai-fonti { margin: 18px 0; padding: 14px 18px; background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--raggio); }
+.ai-fonti ul { margin: 8px 0 0; padding-left: 20px; }
+.ai-fonti li + li { margin-top: 6px; }
+.ai-barra-superiore-riga { flex-wrap: wrap; gap: 10px; }
