@@ -14,21 +14,25 @@ supporto-it/
 ├── ricerca.html        Risultati della ricerca classica (?q=termini)
 ├── contatti.html       Canali, orari, priorità (i recapiti arrivano da KB.contatti)
 ├── ai-mode.html        Conversazione con Helpo
-├── statistiche.html    Feedback su Helpo: voti, domande senza guida, commenti
+├── statistiche.html    Feedback su Helpo (area IT): voti, domande senza guida, commenti
 ├── login.html          Pagina di accesso
+├── login-it.html       Secondo accesso, riservato all'ufficio IT
 ├── favicon.ico         Icona del sito (16, 32, 48 px, ricavata dal logo)
 ├── middleware.js       Controllo di accesso lato server (Vercel)
 ├── vercel.json         Include l'archivio nella funzione di Helpo, durata massima 30 s
 ├── package.json        Dipendenza del middleware e comando dei test
 ├── api/
 │   ├── login.js        Verifica credenziali e rilascia il cookie di sessione
-│   ├── logout.js       Chiude la sessione
+│   ├── logout.js       Chiude la sessione (anche quella dell'area IT)
+│   ├── login-it.js     Verifica la password dell'area IT
+│   ├── logout-it.js    Chiude solo la sessione dell'area IT
 │   ├── chat.js         Helpo: validazione, istruzioni, chiamata a OpenAI, fonti
 │   └── feedback.js     Salva i voti su Helpo e restituisce le statistiche
 ├── lib/
 │   ├── knowledge-base.js  Carica assets/js/data.js sul server
 │   ├── retrieval.js       Scelta delle guide da passare a Helpo
-│   └── store.js           Archivio del feedback (Upstash Redis)
+│   ├── store.js           Archivio del feedback (Upstash Redis)
+│   └── area-it.js         Sessione dell'area IT (stessa firma usata in middleware.js)
 ├── tests/
 │   └── helpo.test.js   Test automatici (npm test)
 └── assets/
@@ -64,6 +68,7 @@ preview ma non il sito pubblicato.
 | `OPENAI_API_KEY` | chiave per le risposte di Helpo                                 |
 | `OPENAI_MODEL`   | facoltativa: modello da usare (predefinito `gpt-5.6-luna`)      |
 | `KV_REST_API_URL`, `KV_REST_API_TOKEN` | archivio del feedback: le aggiunge l'integrazione Upstash |
+| `ADMIN_PASSWORD` | password dell'**area IT** (statistiche di Helpo): diversa da `SITO_PASSWORD` e nota solo all'ufficio IT. Senza, l'area IT resta chiusa |
 
 Per generare `SITO_SEGRETO` da PowerShell:
 
@@ -214,7 +219,19 @@ giorni dopo la fine del mese; i contatori restano.
 
 I dati si leggono su **`/statistiche.html`**: risposte valutate, percentuale
 utile, guide con più 👎, domande senza guida (le guide da scrivere) e commenti.
-La pagina è protetta dal login, quindi è visibile a chiunque abbia la password.
+
+### Area IT
+
+Le statistiche sono riservate all'ufficio IT con un **secondo login**. Dopo il
+login del sito, chi apre `/statistiche.html` viene portato su `/login-it.html`,
+che chiede la password `ADMIN_PASSWORD`. La sessione IT dura **2 ore** (cookie
+`sit_it`, firmato con `SITO_SEGRETO`); **cambiando `ADMIN_PASSWORD` si chiudono
+subito tutte le sessioni IT aperte**. "Esci" chiude sito e area IT; il pulsante
+"Esci dall'area IT" chiude solo l'area IT.
+
+Il middleware protegge la pagina e la lettura delle statistiche
+(`GET /api/feedback`); la funzione delle statistiche ripete il controllo. Il
+voto 👍/👎 (`POST /api/feedback`) resta disponibile a tutti i colleghi collegati.
 
 L'archivio è un database **Upstash Redis** collegato dal Marketplace di Vercel
 (*Storage* o *Integrations* → Upstash → Redis, poi collegalo al progetto per

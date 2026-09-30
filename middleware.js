@@ -14,6 +14,8 @@
      SITO_PASSWORD   password di accesso
      SITO_SEGRETO    stringa casuale lunga, usata per firmare
                      il cookie di sessione
+     ADMIN_PASSWORD  password dell'area IT (statistiche di Helpo):
+                     senza questa variabile l'area IT resta chiusa
 
    ============================================================ */
 
@@ -36,6 +38,17 @@ const PUBBLICHE = new Set([
 ]);
 
 const COOKIE = 'sit_acc';
+
+/* Area IT: serve anche il secondo login (ADMIN_PASSWORD, cookie sit_it).
+   Protegge la pagina delle statistiche e la loro lettura; il voto 👍/👎
+   (POST /api/feedback) resta aperto a tutti i colleghi collegati.
+   La firma è la stessa di lib/area-it.js: le due versioni devono coincidere. */
+const COOKIE_IT = 'sit_it';
+const AREA_IT = new Set(['/statistiche.html', '/statistiche']);
+
+function richiedeAreaIT(percorso, metodo) {
+  return AREA_IT.has(percorso) || (percorso === '/api/feedback' && metodo === 'GET');
+}
 
 function leggiCookie(intestazione, nome) {
   if (!intestazione) return null;
@@ -64,7 +77,9 @@ async function firma(testo, segreto) {
   return out;
 }
 
-async function sessioneValida(valore, segreto) {
+/* prefisso: vuoto per il cookie del sito, "area-it:<password>:" per quello IT,
+   così un cookie non può essere usato al posto dell'altro. */
+async function sessioneValida(valore, segreto, prefisso = '') {
   if (!valore || !segreto) return false;
   const punto = valore.indexOf('.');
   if (punto < 1) return false;
@@ -72,7 +87,7 @@ async function sessioneValida(valore, segreto) {
   const firmaRicevuta = valore.substring(punto + 1);
   if (!/^\d+$/.test(scadenza)) return false;
   if (Date.now() > Number(scadenza)) return false;
-  const attesa = await firma(scadenza, segreto);
+  const attesa = await firma(prefisso + scadenza, segreto);
   if (attesa.length !== firmaRicevuta.length) return false;
   let diff = 0;
   for (let i = 0; i < attesa.length; i++) {
@@ -98,8 +113,23 @@ export default async function middleware(request) {
     );
   }
 
-  const valido = await sessioneValida(leggiCookie(request.headers.get('cookie'), COOKIE), segreto);
-  if (valido) return next();
+  const cookie = request.headers.get('cookie');
+  const valido = await sessioneValida(leggiCookie(cookie, COOKIE), segreto);
+  if (valido) {
+    if (!richiedeAreaIT(percorso, request.method)) return next();
+    const passwordIT = process.env.ADMIN_PASSWORD;
+    const validoIT = Boolean(passwordIT) && await sessioneValida(leggiCookie(cookie, COOKIE_IT), segreto, 'area-it:' + passwordIT + ':');
+    if (validoIT) return next();
+    if (percorso.startsWith('/api/')) {
+      return new Response(JSON.stringify({ error: 'Area riservata all’ufficio IT.', code: 'IT_REQUIRED' }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }
+      });
+    }
+    const accessoIT = new URL('/login-it.html', url.origin);
+    accessoIT.searchParams.set('da', percorso + url.search);
+    return new Response(null, { status: 302, headers: { Location: accessoIT.toString(), 'Cache-Control': 'no-store' } });
+  }
 
   if (percorso.startsWith('/api/')) {
     return new Response(JSON.stringify({ error: 'Sessione scaduta.', code: 'SESSION_EXPIRED' }), {
