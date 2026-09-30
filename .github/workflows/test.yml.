@@ -1,0 +1,24 @@
+# Esegue i test automatici (npm test) a ogni modifica caricata e a ogni pull request.
+# Se un test fallisce, GitHub mostra una X rossa sul commit e nella pull request:
+# la modifica va corretta prima di portarla su main.
+name: Test
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: npm test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # I test non usano dipendenze esterne: non serve npm install.
+      - run: npm test
