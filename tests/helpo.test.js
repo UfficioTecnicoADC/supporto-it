@@ -181,6 +181,101 @@ test('API: conferme brevi, guide della risposta precedente e fonti citate', asyn
     assert.equal((await call({message:'non funziona',history:slow})).body.answer,'Proviamo altro.');
   } finally { globalThis.fetch=originalFetch; if(originalKey===undefined) delete process.env.OPENAI_API_KEY; else process.env.OPENAI_API_KEY=originalKey; }
 });
+function withEnv(vars, fn) {
+  const saved = Object.fromEntries(Object.keys(vars).map(k => [k, process.env[k]]));
+  const originalFetch = globalThis.fetch;
+  for (const [k, v] of Object.entries(vars)) { if (v === undefined) delete process.env[k]; else process.env[k] = v; }
+  return (async () => { try { await fn(); } finally {
+    globalThis.fetch = originalFetch;
+    for (const [k, v] of Object.entries(saved)) { if (v === undefined) delete process.env[k]; else process.env[k] = v; }
+  } })();
+}
+const STORE = { KV_REST_API_URL: 'https://redis.test/', KV_REST_API_TOKEN: 'token-di-prova', UPSTASH_REDIS_REST_URL: undefined, UPSTASH_REDIS_REST_TOKEN: undefined };
+
+test('feedback: voti, commento oscurato, statistiche, archivio assente o irraggiungibile', async () => {
+  const { default: feedback, oscura } = await import('../api/feedback.js');
+  const send = async req => { const res = response(); await feedback(req, res); return res; };
+
+  await withEnv({ KV_REST_API_URL: undefined, KV_REST_API_TOKEN: undefined, UPSTASH_REDIS_REST_URL: undefined, UPSTASH_REDIS_REST_TOKEN: undefined }, async () => {
+    const missing = await send({ method: 'POST', body: { voto: 'su' } });
+    assert.equal(missing.statusCode, 503);
+    assert.equal(missing.body.code, 'STORE_UNAVAILABLE');
+  });
+
+  await withEnv(STORE, async () => {
+    const calls = [];
+    globalThis.fetch = async (url, options) => {
+      const commands = JSON.parse(options.body);
+      calls.push({ url, commands, auth: options.headers.Authorization });
+      return { ok: true, json: async () => commands.map(() => ({ result: 1 })) };
+    };
+    const up = await send({ method: 'POST', body: { voto: 'su', guide: ['pc-lento', 'guida-inventata', 'pc-lento'] } });
+    assert.equal(up.statusCode, 200);
+    assert.equal(calls[0].url, 'https://redis.test/pipeline');
+    assert.equal(calls[0].auth, 'Bearer token-di-prova');
+    const fields = calls[0].commands.map(c => c[2]);
+    assert.ok(fields.includes('totale:su') && fields.includes('guida:pc-lento:su'));
+    assert.ok(!JSON.stringify(calls[0].commands).includes('guida-inventata'));
+    assert.equal(fields.filter(f => f === 'guida:pc-lento:su').length, 1);
+
+    // Il commento viene oscurato prima di arrivare all'archivio, e solo dopo un 👎.
+    const privato = 'Scrivere a mario.rossi@example.com o al 333 123 4567, CF RSSMRA80A01H501U, IBAN IT60X0542811101000000123456';
+    const down = await send({ method: 'POST', body: JSON.stringify({ voto: 'giu', guide: [], commento: privato }) });
+    assert.equal(down.statusCode, 200);
+    const saved = JSON.stringify(calls[1].commands);
+    for (const dato of ['mario.rossi@example.com', '333 123 4567', 'RSSMRA80A01H501U', 'IT60X0542811101000000123456']) assert.ok(!saved.includes(dato), dato);
+    assert.ok(saved.includes('senza-guida:giu') && saved.includes('LPUSH') && saved.includes('EXPIREAT'));
+    await send({ method: 'POST', body: { voto: 'su', commento: 'ignorato' } });
+    assert.ok(!JSON.stringify(calls[2].commands).includes('ignorato'));
+    await send({ method: 'POST', body: { voto: 'giu', commento: 'x'.repeat(2000) } });
+    assert.ok(JSON.stringify(calls[3].commands).includes('x'.repeat(500)) && !JSON.stringify(calls[3].commands).includes('x'.repeat(501)));
+    assert.equal(oscura('Errore 0x80070005 dal 30/09/2026'), 'Errore 0x80070005 dal 30/09/2026');
+
+    assert.equal((await send({ method: 'POST', body: { voto: 'forse' } })).statusCode, 400);
+    assert.equal((await send({ method: 'POST', body: '{rotto' })).statusCode, 400);
+    assert.equal((await send({ method: 'DELETE' })).statusCode, 405);
+
+    globalThis.fetch = async () => ({ ok: true, json: async () => [
+      { result: ['totale:su', '3', 'totale:giu', '1', 'guida:pc-lento:su', '2', 'guida:pc-lento:giu', '1', 'guida:guida-eliminata:su', '5', 'domande:totale', '10', 'domande:senza-guida', '2'] },
+      { result: [JSON.stringify({ data: '2026-09-30', guide: ['pc-lento'], testo: '<b>manca</b> il passo 3' }), 'non json'] },
+    ] });
+    const stats = await send({ method: 'GET', query: { mese: '2026-09' } });
+    assert.equal(stats.statusCode, 200);
+    assert.deepEqual(stats.body.totale, { su: 3, giu: 1 });
+    assert.deepEqual(stats.body.domande, { totale: 10, senzaGuida: 2 });
+    assert.deepEqual(stats.body.guide, [{ id: 'pc-lento', titolo: 'Il PC è lento: verifiche rapide', su: 2, giu: 1 }]);
+    assert.equal(stats.body.commenti.length, 1);
+    assert.equal(stats.body.commenti[0].testo, '<b>manca</b> il passo 3');   // l'escape è compito della pagina
+
+    globalThis.fetch = async () => ({ ok: false, status: 500 });
+    const originalError = console.error; console.error = () => {};
+    try { assert.equal((await send({ method: 'POST', body: { voto: 'su' } })).statusCode, 502); } finally { console.error = originalError; }
+  });
+});
+
+test('Helpo conta le domande senza guida e risponde anche se l’archivio non va', async () => {
+  await withEnv({ ...STORE, OPENAI_API_KEY: 'test-only' }, async () => {
+    const counted = [];
+    let storeUp = true;
+    globalThis.fetch = async (url, options) => {
+      if (url.startsWith('https://redis.test')) {
+        if (!storeUp) return { ok: false, status: 500 };
+        counted.push(JSON.parse(options.body).map(c => c[2]));
+        return { ok: true, json: async () => [{ result: 1 }, { result: 1 }] };
+      }
+      return { ok: true, json: async () => ({ status: 'completed', output_text: 'Risposta.\nFONTI: nessuna' }) };
+    };
+    const noGuide = await call({ message: 'Come posso richiedere le ferie?' });
+    assert.equal(noGuide.statusCode, 200);
+    assert.equal(noGuide.body.valutabile, true);
+    assert.deepEqual(counted.at(-1), ['domande:totale', 'domande:senza-guida']);
+    await call({ message: 'Teams non funziona' });
+    assert.deepEqual(counted.at(-1), ['domande:totale']);
+    storeUp = false;
+    const originalError = console.error; console.error = () => {};
+    try { assert.equal((await call({ message: 'Teams non funziona' })).statusCode, 200); } finally { console.error = originalError; }
+  });
+});
 
 test('middleware: API scaduta restituisce JSON 401; sessione valida passa', async () => {
   const { readFileSync } = await import('node:fs');
