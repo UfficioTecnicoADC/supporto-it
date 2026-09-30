@@ -14,6 +14,7 @@ supporto-it/
 ├── ricerca.html        Risultati della ricerca classica (?q=termini)
 ├── contatti.html       Canali, orari, priorità (i recapiti arrivano da KB.contatti)
 ├── ai-mode.html        Conversazione con Helpo
+├── statistiche.html    Feedback su Helpo: voti, domande senza guida, commenti
 ├── login.html          Pagina di accesso
 ├── favicon.ico         Icona del sito (16, 32, 48 px, ricavata dal logo)
 ├── middleware.js       Controllo di accesso lato server (Vercel)
@@ -22,10 +23,12 @@ supporto-it/
 ├── api/
 │   ├── login.js        Verifica credenziali e rilascia il cookie di sessione
 │   ├── logout.js       Chiude la sessione
-│   └── chat.js         Helpo: validazione, istruzioni, chiamata a OpenAI, fonti
+│   ├── chat.js         Helpo: validazione, istruzioni, chiamata a OpenAI, fonti
+│   └── feedback.js     Salva i voti su Helpo e restituisce le statistiche
 ├── lib/
 │   ├── knowledge-base.js  Carica assets/js/data.js sul server
-│   └── retrieval.js       Scelta delle guide da passare a Helpo
+│   ├── retrieval.js       Scelta delle guide da passare a Helpo
+│   └── store.js           Archivio del feedback (Upstash Redis)
 ├── tests/
 │   └── helpo.test.js   Test automatici (npm test)
 └── assets/
@@ -34,7 +37,8 @@ supporto-it/
     └── js/
         ├── data.js     TUTTI i contenuti: categorie, guide e contatti
         ├── app.js      Rendering delle pagine e ricerca classica
-        └── chat.js     Interfaccia di Helpo nel browser
+        ├── chat.js     Interfaccia di Helpo nel browser, con 👍/👎
+        └── statistiche.js  Pagina delle statistiche
 ```
 
 ## Accesso
@@ -59,6 +63,7 @@ preview ma non il sito pubblicato.
 | `SITO_SEGRETO`   | una stringa casuale lunga, usata per firmare il cookie          |
 | `OPENAI_API_KEY` | chiave per le risposte di Helpo                                 |
 | `OPENAI_MODEL`   | facoltativa: modello da usare (predefinito `gpt-5.6-luna`)      |
+| `KV_REST_API_URL`, `KV_REST_API_TOKEN` | archivio del feedback: le aggiunge l'integrazione Upstash |
 
 Per generare `SITO_SEGRETO` da PowerShell:
 
@@ -193,6 +198,30 @@ dispositivi e non apre ticket.
 
 La conversazione resta nella scheda del browser: si cancella con
 "Nuova conversazione", con **Esci** o quando la sessione scade.
+
+### Feedback e statistiche
+
+Sotto ogni nuova risposta di Helpo compaiono 👍 e 👎. Dopo un 👎 il collega può
+scrivere un commento facoltativo (massimo 500 caratteri).
+
+Si salvano **solo**: i voti per guida e per mese, il numero di domande del mese
+e di quelle rimaste senza guida pertinente, e i commenti. **Mai** il testo delle
+domande, l'indirizzo IP o il nome di chi vota. Prima del salvataggio i commenti
+vengono ripuliti da email, numeri di telefono, codici fiscali e IBAN; nomi e
+descrizioni cliniche non si possono riconoscere in automatico, per questo il
+modulo chiede di non scriverli. I commenti di un mese si cancellano da soli 90
+giorni dopo la fine del mese; i contatori restano.
+
+I dati si leggono su **`/statistiche.html`**: risposte valutate, percentuale
+utile, guide con più 👎, domande senza guida (le guide da scrivere) e commenti.
+La pagina è protetta dal login, quindi è visibile a chiunque abbia la password.
+
+L'archivio è un database **Upstash Redis** collegato dal Marketplace di Vercel
+(*Storage* o *Integrations* → Upstash → Redis, poi collegalo al progetto per
+Production e Preview). L'integrazione aggiunge da sola le variabili
+`KV_REST_API_URL` e `KV_REST_API_TOKEN` (valgono anche `UPSTASH_REDIS_REST_URL` e
+`UPSTASH_REDIS_REST_TOKEN`). Senza archivio Helpo funziona normalmente: i voti
+non vengono salvati e la pagina delle statistiche lo segnala.
 
 ### Errori e log
 
