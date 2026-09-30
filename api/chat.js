@@ -1,5 +1,6 @@
 import { cleanHistory, guidesByIds, retrieve } from '../lib/retrieval.js';
 import { knowledgeBase } from '../lib/knowledge-base.js';
+import { keys, monthKey, redis, storeConfig } from '../lib/store.js';
 
 // I recapiti non sono una guida: arrivano sempre, così Helpo può indicare il canale
 // giusto senza inventare numeri. Fonte unica: KB.contatti in assets/js/data.js.
@@ -30,6 +31,17 @@ ${contacts}`;
 const BUDGET_CODES = new Set(['project_spend_limit_exceeded', 'organization_spend_limit_exceeded', 'insufficient_quota']);
 
 function reply(res, status, body) { return res.status(status).json(body); }
+
+// Conta le domande del mese e quelle rimaste senza guida pertinente (le guide da
+// scrivere). Solo numeri, mai il testo. Se l'archivio non c'è o non risponde, la
+// risposta a Helpo parte comunque.
+async function countQuestion(withoutGuide) {
+  if (!storeConfig()) return;
+  const votes = keys.votes(monthKey());
+  const commands = [['HINCRBY', votes, 'domande:totale', 1]];
+  if (withoutGuide) commands.push(['HINCRBY', votes, 'domande:senza-guida', 1]);
+  try { await redis(commands); } catch { console.error('Helpo feedback error', { type: 'count_failed' }); }
+}
 function extractText(data) {
   if (typeof data.output_text === 'string' && data.output_text.trim()) return data.output_text.trim();
   return (Array.isArray(data.output) ? data.output : []).filter(x => x.type === 'message')
@@ -99,7 +111,9 @@ export default async function handler(req, res) {
     if (!answer || data.status === 'incomplete') return reply(res, 502, { error: 'Non ho ricevuto una risposta completa. Prova con una domanda più specifica.' });
     // Si mostrano solo guide davvero fornite: un id inventato dal modello non diventa un link.
     const used = cited ? guides.filter(g => cited.includes(g.id)) : found;
-    return reply(res, 200, { answer, sources: used.map(g => ({ id: g.id, titolo: g.titolo })) });
+    await countQuestion(result.kind === 'no_match' && !carried.length);
+    // valutabile: l'interfaccia mostra 👍/👎 solo sotto le risposte generate dal modello.
+    return reply(res, 200, { answer, sources: used.map(g => ({ id: g.id, titolo: g.titolo })), valutabile: true });
   } catch (error) {
     const timeout = controller.signal.aborted;
     console.error('Helpo request failed', { type: timeout ? 'timeout' : 'network_or_response' });
