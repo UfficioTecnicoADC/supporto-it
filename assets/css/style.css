@@ -904,6 +904,7 @@ body.pagina-accesso {
 .ai-feedback-pulsanti { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* Pagina statistiche di Helpo. */
+.statistiche-mese { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .statistiche-mese select {
   font: inherit;
   padding: 7px 10px;
