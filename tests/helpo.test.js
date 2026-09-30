@@ -132,6 +132,20 @@ test('API usa fonti ufficiali, nasconde errori e gestisce risposte incomplete', 
       assert.ok(!JSON.stringify(missing.body).includes('model_not_found'));
       assert.match(logged.join(),/model_not_found/);
       assert.ok(!logged.join().includes('Teams'));
+      // Budget superato: messaggio dedicato, non "riprova tra poco".
+      for (const budget of ['project_spend_limit_exceeded','organization_spend_limit_exceeded','insufficient_quota']) {
+        globalThis.fetch=async()=>({ok:false,status:429,json:async()=>({error:{code:budget,type:'insufficient_quota'}})});
+        const over=await call({message:'Teams non funziona'});
+        assert.equal(over.statusCode,503);
+        assert.equal(over.body.code,'AI_BUDGET');
+        assert.match(over.body.error,/budget dell’assistente è stato superato/);
+        assert.match(over.body.error,/supporto IT/);
+      }
+      // Un 429 di semplice sovraccarico resta un invito a riprovare.
+      globalThis.fetch=async()=>({ok:false,status:429,json:async()=>({error:{code:'rate_limit_exceeded',type:'requests'}})});
+      const busy=await call({message:'Teams non funziona'});
+      assert.equal(busy.statusCode,429);
+      assert.match(busy.body.error,/momentaneamente occupato/);
     } finally { console.error=originalError; }
     globalThis.fetch=async()=>({ok:true,json:async()=>({status:'incomplete',output_text:'Tagliato'})});
     assert.equal((await call({message:'Teams non funziona'})).statusCode,502);
