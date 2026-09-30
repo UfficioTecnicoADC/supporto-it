@@ -19,6 +19,11 @@
 
 import { next } from '@vercel/functions';
 
+/* Runtime Node.js: il runtime "edge", predefinito per middleware.js,
+   è deprecato da Vercel. Il codice usa solo API disponibili in entrambi
+   (Request, Response, crypto.subtle, process.env). */
+export const config = { runtime: 'nodejs' };
+
 /* Risorse raggiungibili senza autenticazione: la pagina di accesso
    e ciò che le serve per mostrarsi correttamente. */
 const PUBBLICHE = new Set([
@@ -95,6 +100,13 @@ export default async function middleware(request) {
 
   const valido = await sessioneValida(leggiCookie(request.headers.get('cookie'), COOKIE), segreto);
   if (valido) return next();
+
+  if (percorso.startsWith('/api/')) {
+    return new Response(JSON.stringify({ error: 'Sessione scaduta.', code: 'SESSION_EXPIRED' }), {
+      status: 401,
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }
+    });
+  }
 
   const destinazione = new URL('/login.html', url.origin);
   if (percorso !== '/' && percorso !== '/index.html') {

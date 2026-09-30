@@ -1,30 +1,40 @@
 # Supporto IT — Knowledge base ADCO HUB
 
-Sito statico (HTML, CSS, JavaScript) con le guide del supporto IT.
-Non richiede build, database o server applicativi: funziona aprendo `index.html` in un browser
-oppure copiando la cartella su un qualsiasi server web o su un sito SharePoint.
+Sito con le guide del supporto IT e **Helpo**, l'assistente AI di primo livello.
+Le pagine sono HTML, CSS e JavaScript senza build; su Vercel si aggiungono il
+controllo di accesso (`middleware.js`) e tre funzioni server in `api/`.
 
 ## Struttura
 
 ```
 supporto-it/
-├── login.html          Pagina di accesso
 ├── index.html          Home: ricerca, categorie, guide aggiornate di recente
 ├── categoria.html      Elenco delle guide di una categoria (?cat=id-categoria)
 ├── articolo.html       Singola guida (?id=id-articolo)
-├── ricerca.html        Risultati di ricerca (?q=termini)
-├── contatti.html       Canali, orari, priorità, cosa indicare in una richiesta
+├── ricerca.html        Risultati della ricerca classica (?q=termini)
+├── contatti.html       Canali, orari, priorità (i recapiti arrivano da KB.contatti)
+├── ai-mode.html        Conversazione con Helpo
+├── login.html          Pagina di accesso
+├── favicon.ico         Icona del sito (16, 32, 48 px, ricavata dal logo)
 ├── middleware.js       Controllo di accesso lato server (Vercel)
+├── vercel.json         Include l'archivio nella funzione di Helpo, durata massima 30 s
+├── package.json        Dipendenza del middleware e comando dei test
 ├── api/
 │   ├── login.js        Verifica credenziali e rilascia il cookie di sessione
-│   └── logout.js       Chiude la sessione
-├── package.json        Serve solo al middleware (@vercel/functions)
-├── assets/
-│   ├── css/style.css   Unico foglio di stile del sito
-│   └── js/
-│       ├── data.js     TUTTI i contenuti: categorie e guide
-│       └── app.js      Rendering delle pagine e motore di ricerca
-└── README.md
+│   ├── logout.js       Chiude la sessione
+│   └── chat.js         Helpo: validazione, istruzioni, chiamata a OpenAI, fonti
+├── lib/
+│   ├── knowledge-base.js  Carica assets/js/data.js sul server
+│   └── retrieval.js       Scelta delle guide da passare a Helpo
+├── tests/
+│   └── helpo.test.js   Test automatici (npm test)
+└── assets/
+    ├── css/style.css   Unico foglio di stile del sito
+    ├── img/            Logo e immagini delle guide
+    └── js/
+        ├── data.js     TUTTI i contenuti: categorie, guide e contatti
+        ├── app.js      Rendering delle pagine e ricerca classica
+        └── chat.js     Interfaccia di Helpo nel browser
 ```
 
 ## Accesso
@@ -32,20 +42,23 @@ supporto-it/
 Il sito è protetto **lato server** quando è pubblicato su Vercel. Ogni richiesta
 passa da `middleware.js`: senza un cookie di sessione valido il visitatore viene
 portato a `login.html` e non riceve nulla del sito, né le pagine né i contenuti
-in `assets/js`. Le credenziali sono verificate dalla funzione `api/login.js` e
-**non sono presenti in questo repository**: vivono nelle Environment Variables
-del progetto Vercel.
+in `assets/`. Restano pubblici solo la pagina di accesso, il foglio di stile,
+`favicon.ico` e `robots.txt`. Le chiamate a `/api/chat` con la sessione scaduta
+ricevono un errore JSON 401 invece del reindirizzamento.
 
 ### Variabili da impostare su Vercel
 
-In *Project Settings → Environment Variables*, per gli ambienti Production,
-Preview e Development:
+In *Project Settings → Environment Variables*. Vanno attivate per **Production**
+oltre che per Preview: una variabile presente solo in Preview fa funzionare la
+preview ma non il sito pubblicato.
 
-| Variabile       | Valore                                                        |
-|-----------------|---------------------------------------------------------------|
-| `SITO_UTENTE`   | nome utente (facoltativa: se assente vale `ADC`)              |
-| `SITO_PASSWORD` | la password di accesso                                        |
-| `SITO_SEGRETO`  | una stringa casuale lunga, usata per firmare il cookie        |
+| Variabile        | Valore                                                          |
+|------------------|-----------------------------------------------------------------|
+| `SITO_UTENTE`    | nome utente (facoltativa: se assente vale `ADC`)                |
+| `SITO_PASSWORD`  | la password di accesso                                          |
+| `SITO_SEGRETO`   | una stringa casuale lunga, usata per firmare il cookie          |
+| `OPENAI_API_KEY` | chiave per le risposte di Helpo                                 |
+| `OPENAI_MODEL`   | facoltativa: modello da usare (predefinito `gpt-5.6-luna`)      |
 
 Per generare `SITO_SEGRETO` da PowerShell:
 
@@ -58,40 +71,47 @@ diventino effettive (*Deployments → ⋯ → Redeploy*).
 
 Finché `SITO_PASSWORD` e `SITO_SEGRETO` non sono impostate, il sito risponde
 `503` a tutte le pagine: è voluto, meglio un sito fermo che un sito aperto
-per una configurazione dimenticata.
+per una configurazione dimenticata. Senza `OPENAI_API_KEY` il sito funziona,
+ma Helpo risponde che l'assistente non è disponibile.
 
 ### Come funziona la sessione
 
 Dopo l'accesso viene rilasciato un cookie `sit_acc`, `HttpOnly` e `Secure`,
 valido **8 ore**. Contiene solo una scadenza e la sua firma HMAC-SHA256: non
 contiene la password e non è falsificabile senza conoscere `SITO_SEGRETO`.
-La voce **Esci** nel menu chiama `/api/logout`, che cancella il cookie.
-
-### Uso in locale
-
-Aprendo i file con un doppio clic non c'è alcun server: il login non funziona
-(la pagina lo segnala) e le guide sono consultabili aprendo direttamente
-`index.html`. È corretto così — chi ha i file sul proprio PC può leggerli
-comunque, la protezione ha senso solo sul sito pubblicato.
+La voce **Esci** nel menu chiama `/api/logout`, che cancella il cookie e la
+conversazione con Helpo salvata nella scheda.
 
 ### Cambiare le credenziali
 
 Si cambia il valore della variabile su Vercel e si rilancia il deploy. Nessuna
 modifica al codice, nessun commit.
 
+## Contatti del supporto IT
+
+Email, telefono, WhatsApp e orari stanno **solo** in `KB.contatti`, all'inizio di
+`assets/js/data.js`. Da lì li leggono:
+
+- la pagina `contatti.html`, che crea schede e tabella degli orari;
+- la ricerca classica, che mostra un riquadro con i recapiti quando si cerca
+  "contatti", "telefono", "whatsapp", "orari", "supporto it" e simili;
+- Helpo, che li riceve a ogni domanda e può indicare il canale adatto.
+
+Per cambiare un recapito si modifica solo `KB.contatti`.
+
 ## Aggiungere o modificare una guida
 
-Tutti i contenuti stanno in `assets/js/data.js`. Nessun altro file va toccato:
-home, elenchi di categoria e ricerca si aggiornano da soli.
+Tutti i contenuti stanno in `assets/js/data.js`. Home, elenchi di categoria,
+ricerca e Helpo si aggiornano da soli.
 
 Aggiungi un oggetto in `KB.articoli`:
 
 ```js
 {
-  id: "titolo-della-guida",          // solo minuscole e trattini, usato nell'URL
+  id: "titolo-della-guida",          // minuscole e trattini, usato nell'URL
   titolo: "Titolo della guida",
   categoria: "accessi",              // id di una categoria esistente
-  tag: ["parola", "chiave"],         // usate dalla ricerca
+  tag: ["parola", "chiave"],         // usate dalla ricerca e da Helpo
   aggiornato: "2026-08-28",          // formato AAAA-MM-GG
   minuti: 3,                         // tempo di lettura indicativo
   sommario: "Una o due righe di descrizione.",
@@ -110,41 +130,118 @@ Aggiungi un oggetto in `KB.articoli`:
 Riquadri disponibili nel corpo: `nota` (blu, informativa), `nota ok` (verde),
 `nota attenzione` (ambra), `nota critico` (rosso).
 Sono supportati anche `<table>`, `<ul>`, `<ol>`, `<code>` e `<h3>`.
+Per rimandare a un'altra guida usa un collegamento vero, non solo il titolo:
+`<a href="articolo.html?id=id-della-guida">Titolo</a>`.
+
+**Titolo e tag contano più del testo.** Sia la ricerca classica sia Helpo danno
+molto peso alle parole del titolo e dei tag: una parola comune trovata solo nel
+testo non basta a far comparire una guida. Nei tag vanno le parole che i
+colleghi scriverebbero davvero ("stampante", "non stampa", "coda di stampa").
 
 Per aggiungere una categoria, inserisci un oggetto in `KB.categorie` con
 `id`, `nome`, `descrizione` e `icona` (valori disponibili: `chiave`, `monitor`,
 `posta`, `wifi`, `scudo`, `stampante`, `pacchetto`, `documento`).
 
-Aggiorna anche `KB.aggiornamento` in cima al file: è la data mostrata nel piè di pagina.
+### Immagini nelle guide
 
-## Personalizzazioni rapide
+Le immagini vanno in `assets/img/<argomento>/` e si inseriscono così:
 
-- **Colori e tema**: blocco `:root` in `assets/css/style.css`. Il tema scuro è
-  automatico e segue le impostazioni del sistema operativo.
-- **Logo**: le iniziali nel riquadro blu sono nel markup di ogni pagina
-  (`<span class="logo-segno">AH</span>`). Per usare un'immagine, sostituisci lo
-  `<span>` con un `<img>` e adatta l'altezza nella classe `.logo-segno`.
-- **Contatti**: `contatti.html` contiene recapiti e orari **di esempio**.
-  Vanno sostituiti con quelli reali, insieme al riquadro giallo che segnala
-  che si tratta di segnaposto.
+```html
+<figure>
+  <img src="assets/img/stampante/01-pannello-controllo.png" alt="Descrizione di cosa mostra" loading="lazy">
+  <figcaption>Didascalia.</figcaption>
+</figure>
+```
 
-## Nota sui contenuti
+Aggiungi `class="stretta"` alla `figure` per le immagini piccole o verticali.
+Prima di caricarle:
 
-Le 30 guide sono state scritte come base di partenza realistica per un ambiente
-Windows con Microsoft 365. Prima della pubblicazione vanno verificate rispetto
-alle procedure effettive dell'azienda: durata delle password, soglie di blocco
-account, tempi di consegna hardware, ciclo di vita dei dispositivi e livelli di
-servizio sono valori plausibili ma da confermare.
+- **foto** (scattate col telefono a un display o a uno schermo): JPEG, circa 100 KB;
+- **screenshot** di finestre: PNG, meglio se compresso a 256 colori;
+- larghezza massima intorno ai 1000 pixel: la colonna della guida è più stretta.
+
+Una foto salvata in PNG pesa dieci volte di più senza differenze visibili.
+Helpo non vede le immagini: quando servono, rimanda alla guida completa.
+
+## Helpo
+
+La ricerca classica funziona nel browser. Helpo lavora sul server:
+
+1. `lib/retrieval.js` sceglie fino a tre guide pertinenti alla domanda.
+   Una guida viene scelta se la parola cercata è nel titolo o nei tag, oppure se
+   nel testo compaiono almeno due parole della domanda. Le guide fino a 14.000
+   caratteri vengono passate complete; per quelle più lunghe si scelgono le
+   sezioni pertinenti, segnalate come estratto.
+2. `api/chat.js` manda al modello la **conversazione recente** (fino a 10
+   messaggi), le guide trovate, le **guide della risposta precedente** e i
+   contatti ufficiali. È il modello a capire se un messaggio breve ("sicuro?",
+   "non va") continua il discorso o apre un argomento nuovo.
+3. Il modello chiude ogni risposta con una riga `FONTI:` che elenca le guide
+   usate davvero. Il server la toglie e mostra come collegamenti solo quelle
+   guide; un id inventato viene ignorato.
+
+Il contenuto delle guide arriva sempre dall'archivio sul server: dal browser
+arrivano solo la domanda, la cronologia e gli id delle guide citate, verificati
+sull'archivio. Le istruzioni vietano di inventare procedure, recapiti o
+credenziali e di chiedere password, codici MFA o dati dei pazienti.
+
+Limiti: domanda di 4.000 caratteri, cronologia di 10 messaggi da 4.000
+caratteri, risposta di 2.500 token (compreso l'eventuale ragionamento del
+modello), 25 secondi per la risposta. Una risposta incompleta viene segnalata
+come errore, non mostrata come procedura completa. Helpo non esegue azioni sui
+dispositivi e non apre ticket.
+
+La conversazione resta nella scheda del browser: si cancella con
+"Nuova conversazione", con **Esci** o quando la sessione scade.
+
+### Errori e log
+
+All'utente arrivano solo messaggi generici. Nel log di Vercel, se OpenAI rifiuta
+una richiesta, compaiono lo stato HTTP e il codice d'errore del fornitore, per
+esempio `model_not_found` (modello errato), `insufficient_quota` (credito
+esaurito) o `invalid_api_key`. Domande, guide e chiavi non vengono mai registrate.
+
+Non c'è un limite al numero di richieste nel codice: il tetto di spesa va
+impostato nel progetto OpenAI.
+
+## Verifiche automatiche
+
+Serve Node.js (versione LTS). Dalla radice del repository:
+
+```sh
+npm test
+```
+
+I test verificano la scelta delle guide, i cambi di argomento e le repliche
+brevi, la cronologia, le fonti citate, i contatti, la validazione, gli errori
+OpenAI e il loro log, il middleware e la sessione. Le chiamate a OpenAI sono
+simulate: i test non consumano credito e non valutano la qualità delle risposte.
 
 ## Pubblicazione
 
-- **Vercel** (consigliato): importa il repository, non serve impostare alcun
-  comando di build. Poi imposta le Environment Variables descritte sopra: il
-  middleware protegge il sito automaticamente.
-- **Uso locale**: apri `index.html` con un doppio clic (senza login, vedi sopra).
-- **Rete o intranet**: copia i file nella directory del server web. Attenzione:
-  `middleware.js` e `api/` funzionano solo su Vercel; su un altro server il
-  controllo di accesso va rifatto con gli strumenti di quel server.
+- **Vercel** (consigliato): nessun comando di build. Imposta le variabili
+  descritte sopra, anche per Production.
+- **Uso locale**: aprendo `index.html` con un doppio clic le guide sono
+  consultabili, ma login e Helpo non funzionano perché serve il server.
+- **Rete o intranet**: `middleware.js` e `api/` funzionano solo su Vercel; su un
+  altro server il controllo di accesso va rifatto con gli strumenti di quel server.
 
-Le pagine non usano librerie esterne e non effettuano chiamate di rete oltre a
-quella di accesso: la consultazione delle guide funziona anche offline.
+### Portare le modifiche da un branch a `main`
+
+1. Verifica che le variabili su Vercel siano attive anche per **Production**.
+2. Apri una pull request con base `main` e unisci con **Squash and merge**:
+   i commit del branch diventano uno solo, facile da annullare.
+3. Vercel pubblica in produzione. Prova login, ricerca e una domanda a Helpo.
+
+Per tornare indietro: su Vercel *Deployments → deploy precedente → Promote to
+Production*, oppure il pulsante **Revert** nella pull request.
+
+## Nota sui contenuti
+
+Le 40 guide sono una base di partenza per un ambiente Windows con Microsoft 365
+e i programmi dello studio (NNT, SIDEXIS, VixWin, ORIS DENT). Prima del lancio
+vanno verificate dall'IT rispetto alle procedure effettive: durata delle
+password, soglie di blocco, tempi di consegna, livelli di servizio e recapiti
+sono da confermare. Punti aperti noti: manca una guida sulla VPN, citata in
+diverse guide, e la guida sul dispositivo smarrito cita un numero di
+reperibilità che non è documentato.

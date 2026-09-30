@@ -200,6 +200,101 @@
     );
   }
 
+  /* ---------- Contatti (dati in KB.contatti) ---------- */
+
+  function soloCifre(numero) {
+    return String(numero).replace(/[^\d]/g, "");
+  }
+
+  function linkEmail(c) {
+    return (
+      '<a href="mailto:' + esc(c.email.valore) +
+      '?subject=Richiesta%20assistenza%20IT&body=Ciao%2C%20avrei%20bisogno%20di%20assistenza.">' +
+      esc(c.email.valore) + "</a>"
+    );
+  }
+
+  function linkTelefono(numero) {
+    return '<a href="tel:+' + soloCifre(numero) + '">' + esc(numero) + "</a>";
+  }
+
+  function linkWhatsapp(c) {
+    return (
+      '<a href="https://wa.me/' + soloCifre(c.whatsapp.valore) +
+      '?text=Ciao%2C%20avrei%20bisogno%20di%20assistenza%20IT." target="_blank" rel="noopener noreferrer">' +
+      esc(c.whatsapp.valore) + "</a>"
+    );
+  }
+
+  function renderContatti() {
+    var c = KB.contatti;
+    var canali = $("#canali-contatto");
+    var orari = $("#orari-contatto");
+
+    if (canali) {
+      canali.innerHTML =
+        '<div class="scheda"><h3>Email</h3>' +
+        "<p>" + esc(c.email.uso) + "</p>" +
+        '<p class="dato">' + linkEmail(c) + "</p></div>" +
+
+        '<div class="scheda"><h3>Telefono</h3>' +
+        "<p>" + esc(c.telefono.uso) + "</p>" +
+        '<p class="dato">interno ' + esc(c.telefono.interno) + "</p>" +
+        '<p style="font-size:.86rem">Dall\'esterno: ' + linkTelefono(c.telefono.esterno) + "</p></div>" +
+
+        '<div class="scheda"><h3>Chat WhatsApp</h3>' +
+        "<p>" + esc(c.whatsapp.uso) + "</p>" +
+        '<p class="dato">Numero: ' + linkWhatsapp(c) + "</p></div>";
+    }
+
+    if (orari) {
+      orari.innerHTML =
+        "<tr><th>Servizio</th><th>Copertura</th></tr>" +
+        c.orari.map(function (o) {
+          return "<tr><td>" + esc(o.servizio) + "</td><td>" + esc(o.copertura) + "</td></tr>";
+        }).join("");
+    }
+  }
+
+  /* Chi cerca "telefono supporto" o "orari" vuole i recapiti, che non sono una guida. */
+  var PAROLE_CONTATTI = ["contatti", "contatto", "contattare", "recapiti", "recapito", "telefono", "telefonare",
+    "chiamare", "numero", "whatsapp", "orari", "orario", "reperibilita"];
+
+  function cercaContatti(termini) {
+    var PAROLE_SUPPORTO = ["supporto", "assistenza", "it", "ufficio", "tecnico", "helpdesk", "help", "desk"];
+
+    var supporto = termini.some(function (t) {
+      return PAROLE_SUPPORTO.indexOf(t) !== -1;
+    });
+
+    /* "supporto it" o "assistenza" da soli: chi scrive così cerca il supporto, non una guida. */
+    if (termini.length && termini.every(function (t) {
+      return PAROLE_SUPPORTO.indexOf(t) !== -1;
+    })) {
+      return true;
+    }
+
+    return termini.some(function (t) {
+      return PAROLE_CONTATTI.indexOf(t) !== -1 ||
+        (supporto && (t === "email" || t === "mail"));
+    });
+  }
+
+  function riquadroContatti() {
+    var c = KB.contatti;
+
+    return (
+      '<div class="nota" style="margin-bottom:22px">' +
+      "<strong>Contatti del supporto IT</strong>" +
+      "Email: " + linkEmail(c) +
+      " &middot; Telefono: interno " + esc(c.telefono.interno) +
+      ", dall'esterno " + linkTelefono(c.telefono.esterno) +
+      " &middot; WhatsApp: " + linkWhatsapp(c) +
+      '<br><a href="contatti.html">Orari, priorità e cosa indicare nella richiesta &rarr;</a>' +
+      "</div>"
+    );
+  }
+
   /* ---------- Pagina: home ---------- */
 
   function renderHome() {
@@ -543,6 +638,29 @@
 
   /* ---------- Pagina: ricerca ---------- */
 
+  /* Parole che compaiono in quasi tutte le guide: da sole non distinguono nulla.
+     "it" è qui perché "supporto IT" è citato ovunque. */
+  var PAROLE_VUOTE = ("a ad al alla alle allo ai agli con da dal dalla dalle dagli dei del della delle di e ed " +
+    "gli i il in la le lo nel nella nelle nei non o per su sul sulla sulle sui un una uno come cosa che chi " +
+    "mi ti si ci ho ha hai sono posso puoi devo vorrei voglio riesco serve fare funziona piu it").split(" ");
+
+  function significativi(termini) {
+    var utili = termini.filter(function (q) {
+      return PAROLE_VUOTE.indexOf(q) === -1;
+    });
+
+    return utili.length ? utili : termini;
+  }
+
+  /* Le parole corte (pc, ip, tac, vpn) valgono solo intere: "it" non deve
+     trovare "criteri". Le più lunghe anche come parte di parola: "stampa"
+     trova "stampante". I testi arrivano già normalizzati, parole separate da spazi. */
+  function contiene(testo, q) {
+    return q.length <= 3
+      ? (" " + testo + " ").indexOf(" " + q + " ") !== -1
+      : testo.indexOf(q) !== -1;
+  }
+
   function punteggio(art, termini) {
     var t =
       normalizza(art.titolo);
@@ -562,23 +680,26 @@
 
     var tot = 0;
     var trovati = 0;
+    var forte = false;
 
     termini.forEach(function (q) {
       var p = 0;
 
-      if (t.indexOf(q) !== -1) {
+      if (contiene(t, q)) {
         p += 12;
+        forte = true;
       }
 
-      if (g.indexOf(q) !== -1) {
+      if (contiene(g, q)) {
         p += 7;
+        forte = true;
       }
 
-      if (s.indexOf(q) !== -1) {
+      if (contiene(s, q)) {
         p += 4;
       }
 
-      if (c.indexOf(q) !== -1) {
+      if (contiene(c, q)) {
         p += 1;
       }
 
@@ -590,14 +711,14 @@
     });
 
     if (trovati === 0) {
-      return 0;
+      return { punti: 0, completo: false, forte: false };
     }
 
     if (trovati === termini.length) {
       tot += 10;
     }
 
-    return tot;
+    return { punti: tot, completo: trovati === termini.length, forte: forte };
   }
 
   function evidenziatore(termini) {
@@ -610,21 +731,22 @@
           return;
         }
 
-        var re =
-          new RegExp(
-            "(" +
-            q.replace(
-              /[.*+?^${}()|[\]\\]/g,
-              "\\$&"
-            ) +
-            ")",
-            "gi"
+        var parola =
+          q.replace(
+            /[.*+?^${}()|[\]\\]/g,
+            "\\$&"
           );
+
+        /* Come nella ricerca: le parole corte si evidenziano solo intere. */
+        var re =
+          q.length <= 3
+            ? new RegExp("(^|[^a-z0-9àèéìòù])(" + parola + ")(?![a-z0-9àèéìòù])", "gi")
+            : new RegExp("()(" + parola + ")", "gi");
 
         out =
           out.replace(
             re,
-            "<mark>$1</mark>"
+            "$1<mark>$2</mark>"
           );
       });
 
@@ -682,32 +804,53 @@
       return;
     }
 
-    var termini =
+    var tutti =
       normalizza(q)
         .split(" ")
         .filter(function (x) {
           return x.length > 1;
         });
 
-    var risultati =
+    var termini =
+      significativi(tutti);
+
+    var trovate =
       KB.articoli
 
         .map(function (a) {
+          var r = punteggio(
+            a,
+            termini
+          );
+
           return {
             a: a,
-            p: punteggio(
-              a,
-              termini
-            )
+            p: r.punti,
+            completo: r.completo,
+            forte: r.forte
           };
         })
 
         .filter(function (r) {
           return r.p > 0;
-        })
+        });
+
+    /* Prima le guide che contengono tutte le parole cercate, poi quelle che
+       ne hanno almeno una nel titolo o nei tag ("teams microfono" trova anche
+       la guida di Teams). Una parola trovata solo nel testo non basta, a meno
+       che non ci sia nient'altro da mostrare. */
+    var pertinenti =
+      trovate.filter(function (r) {
+        return r.completo || r.forte;
+      });
+
+    var risultati =
+      (pertinenti.length ? pertinenti : trovate)
 
         .sort(function (x, y) {
           return (
+            (y.completo ? 1 : 0) -
+            (x.completo ? 1 : 0) ||
             y.p -
             x.p ||
             perData(
@@ -720,6 +863,21 @@
         .map(function (r) {
           return r.a;
         });
+
+    var contatti =
+      cercaContatti(tutti)
+        ? riquadroContatti()
+        : "";
+
+    if (!risultati.length && contatti) {
+      contenuto.innerHTML =
+        "<h1>Risultati per &laquo;" +
+        esc(q) +
+        "&raquo;</h1>" +
+        contatti;
+
+      return;
+    }
 
     if (!risultati.length) {
       contenuto.innerHTML =
@@ -768,6 +926,8 @@
       "</div>" +
       "</div>" +
 
+      contatti +
+
       '<div class="elenco-articoli">' +
 
       vociArticolo(
@@ -780,1305 +940,31 @@
       riquadroAiuto();
   }
 
-  /* ============================================================
-     ASSISTENTE AI
-     ============================================================ */
-
-  /*
-   * AI Mode non invia tutta la knowledge base a ogni richiesta.
-   *
-   * Prima cerca nel browser le guide più pertinenti.
-   * Solo dopo manda le guide selezionate a /api/chat.
-   *
-   * La ricerca normale del sito continua a utilizzare punteggio().
-   * AI Mode utilizza invece punteggioAI().
-   */
-
-  var PAROLE_COMUNI_AI = {
-    a: true,
-    ad: true,
-    al: true,
-    alla: true,
-    alle: true,
-    allo: true,
-    ai: true,
-    agli: true,
-
-    che: true,
-    chi: true,
-    come: true,
-    con: true,
-    cosa: true,
-
-    da: true,
-    dal: true,
-    dalla: true,
-
-    dei: true,
-    del: true,
-    della: true,
-    delle: true,
-
-    di: true,
-
-    e: true,
-    ed: true,
-
-    gli: true,
-
-    ha: true,
-    hai: true,
-    ho: true,
-
-    i: true,
-    il: true,
-
-    in: true,
-    io: true,
-
-    la: true,
-    le: true,
-    lo: true,
-
-    ma: true,
-    mi: true,
-
-    nel: true,
-    nella: true,
-
-    non: true,
-
-    o: true,
-
-    per: true,
-    pero: true,
-    piu: true,
-
-    quale: true,
-    quando: true,
-
-    se: true,
-    si: true,
-    sono: true,
-
-    su: true,
-    sul: true,
-    sulla: true,
-
-    un: true,
-    una: true,
-    uno: true,
-
-    vorrei: true,
-    devo: true,
-    posso: true,
-
-    riesco: true,
-    gia: true,
-    ancora: true,
-
-    fare: true,
-    fatto: true
-  };
-
-  /*
-   * Parole considerate equivalenti nella ricerca AI.
-   *
-   * Esempio:
-   *
-   * "il PC va lentissimo"
-   *
-   * può trovare una guida con la parola:
-   *
-   * "lento"
-   */
-
-  var SINONIMI_AI = [
-    [
-      "stampante",
-      "stampare",
-      "stampa",
-      "stampe"
-    ],
-
-    [
-      "monitor",
-      "schermo",
-      "display"
-    ],
-
-    [
-      "lento",
-      "lenta",
-      "lentissimo",
-      "lentissima",
-      "rallenta",
-      "rallentato",
-      "rallentata"
-    ],
-
-    [
-      "collegare",
-      "collegamento",
-      "collegato",
-      "connessione",
-      "connettere",
-      "connesso",
-      "comunicare",
-      "comunica",
-      "parla"
-    ],
-
-    [
-      "mail",
-      "email",
-      "posta"
-    ],
-
-    [
-      "ricevere",
-      "riceve",
-      "ricezione",
-      "arriva",
-      "arrivano"
-    ],
-
-    [
-      "inviare",
-      "invio",
-      "invia",
-      "mandare",
-      "manda",
-      "spedire"
-    ],
-
-    [
-      "cartella",
-      "cartelle",
-      "directory"
-    ],
-
-    [
-      "rete",
-      "network"
-    ],
-
-    [
-      "account",
-      "utente",
-      "profilo"
-    ],
-
-    [
-      "bloccato",
-      "bloccata",
-      "blocco",
-      "locked"
-    ],
-
-    [
-      "password",
-      "credenziale",
-      "credenziali"
-    ],
-
-    [
-      "microfono",
-      "mic"
-    ],
-
-    [
-      "audio",
-      "suono"
-    ],
-
-    [
-      "masterizzare",
-      "masterizzazione",
-      "masterizza",
-      "dvd"
-    ],
-
-    [
-      "tac",
-      "cbct"
-    ],
-
-    [
-      "wetransfer",
-      "we transfer"
-    ],
-
-    [
-      "panoramico",
-      "panoramica",
-      "ortopanoramico",
-      "ortopanoramica"
-    ]
-  ];
-
-  /*
-   * Software, servizi e dispositivi specifici.
-   *
-   * Se l'utente nomina uno di questi termini,
-   * le guide che contengono lo stesso termine
-   * ricevono molta più priorità.
-   */
-
-  var TERMINI_TECNICI_AI = [
-    "nnt",
-    "sidexis",
-    "outlook",
-    "oris",
-    "opivoice",
-    "wetransfer",
-    "teams",
-    "chrome",
-    "windows",
-    "vpn",
-    "server",
-    "panoramico",
-    "tac",
-    "stampante",
-    "microfono"
-  ];
-
-  function unici(lista) {
-    return lista.filter(function (x, i) {
-      return lista.indexOf(x) === i;
-    });
-  }
-
-  function terminiPerAI(messaggio) {
-    var termini =
-      normalizza(messaggio)
-        .split(" ")
-        .filter(function (x) {
-          return (
-            x.length > 1 &&
-            !PAROLE_COMUNI_AI[x]
-          );
-        });
-
-    return unici(termini);
-  }
-
-  /*
-   * Aggiunge i sinonimi ai termini cercati.
-   */
-
-  function espandiTerminiAI(termini) {
-    var espansi =
-      termini.slice();
-
-    termini.forEach(function (termine) {
-
-      SINONIMI_AI.forEach(function (gruppo) {
-
-        var gruppoNormalizzato =
-          gruppo.map(normalizza);
-
-        if (
-          gruppoNormalizzato.indexOf(
-            termine
-          ) !== -1
-        ) {
-
-          gruppoNormalizzato.forEach(
-            function (voce) {
-
-              /*
-               * Ignoriamo qui le espressioni
-               * composte da più parole.
-               */
-
-              if (
-                voce.indexOf(" ") === -1
-              ) {
-                espansi.push(voce);
-              }
-
-            }
-          );
-
-        }
-
+  /* ---------- Assistente AI: recupero e selezione sul server ---------- */
+  async function chiediAI(messaggio, storico) {
+    var controller = new AbortController();
+    var timer = setTimeout(function () { controller.abort(); }, 30000);
+    try {
+      var risposta = await fetch("/api/chat", {
+        method: "POST",
+        signal: controller.signal,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: messaggio, history: storico || [] })
       });
-
-    });
-
-    return unici(espansi);
+      if (risposta.status === 401 || risposta.redirected) {
+        var accesso = new Error("La sessione è scaduta. Accedi di nuovo per continuare.");
+        accesso.code = "SESSION_EXPIRED";
+        throw accesso;
+      }
+      var dati = await risposta.json();
+      if (!risposta.ok) throw new Error(dati.error || "L’assistente non è disponibile al momento.");
+      return dati;
+    } catch (errore) {
+      if (errore.name === "AbortError") throw new Error("La risposta sta impiegando troppo tempo. Riprova tra poco.");
+      if (errore instanceof TypeError) throw new Error("Impossibile contattare l’assistente. Controlla la connessione e riprova.");
+      throw errore;
+    } finally { clearTimeout(timer); }
   }
-
-  /*
-   * Piccolo sistema di "radice".
-   *
-   * Serve per riconoscere:
-   *
-   * stampare
-   * stampante
-   * stampa
-   *
-   * come termini simili.
-   */
-
-  function radiceAI(termine) {
-
-    if (termine.length <= 5) {
-      return termine;
-    }
-
-    var suffissi = [
-      "mente",
-      "zione",
-      "zioni",
-      "amento",
-      "amenti",
-
-      "ando",
-      "endo",
-
-      "ato",
-      "ata",
-      "ati",
-      "ate",
-
-      "are",
-      "ere",
-      "ire",
-
-      "ico",
-      "ica",
-      "ici",
-      "iche"
-    ];
-
-    for (
-      var i = 0;
-      i < suffissi.length;
-      i++
-    ) {
-
-      var suffisso =
-        suffissi[i];
-
-      if (
-        termine.length -
-        suffisso.length >= 4 &&
-
-        termine.slice(
-          -suffisso.length
-        ) === suffisso
-      ) {
-
-        return termine.slice(
-          0,
-          -suffisso.length
-        );
-
-      }
-
-    }
-
-    return termine;
-  }
-
-  function contieneTermineAI(
-    testo,
-    termine
-  ) {
-
-    if (
-      !testo ||
-      !termine
-    ) {
-      return false;
-    }
-
-    /*
-     * Corrispondenza diretta.
-     */
-
-    if (
-      testo.indexOf(termine) !== -1
-    ) {
-      return true;
-    }
-
-    /*
-     * Per parole molto corte non usiamo
-     * la ricerca per radice.
-     */
-
-    if (
-      termine.length < 5
-    ) {
-      return false;
-    }
-
-    var radice =
-      radiceAI(termine);
-
-    if (
-      radice.length < 4
-    ) {
-      return false;
-    }
-
-    var parole =
-      testo.split(" ");
-
-    for (
-      var i = 0;
-      i < parole.length;
-      i++
-    ) {
-
-      if (
-        parole[i].indexOf(radice) === 0
-      ) {
-        return true;
-      }
-
-    }
-
-    return false;
-  }
-
-  /*
-   * Trasforma il corpo HTML della guida
-   * in semplice testo.
-   */
-
-  function testoArticoloPerAI(html) {
-
-    var contenitore =
-      document.createElement("div");
-
-    contenitore.innerHTML =
-      String(html || "");
-
-    return (
-      contenitore.textContent ||
-      contenitore.innerText ||
-      ""
-    )
-      .replace(/\s+/g, " ")
-      .trim();
-  }
-
-  /*
-   * Cerca di capire se l'utente
-   * sta descrivendo un problema.
-   */
-
-  function segnaliProblemaAI(
-    messaggioNormalizzato
-  ) {
-
-    var segnali = [
-      "non funziona",
-      "non va",
-      "non riesco",
-
-      "non comunica",
-      "non si collega",
-      "non si connette",
-
-      "non vede",
-      "non rileva",
-
-      "non trovo",
-      "non riceve",
-
-      "problema",
-      "errore",
-
-      "bloccato",
-      "bloccata",
-
-      "lento",
-      "lenta",
-      "lentissimo",
-      "lentissima"
-    ];
-
-    return segnali.some(
-      function (segnale) {
-
-        return (
-          messaggioNormalizzato.indexOf(
-            segnale
-          ) !== -1
-        );
-
-      }
-    );
-  }
-
-  /*
-   * Cerca nella domanda eventuali
-   * software o dispositivi specifici.
-   */
-
-  function terminiTecniciNellaDomandaAI(
-    messaggioNormalizzato
-  ) {
-
-    return TERMINI_TECNICI_AI.filter(
-      function (termine) {
-
-        return contieneTermineAI(
-          messaggioNormalizzato,
-          termine
-        );
-
-      }
-    );
-  }
-
-  /*
-   * Motore di punteggio dedicato
-   * esclusivamente ad AI Mode.
-   */
-
-  function punteggioAI(
-    art,
-    messaggio
-  ) {
-
-    var domanda =
-      normalizza(messaggio);
-
-    var terminiOriginali =
-      terminiPerAI(messaggio);
-
-    var termini =
-      espandiTerminiAI(
-        terminiOriginali
-      );
-
-    var titolo =
-      normalizza(
-        art.titolo
-      );
-
-    var tag =
-      normalizza(
-        (art.tag || []).join(" ")
-      );
-
-    var sommario =
-      normalizza(
-        art.sommario || ""
-      );
-
-    var corpo =
-      normalizza(
-        soloTesto(
-          art.corpo || ""
-        )
-      );
-
-    var tutto =
-      titolo +
-      " " +
-      tag +
-      " " +
-      sommario +
-      " " +
-      corpo;
-
-    var punti = 0;
-
-    var originaliTrovati = 0;
-
-    /*
-     * I termini realmente scritti
-     * dall'utente valgono molto.
-     *
-     * Titolo = peso massimo.
-     * Corpo = peso minimo.
-     */
-
-    terminiOriginali.forEach(
-      function (termine) {
-
-        var trovato = false;
-
-        if (
-          contieneTermineAI(
-            titolo,
-            termine
-          )
-        ) {
-
-          punti += 34;
-          trovato = true;
-
-        }
-
-        if (
-          contieneTermineAI(
-            tag,
-            termine
-          )
-        ) {
-
-          punti += 24;
-          trovato = true;
-
-        }
-
-        if (
-          contieneTermineAI(
-            sommario,
-            termine
-          )
-        ) {
-
-          punti += 11;
-          trovato = true;
-
-        }
-
-        if (
-          contieneTermineAI(
-            corpo,
-            termine
-          )
-        ) {
-
-          punti += 3;
-          trovato = true;
-
-        }
-
-        if (trovato) {
-          originaliTrovati++;
-        }
-
-      }
-    );
-
-    /*
-     * I sinonimi aiutano,
-     * ma valgono meno.
-     */
-
-    termini.forEach(
-      function (termine) {
-
-        if (
-          terminiOriginali.indexOf(
-            termine
-          ) !== -1
-        ) {
-          return;
-        }
-
-        if (
-          contieneTermineAI(
-            titolo,
-            termine
-          )
-        ) {
-          punti += 10;
-        }
-
-        if (
-          contieneTermineAI(
-            tag,
-            termine
-          )
-        ) {
-          punti += 7;
-        }
-
-        if (
-          contieneTermineAI(
-            sommario,
-            termine
-          )
-        ) {
-          punti += 3;
-        }
-
-      }
-    );
-
-    /*
-     * Se la frase dell'utente
-     * compare quasi esattamente
-     * nella guida, grande bonus.
-     */
-
-    if (
-      domanda.length > 4
-    ) {
-
-      if (
-        titolo.indexOf(
-          domanda
-        ) !== -1
-      ) {
-        punti += 55;
-      }
-
-      if (
-        tag.indexOf(
-          domanda
-        ) !== -1
-      ) {
-        punti += 35;
-      }
-
-      if (
-        sommario.indexOf(
-          domanda
-        ) !== -1
-      ) {
-        punti += 20;
-      }
-
-    }
-
-    /*
-     * Premia le guide che coprono
-     * molti dei concetti della domanda.
-     */
-
-    if (
-      terminiOriginali.length
-    ) {
-
-      var copertura =
-        originaliTrovati /
-        terminiOriginali.length;
-
-      if (
-        copertura === 1
-      ) {
-        punti += 26;
-
-      } else if (
-        copertura >= 0.75
-      ) {
-        punti += 16;
-
-      } else if (
-        copertura >= 0.5
-      ) {
-        punti += 7;
-      }
-
-    }
-
-    /*
-     * Software e dispositivi specifici.
-     *
-     * Se l'utente scrive:
-     *
-     * SIDEXIS
-     *
-     * una guida SIDEXIS deve prevalere
-     * rispetto a una guida generica TAC.
-     */
-
-    var tecnici =
-      terminiTecniciNellaDomandaAI(
-        domanda
-      );
-
-    tecnici.forEach(
-      function (termine) {
-
-        if (
-          contieneTermineAI(
-            titolo,
-            termine
-          ) ||
-
-          contieneTermineAI(
-            tag,
-            termine
-          )
-        ) {
-
-          punti += 42;
-
-        } else if (
-          contieneTermineAI(
-            sommario,
-            termine
-          )
-        ) {
-
-          punti += 20;
-
-        } else if (
-          !contieneTermineAI(
-            tutto,
-            termine
-          )
-        ) {
-
-          punti -= 16;
-
-        }
-
-      }
-    );
-
-    /*
-     * Se l'utente descrive un problema,
-     * favorisce guide di troubleshooting.
-     */
-
-    if (
-      segnaliProblemaAI(
-        domanda
-      )
-    ) {
-
-      var testoBreve =
-        titolo +
-        " " +
-        tag +
-        " " +
-        sommario;
-
-      var paroleProblema = [
-        "problema",
-        "problemi",
-
-        "errore",
-        "errori",
-
-        "non",
-
-        "bloccato",
-        "bloccata",
-
-        "lento",
-        "lenta",
-
-        "connessione",
-
-        "rilevato",
-        "rilevata",
-
-        "risoluzione",
-
-        "verifiche"
-      ];
-
-      if (
-        paroleProblema.some(
-          function (p) {
-
-            return contieneTermineAI(
-              testoBreve,
-              p
-            );
-
-          }
-        )
-      ) {
-
-        punti += 14;
-
-      }
-
-    }
-
-    /*
-     * Mai restituire punteggi negativi.
-     */
-
-    return Math.max(
-      0,
-      punti
-    );
-  }
-
-  /*
-   * Seleziona le guide da inviare a OpenAI.
-   */
-
-  function trovaGuidePerAI(
-    messaggio
-  ) {
-
-    var termini =
-      terminiPerAI(
-        messaggio
-      );
-
-    if (!termini.length) {
-      return [];
-    }
-
-    var risultati =
-      KB.articoli
-
-        .map(function (a) {
-
-          return {
-            articolo: a,
-
-            punti:
-              punteggioAI(
-                a,
-                messaggio
-              )
-          };
-
-        })
-
-        .filter(function (r) {
-          return r.punti > 0;
-        })
-
-        .sort(function (a, b) {
-
-          return (
-            b.punti -
-            a.punti ||
-
-            perData(
-              a.articolo,
-              b.articolo
-            )
-          );
-
-        });
-
-    if (!risultati.length) {
-      return [];
-    }
-
-    /*
-     * La vecchia versione faceva:
-     *
-     * .slice(0, 3)
-     *
-     * e quindi mandava sempre
-     * fino a tre guide.
-     *
-     * Ora invece una guida secondaria
-     * viene mantenuta solo se ha
-     * un punteggio abbastanza vicino
-     * alla migliore.
-     */
-
-    var migliore =
-      risultati[0].punti;
-
-    var soglia =
-      Math.max(
-        22,
-        migliore * 0.38
-      );
-
-    var pertinenti =
-      risultati
-
-        .filter(
-          function (r, indice) {
-
-            /*
-             * La prima guida
-             * viene sempre mantenuta.
-             */
-
-            return (
-              indice === 0 ||
-              r.punti >= soglia
-            );
-
-          }
-        )
-
-        .slice(0, 3);
-
-    /*
-     * Prepariamo solamente
-     * i dati necessari a OpenAI.
-     */
-
-    return pertinenti.map(
-      function (r) {
-
-        var a =
-          r.articolo;
-
-        var cat =
-          categoria(
-            a.categoria
-          );
-
-        return {
-          id:
-            a.id,
-
-          titolo:
-            a.titolo,
-
-          categoria:
-            cat
-              ? cat.nome
-              : a.categoria,
-
-          sommario:
-            a.sommario,
-
-          /*
-           * Limite di sicurezza:
-           * massimo 5000 caratteri
-           * del corpo della guida.
-           */
-          contenuto:
-            testoArticoloPerAI(
-              a.corpo
-            ).slice(
-              0,
-              5000
-            )
-        };
-
-      }
-    );
-  }
-
-  /* ---------- Chiamata API OpenAI ---------- */
-
-/* ---------- Memoria conversazione per AI Mode ---------- */
-
-function messaggioSembraFollowUpAI(messaggio) {
-  var testo = normalizza(messaggio);
-  var termini = terminiPerAI(messaggio);
-
-  var riferimenti = [
-    "questo",
-    "questa",
-    "quello",
-    "quella",
-    "primo",
-    "secondo",
-    "terzo",
-    "punto",
-    "entrambi",
-    "stesso",
-    "stessa",
-    "ancora",
-    "gia",
-    "fatto",
-    "provato",
-    "continua",
-    "adesso",
-    "poi"
-  ];
-
-  var haRiferimento = riferimenti.some(function (parola) {
-    return testo.split(" ").indexOf(parola) !== -1;
-  });
-
-  /*
-   * Messaggi molto brevi come:
-   *
-   * "non funziona"
-   * "e adesso?"
-   *
-   * vengono interpretati come continuazione
-   * della conversazione precedente.
-   */
-  return haRiferimento || termini.length <= 2;
-}
-
-
-function testoRicercaConCronologiaAI(messaggio, storico) {
-
-  if (!Array.isArray(storico) || !storico.length) {
-    return messaggio;
-  }
-
-  /*
-   * Se la nuova domanda è autonoma,
-   * non mischiamo il vecchio argomento
-   * nella ricerca delle guide.
-   */
-  if (!messaggioSembraFollowUpAI(messaggio)) {
-    return messaggio;
-  }
-
-  /*
-   * Prendiamo solamente le ultime 2
-   * domande dell'utente.
-   */
-  var domandePrecedenti = storico
-    .filter(function (m) {
-      return (
-        m &&
-        m.role === "user" &&
-        typeof m.content === "string"
-      );
-    })
-    .slice(-2)
-    .map(function (m) {
-      return m.content.trim();
-    })
-    .filter(Boolean);
-
-  return domandePrecedenti
-    .concat([messaggio])
-    .join(" ");
-}
-
-
-/* ---------- Chiamata API OpenAI ---------- */
-
-async function chiediAI(messaggio, storico) {
-
-  try {
-
-    /*
-     * Ripuliamo e limitiamo
-     * la cronologia ricevuta da ai-mode.html.
-     */
-    var cronologia = Array.isArray(storico)
-      ? storico
-
-          .filter(function (m) {
-            return (
-              m &&
-              (
-                m.role === "user" ||
-                m.role === "assistant"
-              ) &&
-              typeof m.content === "string" &&
-              m.content.trim()
-            );
-          })
-
-          .slice(-10)
-
-          .map(function (m) {
-            return {
-              role: m.role,
-              content: m.content
-                .trim()
-                .slice(0, 4000)
-            };
-          })
-
-      : [];
-
-
-    /*
-     * Se la domanda è un follow-up,
-     * usiamo anche le ultime domande
-     * per trovare la guida corretta.
-     *
-     * Esempio:
-     *
-     * Prima:
-     * "NNT non comunica con il panoramico"
-     *
-     * Dopo:
-     * "Ho già fatto il primo punto"
-     *
-     * La ricerca diventa concettualmente:
-     *
-     * "NNT non comunica con il panoramico
-     *  Ho già fatto il primo punto"
-     */
-
-    var testoRicerca =
-      testoRicercaConCronologiaAI(
-        messaggio,
-        cronologia
-      );
-
-
-    /*
-     * Utilizziamo il motore AI
-     * migliorato che abbiamo
-     * aggiunto precedentemente.
-     */
-
-    var guide =
-      trovaGuidePerAI(
-        testoRicerca
-      );
-
-
-    /*
-     * Inviamo:
-     *
-     * - nuova domanda
-     * - cronologia
-     * - guide pertinenti
-     *
-     * al server Vercel.
-     */
-
-    var risposta =
-      await fetch(
-        "/api/chat",
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
-
-          body:
-            JSON.stringify({
-              message:
-                messaggio,
-
-              history:
-                cronologia,
-
-              articles:
-                guide
-            })
-        }
-      );
-
-
-    var dati =
-      await risposta.json();
-
-
-    if (!risposta.ok) {
-
-      console.error(
-        "Errore API:",
-        dati
-      );
-
-      throw new Error(
-        dati.error ||
-        "Errore durante la richiesta"
-      );
-    }
-
-
-    return dati.answer;
-
-  } catch (errore) {
-
-    console.error(
-      "Errore Assistente AI:",
-      errore
-    );
-
-    throw errore;
-  }
-}
 
   /* ---------- AI Mode home ---------- */
 
@@ -2122,6 +1008,15 @@ async function chiediAI(messaggio, storico) {
   /* ---------- Comportamenti comuni ---------- */
 
   function inizializzaComuni() {
+
+    $$("a.esci").forEach(function (link) {
+      link.addEventListener("click", function () {
+        try {
+          sessionStorage.removeItem("adco_helpo_conversazione_v1");
+          sessionStorage.removeItem("adco_helpo_conversazione_v2");
+        } catch (e) {}
+      });
+    });
 
     /* Menu mobile */
 
@@ -2306,6 +1201,8 @@ async function chiediAI(messaggio, storico) {
       } else if (
         pagina === "contatti"
       ) {
+
+        renderContatti();
 
         renderLateraleCategorie(
           null

@@ -6,5 +6,8 @@
   "description": "Knowledge base del supporto IT ADCO HUB - sito statico con accesso protetto su Vercel",
   "dependencies": {
     "@vercel/functions": "^3.9.5"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.js"
   }
 }
