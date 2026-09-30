@@ -191,6 +191,11 @@ function withEnv(vars, fn) {
   } })();
 }
 const STORE = { KV_REST_API_URL: 'https://redis.test/', KV_REST_API_TOKEN: 'token-di-prova', UPSTASH_REDIS_REST_URL: undefined, UPSTASH_REDIS_REST_TOKEN: undefined };
+const IT = { SITO_SEGRETO: 'segreto-di-prova', ADMIN_PASSWORD: 'password-it-di-prova' };
+async function cookieIT() {
+  const { creaValoreIT, COOKIE_IT } = await import('../lib/area-it.js');
+  return `${COOKIE_IT}=${await creaValoreIT()}`;
+}
 
 test('feedback: voti, commento oscurato, statistiche, archivio assente o irraggiungibile', async () => {
   const { default: feedback, oscura } = await import('../api/feedback.js');
@@ -202,7 +207,7 @@ test('feedback: voti, commento oscurato, statistiche, archivio assente o irraggi
     assert.equal(missing.body.code, 'STORE_UNAVAILABLE');
   });
 
-  await withEnv(STORE, async () => {
+  await withEnv({ ...STORE, ...IT }, async () => {
     const calls = [];
     globalThis.fetch = async (url, options) => {
       const commands = JSON.parse(options.body);
@@ -239,7 +244,11 @@ test('feedback: voti, commento oscurato, statistiche, archivio assente o irraggi
       { result: ['totale:su', '3', 'totale:giu', '1', 'guida:pc-lento:su', '2', 'guida:pc-lento:giu', '1', 'guida:guida-eliminata:su', '5', 'domande:totale', '10', 'domande:senza-guida', '2'] },
       { result: [JSON.stringify({ data: '2026-09-30', guide: ['pc-lento'], testo: '<b>manca</b> il passo 3' }), 'non json'] },
     ] });
-    const stats = await send({ method: 'GET', query: { mese: '2026-09' } });
+    // Le statistiche richiedono la sessione dell'area IT; il voto no.
+    const senzaIT = await send({ method: 'GET', query: { mese: '2026-09' }, headers: {} });
+    assert.equal(senzaIT.statusCode, 401);
+    assert.equal(senzaIT.body.code, 'IT_REQUIRED');
+    const stats = await send({ method: 'GET', query: { mese: '2026-09' }, headers: { cookie: await cookieIT() } });
     assert.equal(stats.statusCode, 200);
     assert.deepEqual(stats.body.totale, { su: 3, giu: 1 });
     assert.deepEqual(stats.body.domande, { totale: 10, senzaGuida: 2 });
@@ -250,6 +259,48 @@ test('feedback: voti, commento oscurato, statistiche, archivio assente o irraggi
     globalThis.fetch = async () => ({ ok: false, status: 500 });
     const originalError = console.error; console.error = () => {};
     try { assert.equal((await send({ method: 'POST', body: { voto: 'su' } })).statusCode, 502); } finally { console.error = originalError; }
+  });
+});
+
+test('area IT: password, cookie firmato, scadenza, cambio password e uscita', async () => {
+  const areaIT = await import('../lib/area-it.js');
+  const { default: loginIT } = await import('../api/login-it.js');
+  const { default: logout } = await import('../api/logout.js');
+  const { default: logoutIT } = await import('../api/logout-it.js');
+  const send = async (fn, req) => { const res = { ...response(), end() { return this; } }; await fn(req, res); return res; };
+
+  await withEnv({ ADMIN_PASSWORD: undefined, SITO_SEGRETO: 'x' }, async () => {
+    assert.equal((await send(loginIT, { method: 'POST', body: { password: 'qualsiasi' } })).statusCode, 503);
+  });
+  await withEnv(IT, async () => {
+    assert.equal((await send(loginIT, { method: 'GET' })).statusCode, 405);
+    const sbagliata = await send(loginIT, { method: 'POST', body: { password: 'SITO-password' } });
+    assert.equal(sbagliata.statusCode, 401);
+    assert.equal(sbagliata.headers['Set-Cookie'], undefined);
+
+    const giusta = await send(loginIT, { method: 'POST', body: JSON.stringify({ password: IT.ADMIN_PASSWORD }) });
+    assert.equal(giusta.statusCode, 200);
+    const cookie = giusta.headers['Set-Cookie'][0];
+    assert.match(cookie, /^sit_it=\d+\.[0-9a-f]{64}; Path=\/; HttpOnly; Secure; SameSite=Strict; Max-Age=7200$/);
+    const valore = cookie.split(';')[0].slice('sit_it='.length);
+    assert.equal(await areaIT.valoreITValido(valore), true);
+    assert.equal(await areaIT.richiestaIT({ headers: { cookie: `altro=1; sit_it=${valore}` } }), true);
+
+    // Firma alterata, scaduta dopo 2 ore, invalidata cambiando la password IT.
+    assert.equal(await areaIT.valoreITValido(valore.replace(/.$/, c => (c === '0' ? '1' : '0'))), false);
+    assert.equal(await areaIT.valoreITValido(valore, areaIT.configIT(), Date.now() + 2 * 3600 * 1000 + 1000), false);
+    assert.equal(await areaIT.valoreITValido(valore, { ...areaIT.configIT(), password: 'nuova-password' }), false);
+    // Il cookie del sito (firma della sola scadenza) non apre l'area IT.
+    const { createHmac } = await import('node:crypto');
+    const scadenza = String(Date.now() + 60000);
+    assert.equal(await areaIT.valoreITValido(`${scadenza}.${createHmac('sha256', IT.SITO_SEGRETO).update(scadenza).digest('hex')}`), false);
+
+    // "Esci" chiude sito e area IT; "Esci dall'area IT" solo l'area IT.
+    const uscita = await send(logout, { method: 'GET' });
+    assert.ok(uscita.headers['Set-Cookie'].some(c => c.startsWith('sit_acc=;')) && uscita.headers['Set-Cookie'].some(c => c.startsWith('sit_it=;')));
+    const uscitaIT = await send(logoutIT, { method: 'GET' });
+    assert.deepEqual(uscitaIT.headers['Set-Cookie'].map(c => c.split('=')[0]), ['sit_it']);
+    assert.equal(uscitaIT.headers.Location, '/index.html');
   });
 });
 
@@ -284,12 +335,38 @@ test('middleware: API scaduta restituisce JSON 401; sessione valida passa', asyn
   const source=readFileSync('middleware.js','utf8').replace("import { next } from '@vercel/functions';", 'const next = () => "PASS";').replace('export const config', 'const config').replace('export default async function middleware', 'async function middleware');
   // Vercel ha deprecato il runtime edge: il middleware deve dichiarare Node.js.
   assert.match(source, /const config = \{ runtime: 'nodejs' \}/);
-  const middleware=runInNewContext(source+';middleware', {URL,Response,TextEncoder,crypto:webcrypto,process:{env:{SITO_PASSWORD:'test',SITO_SEGRETO:'test-secret'}}});
+  const env={SITO_PASSWORD:'test',SITO_SEGRETO:'test-secret',ADMIN_PASSWORD:'password-it'};
+  const middleware=runInNewContext(source+';middleware', {URL,Response,TextEncoder,crypto:webcrypto,process:{env}});
   const expired=await middleware(new Request('https://example.test/api/chat'));
   assert.equal(expired.status,401);assert.equal((await expired.json()).code,'SESSION_EXPIRED');
   const page=await middleware(new Request('https://example.test/ai-mode.html'));
   assert.equal(page.status,302);
   const expiry=String(Date.now()+60000), sig=createHmac('sha256','test-secret').update(expiry).digest('hex');
-  const valid=await middleware(new Request('https://example.test/api/chat',{headers:{cookie:'sit_acc='+expiry+'.'+sig}}));
+  const sito='sit_acc='+expiry+'.'+sig;
+  const valid=await middleware(new Request('https://example.test/api/chat',{headers:{cookie:sito}}));
   assert.equal(valid,'PASS');
+
+  // Area IT: con il solo login del sito le statistiche restano chiuse, il voto no.
+  const statsPage=await middleware(new Request('https://example.test/statistiche.html',{headers:{cookie:sito}}));
+  assert.equal(statsPage.status,302);
+  assert.equal(statsPage.headers.get('location'),'https://example.test/login-it.html?da=%2Fstatistiche.html');
+  const statsApi=await middleware(new Request('https://example.test/api/feedback?mese=2026-09',{headers:{cookie:sito}}));
+  assert.equal(statsApi.status,401);assert.equal((await statsApi.json()).code,'IT_REQUIRED');
+  assert.equal(await middleware(new Request('https://example.test/api/feedback',{method:'POST',headers:{cookie:sito}})),'PASS');
+  assert.equal(await middleware(new Request('https://example.test/login-it.html',{headers:{cookie:sito}})),'PASS');
+  // Senza login del sito non si arriva nemmeno alla pagina di accesso IT.
+  assert.equal((await middleware(new Request('https://example.test/login-it.html'))).status,302);
+  // Il cookie IT creato da lib/area-it.js viene accettato dal middleware: le due firme coincidono.
+  const areaIT=await import('../lib/area-it.js');
+  const valoreIT=await areaIT.creaValoreIT({password:env.ADMIN_PASSWORD,segreto:env.SITO_SEGRETO});
+  const conIT=sito+'; sit_it='+valoreIT;
+  assert.equal(await middleware(new Request('https://example.test/statistiche.html',{headers:{cookie:conIT}})),'PASS');
+  assert.equal(await middleware(new Request('https://example.test/api/feedback',{headers:{cookie:conIT}})),'PASS');
+  // Il cookie IT da solo non sostituisce il login del sito.
+  assert.equal((await middleware(new Request('https://example.test/statistiche.html',{headers:{cookie:'sit_it='+valoreIT}}))).status,302);
+  // Cambiando ADMIN_PASSWORD le sessioni IT aperte non valgono più; senza ADMIN_PASSWORD l'area è chiusa.
+  env.ADMIN_PASSWORD='password-cambiata';
+  assert.equal((await middleware(new Request('https://example.test/statistiche.html',{headers:{cookie:conIT}}))).status,302);
+  delete env.ADMIN_PASSWORD;
+  assert.equal((await middleware(new Request('https://example.test/statistiche.html',{headers:{cookie:conIT}}))).status,302);
 });
