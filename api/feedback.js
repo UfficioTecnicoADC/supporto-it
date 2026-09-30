@@ -1,5 +1,6 @@
 import { knowledgeBase } from '../lib/knowledge-base.js';
 import { keys, monthKey, redis, storeConfig } from '../lib/store.js';
+import { richiestaIT } from '../lib/area-it.js';
 
 // Feedback su Helpo. Si salvano solo contatori per guida e per mese e, dopo un 👎,
 // un commento facoltativo: niente domanda, niente IP, niente nome.
@@ -93,6 +94,9 @@ async function stats(req, res) {
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   if (req.method !== 'POST' && req.method !== 'GET') { res.setHeader('Allow', 'GET, POST'); return reply(res, 405, { error: 'Metodo non consentito.' }); }
+  // Le statistiche sono dell'area IT. Lo controlla già il middleware; il secondo
+  // controllo qui evita che un errore di configurazione le renda leggibili a tutti.
+  if (req.method === 'GET' && !(await richiestaIT(req))) return reply(res, 401, { error: 'Area riservata all’ufficio IT.', code: 'IT_REQUIRED' });
   if (!storeConfig()) return reply(res, 503, { error: 'Il feedback non è disponibile: l’archivio non è configurato.', code: 'STORE_UNAVAILABLE' });
   try {
     return req.method === 'POST' ? await record(req, res) : await stats(req, res);
