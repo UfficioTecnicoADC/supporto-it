@@ -436,6 +436,13 @@ mark { background: #ffe89a; color: inherit; padding: 0 2px; border-radius: 3px; 
   color: var(--testo-tenue);
 }
 .piede-riga { display: flex; flex-wrap: wrap; gap: 18px; justify-content: space-between; align-items: center; }
+
+/* Piè di pagina sempre in fondo alla finestra, anche nelle pagine con poco
+   contenuto (es. statistiche di un mese vuoto). Le pagine di accesso hanno un
+   layout proprio e restano escluse. */
+body:not(.pagina-accesso) { min-height: 100vh; display: flex; flex-direction: column; }
+body:not(.pagina-accesso) > .piede { margin-top: auto; }
+body:not(.pagina-accesso) > :has(+ .piede) { margin-bottom: 40px; }
 .piede a { color: var(--testo-medio); margin-right: 16px; }
 
 /* ---------- Pagina di accesso ---------- */
