@@ -46,6 +46,35 @@ test('una parola comune trovata solo nel testo non basta per scegliere una guida
   assert.equal(retrieve('a cosa mi serve per il lavoro?').kind, 'no_match');
   assert.deepEqual(cleanHistory([{...assistant('ok'), sources:['pc-lento','guida-fantasma',3]}]), [{...assistant('ok'), sources:['pc-lento']}]);
 });
+test('archivio coerente: campi, id, categorie, collegamenti, immagini e contatti', async () => {
+  // data.js si modifica a mano: questo test ferma gli errori prima della pubblicazione.
+  const { knowledgeBase: kb } = await import('../lib/knowledge-base.js');
+  const { existsSync } = await import('node:fs');
+  const categorie = new Set(kb.categorie.map(c => c.id));
+  const visti = new Set();
+  for (const a of kb.articoli) {
+    const nome = a.id || a.titolo || '(guida senza id)';
+    for (const campo of ['id', 'titolo', 'categoria', 'sommario', 'corpo', 'aggiornato']) {
+      assert.ok(typeof a[campo] === 'string' && a[campo].trim(), `${nome}: manca il campo "${campo}"`);
+    }
+    assert.ok(Array.isArray(a.tag) && a.tag.length, `${nome}: servono dei tag`);
+    assert.ok(Number.isFinite(a.minuti), `${nome}: "minuti" deve essere un numero`);
+    assert.match(a.id, /^[A-Za-z0-9-]+$/, `${nome}: l'id può contenere solo lettere, numeri e trattini`);
+    assert.match(a.aggiornato, /^\d{4}-\d{2}-\d{2}$/, `${nome}: "aggiornato" deve essere AAAA-MM-GG`);
+    assert.ok(!visti.has(a.id), `id ripetuto: ${a.id}`);
+    visti.add(a.id);
+    assert.ok(categorie.has(a.categoria), `${nome}: la categoria "${a.categoria}" non esiste`);
+  }
+  for (const a of kb.articoli) {
+    for (const [, id] of a.corpo.matchAll(/articolo\.html\?id=([^"&#]+)/g)) {
+      assert.ok(visti.has(id), `${a.id}: collegamento a una guida inesistente (${id})`);
+    }
+    for (const [, src] of a.corpo.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)) {
+      assert.ok(existsSync(src), `${a.id}: immagine mancante (${src})`);
+    }
+  }
+  for (const canale of ['email', 'telefono', 'whatsapp']) assert.ok(kb.contatti?.[canale], `KB.contatti: manca "${canale}"`);
+});
 test('guide lunghe complete, markup e cronologia filtrati', () => {
   const result = retrieve('SIDEXIS esportazione TAC WeTransfer');
   const guide = result.guides.find(g => /Esportazione/.test(g.titolo));
