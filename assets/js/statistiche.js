@@ -95,11 +95,14 @@
       box.innerHTML = '<p>Caricamento...</p>';
       try {
         var risposta = await fetch('/api/feedback?mese=' + encodeURIComponent(scelta.value), { headers: { Accept: 'application/json' } });
-        if (risposta.status === 401 || risposta.redirected) {
-          box.innerHTML = '<div class="nota attenzione"><strong>Sessione scaduta</strong><a href="/login.html?da=%2Fstatistiche.html">Accedi di nuovo</a> per vedere le statistiche.</div>';
+        var dati = await risposta.json();
+        // Due livelli di accesso: il login del sito (8 ore) e quello dell'area IT (2 ore).
+        if (risposta.status === 401) {
+          var it = dati.code === 'IT_REQUIRED';
+          box.innerHTML = '<div class="nota attenzione"><strong>' + (it ? 'Sessione dell’area IT scaduta' : 'Sessione scaduta') + '</strong>' +
+            '<a href="' + (it ? '/login-it.html' : '/login.html') + '?da=%2Fstatistiche.html">Accedi di nuovo</a> per vedere le statistiche.</div>';
           return;
         }
-        var dati = await risposta.json();
         if (!risposta.ok) throw new Error(dati.error || 'Statistiche non disponibili.');
         box.innerHTML = render(dati);
       } catch (e) {
