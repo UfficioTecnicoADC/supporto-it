@@ -27,6 +27,8 @@ Chiudi sempre la risposta con un'ultima riga separata nel formato «FONTI: id1, 
 
 ${contacts}`;
 
+const BUDGET_CODES = new Set(['project_spend_limit_exceeded', 'organization_spend_limit_exceeded', 'insufficient_quota']);
+
 function reply(res, status, body) { return res.status(status).json(body); }
 function extractText(data) {
   if (typeof data.output_text === 'string' && data.output_text.trim()) return data.output_text.trim();
@@ -87,6 +89,9 @@ export default async function handler(req, res) {
       const code = typeof detail?.error?.code === 'string' ? detail.error.code.slice(0, 60) : undefined;
       const type = typeof detail?.error?.type === 'string' ? detail.error.type.slice(0, 60) : undefined;
       console.error('Helpo upstream error', { status: response.status, code, type });
+      // Tetto di spesa o credito esaurito: anche OpenAI risponde 429, ma il blocco dura
+      // fino al rinnovo mensile o a un intervento dell'IT, non "tra poco".
+      if (BUDGET_CODES.has(code)) return reply(res, 503, { error: 'Il budget dell’assistente è stato superato: Helpo non è disponibile. Contatta il supporto IT; nel frattempo puoi consultare le guide.', code: 'AI_BUDGET' });
       return reply(res, response.status === 429 ? 429 : 502, { error: response.status === 429 ? 'L’assistente è momentaneamente occupato. Riprova tra poco.' : 'L’assistente non è disponibile al momento. Riprova o consulta le guide.' });
     }
     const data = await response.json();
