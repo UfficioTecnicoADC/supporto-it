@@ -33,12 +33,49 @@
       list.forEach(function (s) { var li = document.createElement('li'); var a = document.createElement('a'); a.href = 'articolo.html?id=' + encodeURIComponent(s.id); a.textContent = s.titolo; a.target = '_blank'; a.rel = 'noopener noreferrer'; li.appendChild(a); ul.appendChild(li); });
       box.appendChild(ul); turn.appendChild(box);
     }
-    function finish(turn, box, answer, list) {
+    function finish(turn, box, answer, list, rateable) {
       box.className = 'risposta-ai'; box.innerHTML = format(answer);
       showSources(turn, sources(list));
       var note = document.createElement('p'); note.className = 'ai-disclaimer'; note.innerHTML = 'Verifica i passaggi nelle guide. Se il problema persiste, contatta il <a href="contatti.html">supporto IT</a>.'; turn.appendChild(note);
       var copy = document.createElement('button'); copy.type = 'button'; copy.className = 'bottone secondario'; copy.textContent = 'Copia risposta';
       copy.addEventListener('click', async function () { try { await navigator.clipboard.writeText(answer); copy.textContent = 'Copiato'; } catch (e) { copy.textContent = 'Copia non disponibile'; } }); turn.appendChild(copy);
+      if (rateable) feedback(turn, sources(list));
+    }
+    // 👍/👎 sotto le risposte nuove (non su quelle ripristinate dalla cronologia, per non
+    // contare due volte). Si inviano solo il voto, gli id delle guide e l'eventuale commento.
+    var feedbackCount = 0;
+    function feedback(turn, list) {
+      var bar = document.createElement('div'); bar.className = 'ai-feedback';
+      var label = document.createElement('span'); label.textContent = 'Ti è stata utile?';
+      function vote(icon, text) { var b = document.createElement('button'); b.type = 'button'; b.className = 'ai-azione'; b.textContent = icon; b.title = text; b.setAttribute('aria-label', text); return b; }
+      var up = vote('👍', 'Sì, utile'); var down = vote('👎', 'No, non utile');
+      bar.appendChild(label); bar.appendChild(up); bar.appendChild(down); turn.appendChild(bar);
+      function done(text) { bar.textContent = text; }
+      async function send(value, comment) {
+        done('Invio in corso...');   // i pulsanti spariscono subito: niente doppi voti
+        try {
+          var response = await fetch('/api/feedback', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ voto: value, guide: list.map(function (s) { return s.id; }), commento: comment || '' }) });
+          if (response.status === 401 || response.redirected) return done('La sessione è scaduta: accedi di nuovo per inviare il feedback.');
+          done(response.ok ? 'Grazie per il feedback.' : 'Non è stato possibile inviare il feedback.');
+        } catch (e) { done('Non è stato possibile inviare il feedback.'); }
+      }
+      up.addEventListener('click', function () { send('su'); });
+      down.addEventListener('click', function () {
+        var id = 'ai-commento-' + (++feedbackCount);
+        bar.textContent = '';
+        var form = document.createElement('div'); form.className = 'ai-feedback-commento';
+        var l = document.createElement('label'); l.htmlFor = id; l.textContent = 'Cosa mancava o era sbagliato? (facoltativo)';
+        var text = document.createElement('textarea'); text.id = id; text.rows = 3; text.maxLength = 500;
+        var warn = document.createElement('p'); warn.className = 'ai-disclaimer'; warn.textContent = 'Non scrivere nomi, dati di pazienti o password.';
+        var buttons = document.createElement('div'); buttons.className = 'ai-feedback-pulsanti';
+        var ok = document.createElement('button'); ok.type = 'button'; ok.className = 'bottone'; ok.textContent = 'Invia';
+        var skip = document.createElement('button'); skip.type = 'button'; skip.className = 'bottone secondario'; skip.textContent = 'Invia senza commento';
+        ok.addEventListener('click', function () { send('giu', text.value.trim()); });
+        skip.addEventListener('click', function () { send('giu'); });
+        buttons.appendChild(ok); buttons.appendChild(skip);
+        form.appendChild(l); form.appendChild(text); form.appendChild(warn); form.appendChild(buttons);
+        bar.appendChild(form); text.focus();
+      });
     }
     function create(question) {
       var turn = document.createElement('div'); turn.className = 'ai-turno';
@@ -59,7 +96,7 @@
         // Solo gli id delle guide citate: il server ne rilegge il contenuto dall'archivio.
         var result = await window.KBAiuto.chiediAI(message, history.map(function (m) { return m.role === 'assistant' ? { role: m.role, content: m.content, sources: (m.sources || []).map(function (s) { return s.id; }) } : { role: m.role, content: m.content }; }));
         if (!result || typeof result.answer !== 'string' || !result.answer.trim()) throw new Error('Non ho ricevuto una risposta. Riprova.');
-        finish(nodes.turn, nodes.box, result.answer, result.sources);
+        finish(nodes.turn, nodes.box, result.answer, result.sources, result.valutabile === true);
         history.push({ role: 'user', content: message }, { role: 'assistant', content: result.answer.slice(0, 4000), sources: sources(result.sources) });
         history = history.slice(-10); save(); field.value = '';
       } catch (error) {
