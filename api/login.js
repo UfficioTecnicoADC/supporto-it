@@ -12,6 +12,8 @@
      SITO_SEGRETO    stringa casuale usata per firmare il cookie
    ============================================================ */
 
+import { configMicrosoft } from '../lib/microsoft.js';
+
 const COOKIE = 'sit_acc';
 const DURATA_ORE = 8;
 
@@ -49,6 +51,16 @@ async function firma(testo, segreto) {
 export default async function handler(request, response) {
   response.setHeader('Cache-Control', 'no-store');
 
+  /* La pagina di accesso chiede quali modi di entrare sono attivi:
+     password condivisa (SITO_PASSWORD) e/o account Microsoft 365. */
+  if (request.method === 'GET') {
+    response.status(200).json({
+      password: Boolean(process.env.SITO_PASSWORD && process.env.SITO_SEGRETO),
+      microsoft: Boolean(configMicrosoft())
+    });
+    return;
+  }
+
   if (request.method !== 'POST') {
     response.status(405).json({ ok: false, errore: 'Metodo non consentito' });
     return;
@@ -59,9 +71,13 @@ export default async function handler(request, response) {
   const segreto = process.env.SITO_SEGRETO;
 
   if (!passwordAttesa || !segreto) {
+    /* Togliere SITO_PASSWORD da Vercel spegne la password condivisa:
+       resta solo l'accesso con Microsoft. */
     response.status(503).json({
       ok: false,
-      errore: 'Accesso non configurato: mancano le variabili SITO_PASSWORD e SITO_SEGRETO.'
+      errore: configMicrosoft()
+        ? 'L’accesso con password non è più attivo: usa “Accedi con Microsoft”.'
+        : 'Accesso non configurato: mancano le variabili SITO_PASSWORD e SITO_SEGRETO.'
     });
     return;
   }

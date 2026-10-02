@@ -68,7 +68,11 @@ preview ma non il sito pubblicato.
 | `OPENAI_API_KEY` | chiave per le risposte di Helpo                                 |
 | `OPENAI_MODEL`   | facoltativa: modello da usare (predefinito `gpt-5.6-luna`)      |
 | `KV_REST_API_URL`, `KV_REST_API_TOKEN` | archivio del feedback: le aggiunge l'integrazione Upstash |
-| `ADMIN_PASSWORD` | password dell'**area IT** (statistiche di Helpo): diversa da `SITO_PASSWORD` e nota solo all'ufficio IT. Senza, l'area IT resta chiusa |
+| `ADMIN_PASSWORD` | facoltativa: password di riserva dell'**area IT** (statistiche di Helpo), diversa da `SITO_PASSWORD` e nota solo all'ufficio IT |
+| `MS_CLIENT_ID`   | accesso Microsoft: ID applicazione (client) della registrazione in Entra ID |
+| `MS_CLIENT_SECRET` | accesso Microsoft: **valore** del segreto client (Sensitive) |
+| `MS_TENANT_IDS`  | accesso Microsoft: ID dei tenant ammessi, separati da virgola |
+| `MS_RUOLO_IT`    | facoltativa: valore del ruolo dell'app che apre l'area IT (predefinito `IT`) |
 
 Per generare `SITO_SEGRETO` da PowerShell:
 
@@ -79,9 +83,9 @@ Per generare `SITO_SEGRETO` da PowerShell:
 Dopo aver aggiunto o modificato le variabili serve un nuovo deploy perché
 diventino effettive (*Deployments → ⋯ → Redeploy*).
 
-Finché `SITO_PASSWORD` e `SITO_SEGRETO` non sono impostate, il sito risponde
-`503` a tutte le pagine: è voluto, meglio un sito fermo che un sito aperto
-per una configurazione dimenticata. Senza `OPENAI_API_KEY` il sito funziona,
+Finché non ci sono `SITO_SEGRETO` e almeno un modo di entrare (`SITO_PASSWORD`
+oppure le variabili `MS_`), il sito risponde `503` a tutte le pagine: è voluto,
+meglio un sito fermo che un sito aperto per una configurazione dimenticata. Senza `OPENAI_API_KEY` il sito funziona,
 ma Helpo risponde che l'assistente non è disponibile.
 
 ### Come funziona la sessione
@@ -96,6 +100,63 @@ conversazione con Helpo salvata nella scheda.
 
 Si cambia il valore della variabile su Vercel e si rilancia il deploy. Nessuna
 modifica al codice, nessun commit.
+
+## Accesso con Microsoft 365
+
+Ognuno entra con il proprio account Microsoft 365 aziendale (con MFA): il sito
+non vede mai le password. Il gruppo ha **5 tenant** (5 società): un'unica app
+**multi-tenant** registrata nel tenant principale, e il server accetta solo gli
+account dei tenant elencati in `MS_TENANT_IDS`. Chi viene disattivato in
+Microsoft 365 non può più entrare; una sessione già aperta dura al massimo 8 ore.
+
+Come funziona (`lib/microsoft.js`, `api/auth/microsoft.js`, `api/auth/callback.js`):
+flusso OpenID Connect *authorization code* con PKCE, senza librerie esterne. Il
+server scambia il codice con Microsoft usando il segreto dell'app e controlla
+l'id_token: app (`aud`), tenant ammesso (`tid`), emittente, scadenza, `nonce`;
+lo `state` firmato nel cookie `sit_ms` (10 minuti) blocca le richieste
+falsificate. Poi apre la **stessa sessione** del login con password: middleware,
+Helpo e statistiche non cambiano. Chi ha il ruolo **"IT"** riceve anche la
+sessione dell'area IT. Errori mostrati sul login: `tenant` (account di un'altra
+azienda), `microsoft` (login annullato o rifiutato), `scaduto`, `config`.
+
+### Configurazione in Microsoft Entra ID
+
+**Nel tenant principale** (*entra.microsoft.com → Applicazioni → Registrazioni app*):
+
+1. **Nuova registrazione**: nome *Supporto IT - knowledge base*; tipi di account
+   **"Account in qualsiasi directory organizzativa (multi-tenant)"**; URI di
+   reindirizzamento **Web** `https://supporto-it.vercel.app/api/auth/callback`.
+2. Dalla pagina *Panoramica*: **ID applicazione (client)** → `MS_CLIENT_ID`.
+3. *Autenticazione* → aggiungi un secondo URI Web per la prova sul branch: l'indirizzo
+   fisso del branch su Vercel (es. `https://supporto-it-git-accesso-microsoft-ufficio-tecnico.vercel.app`)
+   seguito da `/api/auth/callback`. Lascia **spenti** i token di accesso e ID impliciti.
+4. *Certificati e segreti* → **Nuovo segreto client** → copia subito il **Valore**
+   → `MS_CLIENT_SECRET`. Annota la **scadenza**: prima che scada va creato un nuovo
+   segreto e aggiornata la variabile, altrimenti l'accesso Microsoft si ferma.
+5. *Ruoli app* → **Crea ruolo app**: nome *Ufficio IT*, membri consentiti
+   *Utenti/Gruppi*, **valore `IT`**, abilitato.
+
+**In ciascuno dei 5 tenant** (compreso il principale):
+
+6. Consenso dell'amministratore: apri
+   `https://login.microsoftonline.com/<ID-TENANT>/adminconsent?client_id=<MS_CLIENT_ID>`
+   con un account amministratore di quel tenant e accetta.
+7. *Applicazioni aziendali → Supporto IT - knowledge base*:
+   - *Proprietà* → **Assegnazione utente obbligatoria: Sì** per far entrare solo
+     chi è assegnato (consigliato), oppure *No* per tutto il tenant;
+   - *Utenti e gruppi* → assegna il gruppo del personale (ruolo predefinito) e le
+     persone dell'ufficio IT con il ruolo **Ufficio IT**.
+8. L'**ID tenant** si legge in *Panoramica* di Entra: va in `MS_TENANT_IDS`.
+
+**Su Vercel**: `MS_CLIENT_ID`, `MS_CLIENT_SECRET` (Sensitive) e `MS_TENANT_IDS`
+(i 5 ID separati da virgola) per Production e Preview, poi *Redeploy*.
+
+### Spegnere la password condivisa
+
+Durante la prova restano attivi entrambi gli accessi. Quando tutti entrano con
+Microsoft, si **elimina `SITO_PASSWORD`** da Vercel e si rilancia il deploy: la
+pagina di accesso mostra solo "Accedi con Microsoft". Allo stesso modo si può
+eliminare `ADMIN_PASSWORD`, lasciando l'area IT al solo ruolo "IT".
 
 ## Contatti del supporto IT
 
