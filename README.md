@@ -148,6 +148,25 @@ molto peso alle parole del titolo e dei tag: una parola comune trovata solo nel
 testo non basta a far comparire una guida. Nei tag vanno le parole che i
 colleghi scriverebbero davvero ("stampante", "non stampa", "coda di stampa").
 
+### Guide di ripiego
+
+Una guida con `ripiegoPer: ["oris"]` accompagna **tutte** le domande su quel
+programma, marcata come ripiego: Helpo la usa solo se nessun'altra guida fornita
+risponde. Oggi è il caso di *"OrisDent Q: chiedere supporto a Maia"*: per una
+domanda sull'uso del gestionale che le nostre guide non coprono, Helpo indica
+come chiedere aiuto a Maia dall'interno di OrisDent Q. Le nuove guide su ORIS
+verranno preferite automaticamente quando rispondono; le domande servite solo
+dal ripiego contano tra le "domande senza guida" delle statistiche, cioè tra le
+guide da scrivere. I valori ammessi sono i programmi riconosciuti dalla ricerca
+(`products` in `lib/retrieval.js`).
+
+### Nomi dei programmi
+
+`KB.glossario` dice a Helpo come i colleghi chiamano i programmi: «oris»,
+«orisdent», «oris dent» indicano sempre **OrisDent Q**, quindi Helpo non chiede
+conferma del programma. Anche la ricerca tratta «OrisDent», «Oris Dent Q» e
+«OrisDentQ» come «oris».
+
 Per aggiungere una categoria, inserisci un oggetto in `KB.categorie` con
 `id`, `nome`, `descrizione` e `icona` (valori disponibili: `chiave`, `monitor`,
 `posta`, `wifi`, `scudo`, `stampante`, `pacchetto`, `documento`).
