@@ -104,7 +104,7 @@ modifica al codice, nessun commit.
 ## Accesso con Microsoft 365
 
 Ognuno entra con il proprio account Microsoft 365 aziendale (con MFA): il sito
-non vede mai le password. Il gruppo ha **5 tenant** (5 società): un'unica app
+non vede mai le password. Il gruppo ha **6 tenant** (6 società): un'unica app
 **multi-tenant** registrata nel tenant principale, e il server accetta solo gli
 account dei tenant elencati in `MS_TENANT_IDS`. Chi viene disattivato in
 Microsoft 365 non può più entrare; una sessione già aperta dura al massimo 8 ore.
@@ -124,19 +124,20 @@ azienda), `microsoft` (login annullato o rifiutato), `scaduto`, `config`.
 **Nel tenant principale** (*entra.microsoft.com → Applicazioni → Registrazioni app*):
 
 1. **Nuova registrazione**: nome *Supporto IT - knowledge base*; tipi di account
-   **"Account in qualsiasi directory organizzativa (multi-tenant)"**; URI di
-   reindirizzamento **Web** `https://supporto-it.vercel.app/api/auth/callback`.
+   **"Più tenant Entra ID"** → **"Consenti solo determinati tenant"**, con gli ID
+   dei 6 tenant nell'elenco *allowed tenants* (compreso il principale): così è già
+   Microsoft a respingere gli account di altre aziende, e il nostro server ripete il
+   controllo. URI di reindirizzamento **Web** `https://supporto-it.vercel.app/api/auth/callback`.
 2. Dalla pagina *Panoramica*: **ID applicazione (client)** → `MS_CLIENT_ID`.
 3. *Autenticazione* → aggiungi un secondo URI Web per la prova sul branch: l'indirizzo
    fisso del branch su Vercel (es. `https://supporto-it-git-accesso-microsoft-ufficio-tecnico.vercel.app`)
    seguito da `/api/auth/callback`. Lascia **spenti** i token di accesso e ID impliciti.
 4. *Certificati e segreti* → **Nuovo segreto client** → copia subito il **Valore**
-   → `MS_CLIENT_SECRET`. Annota la **scadenza**: prima che scada va creato un nuovo
-   segreto e aggiornata la variabile, altrimenti l'accesso Microsoft si ferma.
+   → `MS_CLIENT_SECRET`. Annota la **scadenza** (vedi *Rinnovare il segreto client*).
 5. *Ruoli app* → **Crea ruolo app**: nome *Ufficio IT*, membri consentiti
    *Utenti/Gruppi*, **valore `IT`**, abilitato.
 
-**In ciascuno dei 5 tenant** (compreso il principale):
+**In ciascuno dei 6 tenant** (compreso il principale):
 
 6. Consenso dell'amministratore: apri
    `https://login.microsoftonline.com/<ID-TENANT>/adminconsent?client_id=<MS_CLIENT_ID>`
@@ -144,12 +145,34 @@ azienda), `microsoft` (login annullato o rifiutato), `scaduto`, `config`.
 7. *Applicazioni aziendali → Supporto IT - knowledge base*:
    - *Proprietà* → **Assegnazione utente obbligatoria: Sì** per far entrare solo
      chi è assegnato (consigliato), oppure *No* per tutto il tenant;
-   - *Utenti e gruppi* → assegna il gruppo del personale (ruolo predefinito) e le
-     persone dell'ufficio IT con il ruolo **Ufficio IT**.
+   - *Utenti e gruppi* → assegna il personale (ruolo predefinito) e le persone
+     dell'ufficio IT con il ruolo **Ufficio IT**. Con il piano **Entra ID gratuito**
+     si assegnano singoli utenti, non gruppi (l'assegnazione dei gruppi richiede P1):
+     con molti utenti conviene lasciare *Assegnazione utente obbligatoria: No* e
+     assegnare solo il ruolo **Ufficio IT** alle persone dell'IT.
 8. L'**ID tenant** si legge in *Panoramica* di Entra: va in `MS_TENANT_IDS`.
 
 **Su Vercel**: `MS_CLIENT_ID`, `MS_CLIENT_SECRET` (Sensitive) e `MS_TENANT_IDS`
-(i 5 ID separati da virgola) per Production e Preview, poi *Redeploy*.
+(i 6 ID separati da virgola) per Production e Preview, poi *Redeploy*.
+
+### Rinnovare il segreto client (prima della scadenza)
+
+Il segreto client (`MS_CLIENT_SECRET`) scade: la data è nella colonna *Scadenza*
+di *Certificati e segreti* dell'app in Entra. Il giorno della scadenza l'accesso
+Microsoft smette di funzionare (resta solo la password condivisa, se ancora
+attiva). Tenere un promemoria nel calendario dell'ufficio IT circa un mese prima.
+
+Rinnovo, senza interruzioni per i colleghi:
+
+1. *Certificati e segreti* → **Nuovo segreto client**, senza eliminare il vecchio.
+2. Su Vercel: `MS_CLIENT_SECRET` → *Edit* → incolla il nuovo **Valore** (non l'ID
+   segreto) → *Save*.
+3. *Deployments* → ultimo deploy di produzione → **Redeploy**.
+4. Prova un accesso con Microsoft sul sito.
+5. Se funziona, elimina in Entra il segreto vecchio.
+
+Il **Valore** di un segreto si vede solo al momento della creazione: non va mai
+incollato in chat, email o screenshot. Se si perde, si crea un segreto nuovo.
 
 ### Spegnere la password condivisa
 
