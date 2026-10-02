@@ -13,12 +13,18 @@
      minuti    tempo di lettura indicativo
      sommario  una o due righe di descrizione
      corpo     HTML del contenuto (h2, h3, p, ul, ol, table, div.nota)
+     ripiegoPer facoltativo, es. ["oris"]: la guida accompagna sempre le
+               domande su quel programma e Helpo la usa solo se nessun'altra
+               guida risponde (vedi la guida su Maia)
 
    Nessun altro file va modificato: home, categorie e ricerca si
    aggiornano da sole.
 
    I recapiti del supporto IT stanno in KB.contatti: li usano la
    pagina Contatti, la ricerca e Helpo. Vanno modificati solo qui.
+
+   KB.glossario spiega a Helpo come i colleghi chiamano i programmi,
+   così non chiede conferme inutili ("oris" = OrisDent Q).
    ============================================================ */
 
 const KB = {
@@ -44,6 +50,15 @@ const KB = {
       { servizio: "Presidio in sede", copertura: "Lunedì – venerdì, 9:00 – 18:00" }
     ]
   },
+
+  /* Come i colleghi chiamano i programmi nelle domande. */
+  glossario: [
+    {
+      nome: "OrisDent Q",
+      cosa: "il gestionale dello studio, chiamato anche ORIS DENT nelle guide",
+      nomiUsati: ["oris", "orisdent", "oris dent", "orisdent q", "oris dent q"]
+    }
+  ],
 
   categorie: [
     {
@@ -1506,6 +1521,51 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 
 `
 },
+
+    {
+      id: "maia-orisdent",
+      titolo: "OrisDent Q: chiedere supporto a Maia",
+      categoria: "software",
+      tag: ["maia", "oris", "orisdent", "oris dent", "orisdent q", "assistente", "come si fa", "funzione", "gestionale"],
+      // Guida di ripiego: per le domande su ORIS Helpo la propone solo se nessun'altra guida risponde.
+      ripiegoPer: ["oris"],
+      aggiornato: "2026-10-02",
+      minuti: 2,
+      sommario: "Quando un'operazione in OrisDent Q non è descritta nelle nostre guide: come chiedere aiuto a Maia, l'assistente integrato nel gestionale.",
+      corpo: `
+<p><strong>Maia</strong> è l'assistente con intelligenza artificiale di OrisLine integrato in OrisDent Q. Risponde alle domande sull'<strong>uso del gestionale</strong>: come si fa un'operazione, dove si trova una funzione, come si imposta qualcosa.</p>
+
+<div class="nota">
+  <strong>Quando usarla</strong>
+  Quando nelle guide di questa knowledge base non trovi le istruzioni per l'operazione che devi fare in OrisDent Q.
+</div>
+
+<h2>Quando non usarla</h2>
+<ul>
+  <li>OrisDent Q non si apre, è bloccato o non risponde: segui la guida <a href="articolo.html?id=Problemi-ORIS-DENT">“ORIS DENT non si apre, è bloccato o non risponde”</a>.</li>
+  <li>Problemi di rete, di stampa o del PC: cerca la guida nella knowledge base o contatta il <a href="contatti.html">supporto IT</a>.</li>
+</ul>
+
+<h2>1. Aprire Maia</h2>
+<p>Maia si usa dall'interno di OrisDent Q, senza aprire altri programmi.</p>
+<p>Se non trovi Maia nel tuo OrisDent Q, contatta il <a href="contatti.html">supporto IT</a>.</p>
+
+<h2>2. Scrivere la domanda</h2>
+<ul>
+  <li>Scrivi in una frase cosa vuoi fare, per esempio: <em>“Come si stampa il piano di cura?”</em></li>
+  <li>Se la conosci, indica la schermata in cui ti trovi.</li>
+  <li>Una domanda alla volta: se la risposta non basta, chiedi un chiarimento nella stessa conversazione.</li>
+</ul>
+
+<div class="nota attenzione">
+  <strong>Niente dati dei pazienti</strong>
+  Non scrivere a Maia nomi, codici fiscali o informazioni cliniche dei pazienti: per spiegarti una funzione non servono.
+</div>
+
+<h2>3. Se Maia non risolve</h2>
+<p>Se la risposta non funziona o il problema è tecnico, contatta il <a href="contatti.html">supporto IT</a> indicando cosa hai chiesto a Maia e cosa ti ha risposto.</p>
+`
+    },
 
      {
   id: "manuale-nnt",
