@@ -32,6 +32,8 @@ const PUBBLICHE = new Set([
   '/login.html',
   '/api/login',
   '/api/logout',
+  '/api/auth/microsoft',
+  '/api/auth/callback',
   '/assets/css/style.css',
   '/favicon.ico',
   '/robots.txt'
@@ -39,7 +41,8 @@ const PUBBLICHE = new Set([
 
 const COOKIE = 'sit_acc';
 
-/* Area IT: serve anche il secondo login (ADMIN_PASSWORD, cookie sit_it).
+/* Area IT: serve anche il secondo login (ADMIN_PASSWORD oppure il ruolo
+   Microsoft "IT" all'accesso con Microsoft; cookie sit_it).
    Protegge la pagina delle statistiche e la loro lettura; il voto 👍/👎
    (POST /api/feedback) resta aperto a tutti i colleghi collegati.
    La firma è la stessa di lib/area-it.js: le due versioni devono coincidere. */
@@ -105,10 +108,12 @@ export default async function middleware(request) {
   const segreto = process.env.SITO_SEGRETO;
 
   /* Se il progetto non è configurato, meglio bloccare tutto che
-     lasciare il sito aperto senza che nessuno se ne accorga. */
-  if (!segreto || !process.env.SITO_PASSWORD) {
+     lasciare il sito aperto senza che nessuno se ne accorga.
+     Serve SITO_SEGRETO e almeno un modo di entrare: la password
+     condivisa (SITO_PASSWORD) o l'accesso Microsoft (MS_CLIENT_ID). */
+  if (!segreto || (!process.env.SITO_PASSWORD && !process.env.MS_CLIENT_ID)) {
     return new Response(
-      'Accesso non configurato. Imposta le variabili SITO_PASSWORD e SITO_SEGRETO nelle impostazioni del progetto Vercel.',
+      'Accesso non configurato. Imposta SITO_SEGRETO e SITO_PASSWORD (o le variabili MS_ dell\'accesso Microsoft) nelle impostazioni del progetto Vercel.',
       { status: 503, headers: { 'content-type': 'text/plain; charset=utf-8' } }
     );
   }
@@ -117,8 +122,10 @@ export default async function middleware(request) {
   const valido = await sessioneValida(leggiCookie(cookie, COOKIE), segreto);
   if (valido) {
     if (!richiedeAreaIT(percorso, request.method)) return next();
-    const passwordIT = process.env.ADMIN_PASSWORD;
-    const validoIT = Boolean(passwordIT) && await sessioneValida(leggiCookie(cookie, COOKIE_IT), segreto, 'area-it:' + passwordIT + ':');
+    /* Senza ADMIN_PASSWORD la firma usa una password vuota: il cookie IT si ottiene
+       comunque solo dal ruolo Microsoft "IT" e non si può falsificare senza SITO_SEGRETO. */
+    const passwordIT = process.env.ADMIN_PASSWORD || '';
+    const validoIT = await sessioneValida(leggiCookie(cookie, COOKIE_IT), segreto, 'area-it:' + passwordIT + ':');
     if (validoIT) return next();
     if (percorso.startsWith('/api/')) {
       return new Response(JSON.stringify({ error: 'Area riservata all’ufficio IT.', code: 'IT_REQUIRED' }), {

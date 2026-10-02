@@ -17,9 +17,19 @@
     </div>
 
     <h1>Accedi alla knowledge base</h1>
-    <p class="accesso-intro">Area riservata al personale ADC. Inserisci le credenziali fornite dal reparto IT.</p>
+    <p class="accesso-intro">Area riservata al personale del gruppo. Accedi con il tuo account Microsoft aziendale.</p>
 
     <div class="accesso-avviso" id="avviso" role="status" hidden></div>
+    <div class="accesso-errore" id="errore-microsoft" role="alert" hidden></div>
+
+    <!-- Accesso con l'account Microsoft 365 dello studio (lib/microsoft.js). -->
+    <div id="blocco-microsoft" hidden>
+      <a class="bottone bottone-largo bottone-microsoft" id="accedi-microsoft" href="/api/auth/microsoft">
+        <svg viewBox="0 0 21 21" aria-hidden="true"><path fill="#f25022" d="M0 0h10v10H0z"/><path fill="#7fba00" d="M11 0h10v10H11z"/><path fill="#00a4ef" d="M0 11h10v10H0z"/><path fill="#ffb900" d="M11 11h10v10H11z"/></svg>
+        Accedi con Microsoft
+      </a>
+      <p class="accesso-separatore" id="separatore"><span>oppure con la password condivisa</span></p>
+    </div>
 
     <form id="modulo-accesso" autocomplete="off" novalidate>
       <label for="utente">Nome utente</label>
@@ -82,6 +92,37 @@
       avviso.textContent = "Stai aprendo i file in locale: il controllo delle credenziali funziona solo sul sito pubblicato. Apri direttamente index.html per consultare le guide.";
       avviso.hidden = false;
     }
+
+    /* Accesso con Microsoft: il pulsante riporta poi alla pagina richiesta. */
+    var bloccoMicrosoft = document.getElementById("blocco-microsoft");
+    document.getElementById("accedi-microsoft").href = "/api/auth/microsoft?da=" + encodeURIComponent(destinazione());
+
+    var erroriMicrosoft = {
+      tenant: "Questo account Microsoft non appartiene alle società del gruppo. Accedi con l'account aziendale.",
+      microsoft: "Accesso con Microsoft non riuscito o annullato. Riprova.",
+      scaduto: "La richiesta di accesso è scaduta o non è valida. Riprova.",
+      config: "L'accesso con Microsoft non è ancora configurato. Contatta il supporto IT."
+    };
+    var codiceErrore = parametro("errore");
+    if (erroriMicrosoft[codiceErrore]) {
+      var boxErrore = document.getElementById("errore-microsoft");
+      boxErrore.textContent = erroriMicrosoft[codiceErrore];
+      boxErrore.hidden = false;
+    }
+
+    /* Mostra solo i modi di entrare attivi su Vercel. Se la verifica non riesce,
+       resta visibile il modulo con la password, come prima. */
+    fetch("/api/login", { credentials: "same-origin" })
+      .then(function (r) { return r.json(); })
+      .then(function (modi) {
+        bloccoMicrosoft.hidden = !modi.microsoft;
+        if (!modi.password) {
+          modulo.hidden = true;
+          document.getElementById("separatore").hidden = true;
+        }
+        if (modi.microsoft && !modi.password) document.getElementById("accedi-microsoft").focus();
+      })
+      .catch(function () {});
 
     mostra.addEventListener("click", function () {
       var visibile = password.getAttribute("type") === "text";

@@ -18,7 +18,16 @@
     </div>
 
     <h1>Area riservata all'ufficio IT</h1>
-    <p class="accesso-intro">Le statistiche di Helpo sono visibili solo all'ufficio IT. Inserisci la password dell'area IT.</p>
+    <p class="accesso-intro">Le statistiche di Helpo sono visibili solo all'ufficio IT. Entra con l'account Microsoft che ha il ruolo IT, oppure con la password dell'area IT.</p>
+
+    <!-- Con il ruolo "IT" assegnato in Microsoft Entra ID non serve la password IT. -->
+    <div id="blocco-microsoft" hidden>
+      <a class="bottone bottone-largo bottone-microsoft" id="accedi-microsoft" href="/api/auth/microsoft?da=%2Fstatistiche.html">
+        <svg viewBox="0 0 21 21" aria-hidden="true"><path fill="#f25022" d="M0 0h10v10H0z"/><path fill="#7fba00" d="M11 0h10v10H11z"/><path fill="#00a4ef" d="M0 11h10v10H0z"/><path fill="#ffb900" d="M11 11h10v10H11z"/></svg>
+        Entra con Microsoft (ruolo IT)
+      </a>
+      <p class="accesso-separatore"><span>oppure con la password dell'area IT</span></p>
+    </div>
 
     <form id="modulo-accesso" autocomplete="off" novalidate>
       <label for="password">Password dell'area IT</label>
@@ -65,6 +74,12 @@
 
     document.getElementById("anno").textContent = new Date().getFullYear();
     password.focus();
+
+    document.getElementById("accedi-microsoft").href = "/api/auth/microsoft?da=" + encodeURIComponent(destinazione());
+    fetch("/api/login", { credentials: "same-origin" })
+      .then(function (r) { return r.json(); })
+      .then(function (modi) { document.getElementById("blocco-microsoft").hidden = !modi.microsoft; })
+      .catch(function () {});
 
     mostra.addEventListener("click", function () {
       var visibile = password.getAttribute("type") === "text";

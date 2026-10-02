@@ -382,6 +382,151 @@ test('Helpo conta le domande senza guida e risponde anche se l’archivio non va
   });
 });
 
+const T1 = '11111111-1111-4111-8111-111111111111', T2 = '22222222-2222-4222-8222-222222222222', ESTRANEO = '33333333-3333-4333-8333-333333333333';
+const MS = { MS_CLIENT_ID: 'app-di-prova', MS_CLIENT_SECRET: 'segreto-app-di-prova', MS_TENANT_IDS: `${T1}, ${T2}`, SITO_SEGRETO: 'segreto-di-prova', ADMIN_PASSWORD: undefined, MS_RUOLO_IT: undefined };
+const idToken = claims => ['{"alg":"RS256"}', JSON.stringify(claims), 'firma'].map(p => Buffer.from(p).toString('base64url')).join('.');
+
+test('accesso Microsoft: avvio, ritorno, tenant ammessi, ruolo IT e attacchi respinti', async () => {
+  const ms = await import('../lib/microsoft.js');
+  const areaIT = await import('../lib/area-it.js');
+  const { default: avvio } = await import('../api/auth/microsoft.js');
+  const { default: ritorno } = await import('../api/auth/callback.js');
+  const { createHmac, createHash } = await import('node:crypto');
+  const send = async (fn, req) => { const res = { ...response(), end(b) { if (b !== undefined) this.body = b; return this; } }; await fn(req, res); return res; };
+  const host = { host: 'supporto-it.vercel.app' };
+
+  await withEnv({ MS_CLIENT_ID: undefined, MS_CLIENT_SECRET: undefined, MS_TENANT_IDS: undefined }, async () => {
+    assert.equal((await send(avvio, { method: 'GET', headers: host, query: {} })).headers.Location, '/login.html?errore=config');
+  });
+
+  await withEnv(MS, async () => {
+    // Più tenant: endpoint "organizations"; un solo tenant: endpoint di quel tenant.
+    assert.equal(ms.configMicrosoft().authority, 'organizations');
+    assert.equal(ms.configMicrosoft({ ...MS, MS_TENANT_IDS: T1 }).authority, T1);
+    // Un ID scritto male viene ignorato ma segnalato nel log, una sola volta e senza gli ID.
+    const avvisi = [], originalWarn = console.warn;
+    console.warn = (...a) => avvisi.push(a.join(' '));
+    try {
+      assert.equal(ms.configMicrosoft({ ...MS, MS_TENANT_IDS: 'non-un-id' }), null);
+      const misto = { ...MS, MS_TENANT_IDS: `${T1}, ${T2.slice(0, -1)}, ${T2}` };
+      assert.deepEqual(ms.configMicrosoft(misto).tenants, [T1, T2]);
+      ms.configMicrosoft(misto);
+    } finally { console.warn = originalWarn; }
+    assert.equal(avvisi.length, 2, 'un avviso per ogni configurazione diversa, non uno per richiesta');
+    assert.match(avvisi[1], /1 valori non validi.*3 inseriti, 2 validi/);
+    assert.ok(!avvisi.join().includes(T1) && !avvisi.join().includes(T2.slice(0, 8)), 'gli ID non vanno nel log');
+
+    const partenza = await send(avvio, { method: 'GET', headers: host, query: { da: '/statistiche.html' } });
+    assert.equal(partenza.statusCode, 302);
+    const url = new URL(partenza.headers.Location);
+    assert.equal(url.origin + url.pathname, 'https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize');
+    assert.equal(url.searchParams.get('client_id'), 'app-di-prova');
+    assert.equal(url.searchParams.get('redirect_uri'), 'https://supporto-it.vercel.app/api/auth/callback');
+    assert.equal(url.searchParams.get('code_challenge_method'), 'S256');
+    assert.ok(!url.search.includes('segreto'), 'il segreto dell\'app non va mai nel browser');
+    const cookieMs = partenza.headers['Set-Cookie'][0];
+    assert.match(cookieMs, /^sit_ms=[\w-]+\.[0-9a-f]{64}; Path=\/api\/auth; HttpOnly; Secure; SameSite=Lax; Max-Age=600$/);
+    const richiestaCookie = cookieMs.split(';')[0];
+    const state = url.searchParams.get('state'), nonce = url.searchParams.get('nonce');
+
+    const adesso = Math.floor(Date.now() / 1000);
+    const buono = (extra = {}) => ({ tid: T2, aud: 'app-di-prova', iss: `https://login.microsoftonline.com/${T2}/v2.0`, exp: adesso + 600, nbf: adesso - 5, nonce, oid: 'oid-prova', name: 'Collega di prova', ...extra });
+    let scambi = [], claims = buono({ roles: ['IT'] }), tokenOk = true;
+    globalThis.fetch = async (u, opzioni) => {
+      const corpo = new URLSearchParams(opzioni.body);
+      scambi.push({ u, corpo });
+      if (!tokenOk) return { ok: false, status: 400, json: async () => ({ error: 'invalid_grant', error_description: 'dettagli' }) };
+      return { ok: true, json: async () => ({ id_token: idToken(claims), access_token: 'non-usato' }) };
+    };
+    const torna = (q, cookie = richiestaCookie) => send(ritorno, { method: 'GET', headers: { ...host, cookie }, query: q });
+
+    // Percorso completo con ruolo IT: sessione del sito + area IT, e pagina-ponte verso /statistiche.html.
+    const ok = await torna({ code: 'codice-monouso', state });
+    assert.equal(ok.statusCode, 200);
+    assert.equal(scambi[0].u, 'https://login.microsoftonline.com/organizations/oauth2/v2.0/token');
+    assert.equal(scambi[0].corpo.get('client_secret'), 'segreto-app-di-prova');
+    assert.equal(createHash('sha256').update(scambi[0].corpo.get('code_verifier')).digest('base64url'), url.searchParams.get('code_challenge'));
+    assert.match(ok.body, /location\.replace\(d\)/);
+    assert.match(ok.body, /var d="\/statistiche\.html"/);
+    const cookies = ok.headers['Set-Cookie'];
+    const sito = cookies.find(c => c.startsWith('sit_acc=')).split(';')[0].slice('sit_acc='.length);
+    const [scadenza, firma] = sito.split('.');
+    assert.equal(firma, createHmac('sha256', 'segreto-di-prova').update(scadenza).digest('hex'), 'stessa sessione del login con password');
+    assert.ok(Number(scadenza) > Date.now() + 7.9 * 3600 * 1000);
+    const it = cookies.find(c => c.startsWith('sit_it=')).split(';')[0].slice('sit_it='.length);
+    assert.equal(await areaIT.valoreITValido(it), true, 'il ruolo IT apre l\'area IT anche senza ADMIN_PASSWORD');
+    assert.ok(cookies.some(c => c.startsWith('sit_ms=;')), 'il cookie della richiesta viene cancellato');
+
+    // Senza ruolo IT: solo la sessione del sito.
+    claims = buono();
+    assert.ok(!(await torna({ code: 'c', state })).headers['Set-Cookie'].some(c => c.startsWith('sit_it=')));
+
+    // Account di un'azienda fuori dal gruppo: rifiutato anche se Microsoft lo ha autenticato.
+    claims = buono({ tid: ESTRANEO, iss: `https://login.microsoftonline.com/${ESTRANEO}/v2.0` });
+    const estraneo = await torna({ code: 'c', state });
+    assert.equal(estraneo.headers.Location, '/login.html?errore=tenant');
+    assert.ok(!estraneo.headers['Set-Cookie'].some(c => c.startsWith('sit_acc=')));
+
+    // Token per un'altra app, emittente diverso, nonce diverso, scaduto: rifiutati.
+    for (const sbagliato of [{ aud: 'altra-app' }, { iss: `https://login.microsoftonline.com/${T1}/v2.0` }, { nonce: 'altro' }, { exp: adesso - 10 }]) {
+      claims = buono(sbagliato);
+      assert.equal((await torna({ code: 'c', state })).headers.Location, '/login.html?errore=microsoft', JSON.stringify(sbagliato));
+    }
+
+    // State sbagliato o cookie manomesso: nessuno scambio con Microsoft.
+    scambi = [];
+    assert.equal((await torna({ code: 'c', state: 'falso' })).headers.Location, '/login.html?errore=scaduto');
+    assert.equal((await torna({ code: 'c', state }, richiestaCookie.replace(/.$/, c => (c === '0' ? '1' : '0')))).headers.Location, '/login.html?errore=scaduto');
+    assert.equal((await torna({ code: 'c', state }, '')).headers.Location, '/login.html?errore=scaduto');
+    assert.equal(scambi.length, 0);
+    // Richiesta più vecchia di 10 minuti.
+    assert.equal(await ms.leggiRichiesta(richiestaCookie.slice('sit_ms='.length), ms.configMicrosoft(), Date.now() + 11 * 60 * 1000), null);
+
+    // Login annullato su Microsoft, o codice rifiutato.
+    assert.equal((await torna({ error: 'access_denied', state })).headers.Location, '/login.html?errore=microsoft');
+    tokenOk = false;
+    const originalError = console.error; const log = []; console.error = (...a) => log.push(JSON.stringify(a));
+    try { assert.equal((await torna({ code: 'c', state })).headers.Location, '/login.html?errore=microsoft'); } finally { console.error = originalError; }
+    assert.match(log.join(), /invalid_grant/);
+    assert.ok(!log.join().includes('codice-monouso') && !log.join().includes('dettagli'));
+
+    // Dopo il login si torna solo su pagine del sito.
+    for (const fuori of ['//sito-esterno.example', 'https://sito-esterno.example', '/\\sito-esterno.example', 'pagina']) assert.equal(ms.destinazioneSicura(fuori), '/index.html', fuori);
+    tokenOk = true; claims = buono();
+    const dentro = await send(avvio, { method: 'GET', headers: host, query: { da: '/x</script><script>alert(1)' } });
+    const c2 = dentro.headers['Set-Cookie'][0].split(';')[0];
+    const s2 = new URL(dentro.headers.Location).searchParams.get('state');
+    claims = buono({ nonce: new URL(dentro.headers.Location).searchParams.get('nonce') });
+    const ponte = await torna({ code: 'c', state: s2 }, c2);
+    assert.ok(!ponte.body.includes('</script><script>alert'), 'la destinazione non può chiudere lo script');
+  });
+});
+
+test('password condivisa spegnibile e middleware con il solo accesso Microsoft', async () => {
+  const { default: login } = await import('../api/login.js');
+  const send = async req => { const res = response(); await login(req, res); return res; };
+  await withEnv({ ...MS, SITO_PASSWORD: 'condivisa' }, async () => {
+    assert.deepEqual((await send({ method: 'GET' })).body, { password: true, microsoft: true });
+  });
+  await withEnv({ ...MS, SITO_PASSWORD: undefined }, async () => {
+    assert.deepEqual((await send({ method: 'GET' })).body, { password: false, microsoft: true });
+    const spenta = await send({ method: 'POST', body: { utente: 'ADC', password: 'condivisa' } });
+    assert.equal(spenta.statusCode, 503);
+    assert.match(spenta.body.errore, /Accedi con Microsoft/);
+  });
+
+  const { readFileSync } = await import('node:fs');
+  const { runInNewContext } = await import('node:vm');
+  const { webcrypto } = await import('node:crypto');
+  const source = readFileSync('middleware.js', 'utf8').replace("import { next } from '@vercel/functions';", 'const next = () => "PASS";').replace('export const config', 'const config').replace('export default async function middleware', 'async function middleware');
+  const carica = env => runInNewContext(source + ';middleware', { URL, Response, TextEncoder, crypto: webcrypto, process: { env } });
+  const soloMicrosoft = carica({ SITO_SEGRETO: 's', MS_CLIENT_ID: 'app' });
+  assert.equal((await soloMicrosoft(new Request('https://x.test/index.html'))).status, 302, 'senza password ma con Microsoft il sito resta raggiungibile dal login');
+  assert.equal(await soloMicrosoft(new Request('https://x.test/api/auth/microsoft')), 'PASS');
+  assert.equal(await soloMicrosoft(new Request('https://x.test/api/auth/callback?code=c&state=s')), 'PASS');
+  assert.equal((await carica({ SITO_SEGRETO: 's' })(new Request('https://x.test/index.html'))).status, 503, 'nessun modo di entrare: sito bloccato');
+});
+
 test('middleware: API scaduta restituisce JSON 401; sessione valida passa', async () => {
   const { readFileSync } = await import('node:fs');
   const { runInNewContext } = await import('node:vm');
