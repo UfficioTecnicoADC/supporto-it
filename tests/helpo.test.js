@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { retrieve, cleanHistory, htmlToText } from '../lib/retrieval.js';
+import { retrieve, cleanHistory, htmlToText, normalize, products } from '../lib/retrieval.js';
 import handler from '../api/chat.js';
 
 const user = content => ({ role: 'user', content });
@@ -74,6 +74,30 @@ test('archivio coerente: campi, id, categorie, collegamenti, immagini e contatti
     }
   }
   for (const canale of ['email', 'telefono', 'whatsapp']) assert.ok(kb.contatti?.[canale], `KB.contatti: manca "${canale}"`);
+  for (const a of kb.articoli.filter(x => x.ripiegoPer)) {
+    assert.ok(Array.isArray(a.ripiegoPer) && a.ripiegoPer.every(p => products.includes(p)), `${a.id}: ripiegoPer deve contenere programmi noti (${products.join(', ')})`);
+  }
+});
+test('"oris" è OrisDent Q; la guida di Maia arriva come ripiego per le domande su ORIS', () => {
+  for (const nome of ['oris', 'Oris Dent', 'OrisDent', 'OrisDentQ', 'Oris Dent Q', 'ORISDENT Q']) assert.equal(normalize(nome), 'oris', nome);
+  const ripiego = (q) => retrieve(q).guides.find(g => g.id === 'maia-orisdent');
+  // Uso del gestionale senza guida interna: arriva il ripiego.
+  const uso = retrieve('Come si stampa il piano di cura in oris?');
+  assert.equal(uso.kind, 'ripiego');
+  assert.equal(ripiego('Come si stampa il piano di cura in oris?')?.ripiego, true);
+  assert.equal(ripiego('come faccio a stampare il piano di cura in OrisDentQ')?.ripiego, true);
+  // Problema tecnico: prima la guida tecnica; il ripiego c'è ma solo come ripiego.
+  for (const q of ['oris non si apre', 'ORIS DENT è bloccato']) {
+    const r = retrieve(q);
+    assert.equal(r.guides[0].id, 'Problemi-ORIS-DENT', q);
+    assert.equal(r.guides.filter(g => g.id === 'maia-orisdent').map(g => g.ripiego).join(), 'true', q);
+  }
+  // Senza ORIS il ripiego non arriva; cercandola apposta, la guida si trova come guida normale.
+  assert.equal(ripiego('Come si stampa il piano di cura?'), undefined);
+  assert.equal(ripiego('Teams non funziona'), undefined);
+  const diretta = retrieve('come si usa maia');
+  assert.equal(diretta.guides[0].id, 'maia-orisdent');
+  assert.equal(diretta.guides[0].ripiego, undefined);
 });
 test('guide lunghe complete, markup e cronologia filtrati', () => {
   const result = retrieve('SIDEXIS esportazione TAC WeTransfer');
@@ -301,6 +325,36 @@ test('area IT: password, cookie firmato, scadenza, cambio password e uscita', as
     const uscitaIT = await send(logoutIT, { method: 'GET' });
     assert.deepEqual(uscitaIT.headers['Set-Cookie'].map(c => c.split('=')[0]), ['sit_it']);
     assert.equal(uscitaIT.headers.Location, '/index.html');
+  });
+});
+
+test('Helpo: glossario "oris", ripiego Maia mostrato solo se citato e contato come guida mancante', async () => {
+  await withEnv({ ...STORE, OPENAI_API_KEY: 'test-only' }, async () => {
+    let sent, text;
+    const counted = [];
+    globalThis.fetch = async (url, options) => {
+      if (url.startsWith('https://redis.test')) { counted.push(JSON.parse(options.body).map(c => c[2])); return { ok: true, json: async () => [{ result: 1 }, { result: 1 }] }; }
+      sent = JSON.parse(options.body);
+      return { ok: true, json: async () => ({ status: 'completed', output_text: text }) };
+    };
+    text = 'Nelle nostre guide non c’è: chiedi a Maia da OrisDent Q.\nFONTI: maia-orisdent';
+    const uso = await call({ message: 'Come si stampa il piano di cura in oris?' });
+    assert.match(sent.instructions, /«oris»/);
+    assert.match(sent.instructions, /OrisDent Q/);
+    assert.match(sent.instructions, /non chiedere conferma/);
+    assert.match(sent.input.at(-1).content, /"id":"maia-orisdent"[^\n]*"ripiego":true/);
+    assert.deepEqual(uso.body.sources.map(s => s.id), ['maia-orisdent']);
+    assert.deepEqual(counted.at(-1), ['domande:totale', 'domande:senza-guida']);
+
+    text = 'Segui la guida.\nFONTI: Problemi-ORIS-DENT';
+    const tecnico = await call({ message: 'oris non si apre' });
+    assert.deepEqual(tecnico.body.sources.map(s => s.id), ['Problemi-ORIS-DENT']);
+    assert.deepEqual(counted.at(-1), ['domande:totale']);
+
+    // Senza riga FONTI il ripiego non compare tra i collegamenti.
+    text = 'Risposta senza fonti.';
+    const senzaFonti = await call({ message: 'oris non si apre' });
+    assert.ok(!senzaFonti.body.sources.some(s => s.id === 'maia-orisdent'));
   });
 });
 
