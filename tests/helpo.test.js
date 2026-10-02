@@ -403,7 +403,18 @@ test('accesso Microsoft: avvio, ritorno, tenant ammessi, ruolo IT e attacchi res
     // Più tenant: endpoint "organizations"; un solo tenant: endpoint di quel tenant.
     assert.equal(ms.configMicrosoft().authority, 'organizations');
     assert.equal(ms.configMicrosoft({ ...MS, MS_TENANT_IDS: T1 }).authority, T1);
-    assert.equal(ms.configMicrosoft({ ...MS, MS_TENANT_IDS: 'non-un-id' }), null);
+    // Un ID scritto male viene ignorato ma segnalato nel log, una sola volta e senza gli ID.
+    const avvisi = [], originalWarn = console.warn;
+    console.warn = (...a) => avvisi.push(a.join(' '));
+    try {
+      assert.equal(ms.configMicrosoft({ ...MS, MS_TENANT_IDS: 'non-un-id' }), null);
+      const misto = { ...MS, MS_TENANT_IDS: `${T1}, ${T2.slice(0, -1)}, ${T2}` };
+      assert.deepEqual(ms.configMicrosoft(misto).tenants, [T1, T2]);
+      ms.configMicrosoft(misto);
+    } finally { console.warn = originalWarn; }
+    assert.equal(avvisi.length, 2, 'un avviso per ogni configurazione diversa, non uno per richiesta');
+    assert.match(avvisi[1], /1 valori non validi.*3 inseriti, 2 validi/);
+    assert.ok(!avvisi.join().includes(T1) && !avvisi.join().includes(T2.slice(0, 8)), 'gli ID non vanno nel log');
 
     const partenza = await send(avvio, { method: 'GET', headers: host, query: { da: '/statistiche.html' } });
     assert.equal(partenza.statusCode, 302);
