@@ -1548,6 +1548,17 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 
 <h2>1. Aprire Maia</h2>
 <p>Maia si usa dall'interno di OrisDent Q, senza aprire altri programmi.</p>
+<ol>
+  <li>Apri <strong>OrisDent Q</strong> e resta nella schermata principale.</li>
+  <li>In alto a sinistra, clicca sull'<strong>immagine di Maia</strong> (il volto di una ragazza), accanto al campo <strong>“Serve aiuto? Scrivi Qui!”</strong>.</li>
+  <li>Si apre la chat di Maia: scrivi la tua domanda.</li>
+</ol>
+
+<figure class="stretta">
+  <img src="assets/img/oris/01-maia-pulsante.png" alt="Angolo in alto a sinistra di OrisDent Q: l'immagine di Maia accanto al campo Serve aiuto? Scrivi Qui!" loading="lazy">
+  <figcaption>Clicca sull'immagine di Maia, in alto a sinistra nella schermata principale.</figcaption>
+</figure>
+
 <p>Se non trovi Maia nel tuo OrisDent Q, contatta il <a href="contatti.html">supporto IT</a>.</p>
 
 <h2>2. Scrivere la domanda</h2>
