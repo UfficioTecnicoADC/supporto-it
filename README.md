@@ -174,6 +174,18 @@ Rinnovo, senza interruzioni per i colleghi:
 Il **Valore** di un segreto si vede solo al momento della creazione: non va mai
 incollato in chat, email o screenshot. Se si perde, si crea un segreto nuovo.
 
+### Account ospiti e sessioni contemporanee
+
+- **Ospiti** (account con `#EXT#`): con più tenant si accede tramite l'endpoint
+  `organizations`, dove ognuno si autentica nel **proprio tenant di casa**. Un
+  collega di una delle 6 società invitato come ospite in un'altra entra con il suo
+  account originale; ospiti di aziende esterne o con indirizzi personali (gmail,
+  outlook.com…) vengono respinti, da Microsoft e dal nostro server. È voluto: chi
+  deve usare il sito riceve un account aziendale in uno dei 6 tenant.
+- **Stesso account su più postazioni**: ogni browser ha una sessione indipendente
+  di 8 ore; "Esci" chiude solo quella postazione. Disattivare un account in Microsoft
+  impedisce nuovi accessi, ma le sessioni già aperte durano fino alla scadenza.
+
 ### Spegnere la password condivisa
 
 Durante la prova restano attivi entrambi gli accessi. Quando tutti entrano con
