@@ -74,6 +74,29 @@ test('archivio coerente: campi, id, categorie, collegamenti, immagini e contatti
     }
   }
   for (const canale of ['email', 'telefono', 'whatsapp']) assert.ok(kb.contatti?.[canale], `KB.contatti: manca "${canale}"`);
+  // Maia: servizio esterno, deve restare un indirizzo https di OrisLine.
+  assert.equal(new URL(kb.maia.url).protocol, 'https:', 'KB.maia: l\'indirizzo deve essere https');
+  assert.match(new URL(kb.maia.url).hostname, /(^|\.)orisline\.com$/, 'KB.maia: l\'indirizzo deve essere di orisline.com');
+  assert.ok(kb.maia.nome && kb.maia.avviso && kb.maia.programmi.length, 'KB.maia: servono nome, avviso e programmi');
+});
+test('Helpo suggerisce Maia per l’uso di OrisDent senza scriverne l’indirizzo', async () => {
+  const { knowledgeBase: kb } = await import('../lib/knowledge-base.js');
+  await withEnv({ OPENAI_API_KEY: 'test-only', KV_REST_API_URL: undefined, KV_REST_API_TOKEN: undefined }, async () => {
+    let sent, text;
+    globalThis.fetch = async (url, options) => { sent = JSON.parse(options.body); return { ok: true, json: async () => ({ status: 'completed', output_text: text }) }; };
+    text = 'Per questa funzione del gestionale chiedi a Maia.\nFONTI: Maia';
+    const conMaia = await call({ message: 'Come si stampa il piano di cura in OrisDent?' });
+    assert.equal(conMaia.statusCode, 200);
+    assert.deepEqual(conMaia.body.maia, { nome: kb.maia.nome, url: kb.maia.url, avviso: kb.maia.avviso });
+    assert.deepEqual(conMaia.body.sources, []);
+    assert.match(sent.instructions, /Maia/);
+    assert.match(sent.instructions, /PROBLEMI TECNICI/);
+    assert.ok(!sent.instructions.includes(kb.maia.url), 'il modello non deve ricevere l\'indirizzo da copiare');
+    text = 'Controlla la guida.\nFONTI: Problemi-ORIS-DENT';
+    const senzaMaia = await call({ message: 'ORIS DENT non si apre' });
+    assert.equal(senzaMaia.body.maia, undefined);
+    assert.deepEqual(senzaMaia.body.sources.map(s => s.id), ['Problemi-ORIS-DENT']);
+  });
 });
 test('guide lunghe complete, markup e cronologia filtrati', () => {
   const result = retrieve('SIDEXIS esportazione TAC WeTransfer');
