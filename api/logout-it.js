@@ -1,19 +1,16 @@
 /* ============================================================
    Supporto IT - ADCO HUB
-   Chiusura della sessione: cancella il cookie e riporta al login.
-   Chiude anche l'eventuale sessione dell'area IT.
+   Uscita dall'area IT: cancella solo il cookie sit_it.
+   La sessione del sito resta aperta.
    ============================================================ */
 
 import { COOKIE_IT } from '../lib/area-it.js';
 
-const COOKIE = 'sit_acc';
-
 export default function handler(request, response) {
   response.setHeader('Cache-Control', 'no-store');
   response.setHeader('Set-Cookie', [
-    COOKIE + '=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0',
     COOKIE_IT + '=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0'
   ]);
-  response.status(302).setHeader('Location', '/login.html?uscita=1');
+  response.status(302).setHeader('Location', '/index.html');
   response.end();
 }

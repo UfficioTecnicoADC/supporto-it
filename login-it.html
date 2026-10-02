@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Area IT - Supporto IT ADC</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="pagina-accesso">
+
+<!-- Secondo login, riservato all'ufficio IT. Si raggiunge solo dopo il login del sito. -->
+<main class="accesso">
+  <div class="accesso-riquadro">
+    <div class="accesso-logo">
+      <span class="logo-segno">ADC</span>
+      <span class="logo-testo"><strong>Supporto IT</strong><span>ADCO HUB</span></span>
+    </div>
+
+    <h1>Area riservata all'ufficio IT</h1>
+    <p class="accesso-intro">Le statistiche di Helpo sono visibili solo all'ufficio IT. Inserisci la password dell'area IT.</p>
+
+    <form id="modulo-accesso" autocomplete="off" novalidate>
+      <label for="password">Password dell'area IT</label>
+      <div class="campo-password">
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+        <button type="button" id="mostra-password" aria-label="Mostra o nascondi la password">Mostra</button>
+      </div>
+
+      <div class="accesso-errore" id="errore" role="alert" hidden></div>
+
+      <button class="bottone bottone-largo" type="submit" id="invia">Entra</button>
+    </form>
+
+    <p class="accesso-aiuto">
+      Non fai parte dell'ufficio IT? <a href="index.html">Torna alla knowledge base</a>.
+    </p>
+  </div>
+
+  <p class="accesso-piede">ADCO HUB &middot; Supporto IT &middot; <span id="anno"></span></p>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  function parametro(nome) {
+    var m = new RegExp("[?&]" + nome + "=([^&]*)").exec(window.location.search);
+    return m ? decodeURIComponent(m[1].replace(/\+/g, " ")) : "";
+  }
+
+  /* Accetta solo destinazioni interne al sito */
+  function destinazione() {
+    var da = parametro("da");
+    if (da && da.charAt(0) === "/" && da.charAt(1) !== "/") return da;
+    return "/statistiche.html";
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var modulo = document.getElementById("modulo-accesso");
+    var password = document.getElementById("password");
+    var errore = document.getElementById("errore");
+    var invia = document.getElementById("invia");
+    var mostra = document.getElementById("mostra-password");
+
+    document.getElementById("anno").textContent = new Date().getFullYear();
+    password.focus();
+
+    mostra.addEventListener("click", function () {
+      var visibile = password.getAttribute("type") === "text";
+      password.setAttribute("type", visibile ? "password" : "text");
+      mostra.textContent = visibile ? "Mostra" : "Nascondi";
+      password.focus();
+    });
+
+    function mostraErrore(testo) {
+      errore.textContent = testo;
+      errore.hidden = false;
+    }
+
+    function riabilita() {
+      invia.disabled = false;
+      invia.textContent = "Entra";
+    }
+
+    modulo.addEventListener("submit", function (e) {
+      e.preventDefault();
+      errore.hidden = true;
+      if (!password.value) { mostraErrore("Inserisci la password."); return; }
+
+      invia.disabled = true;
+      invia.textContent = "Verifica in corso...";
+
+      fetch("/api/login-it", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ password: password.value })
+      })
+        .then(function (risposta) {
+          return risposta.json().then(function (dati) { return { stato: risposta.status, dati: dati }; });
+        })
+        .then(function (esito) {
+          if (esito.stato === 200 && esito.dati && esito.dati.ok) {
+            window.location.replace(destinazione());
+            return;
+          }
+          if (esito.dati && esito.dati.code === "SESSION_EXPIRED") {
+            window.location.replace("/login.html?da=" + encodeURIComponent("/login-it.html"));
+            return;
+          }
+          riabilita();
+          password.value = "";
+          password.focus();
+          mostraErrore((esito.dati && (esito.dati.errore || esito.dati.error)) || "Accesso non riuscito.");
+        })
+        .catch(function () {
+          riabilita();
+          mostraErrore("Impossibile contattare il servizio di accesso. Riprova tra poco.");
+        });
+    });
+  });
+})();
+</script>
+</body>
+</html>

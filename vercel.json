@@ -3,6 +3,10 @@
     "api/chat.js": {
       "includeFiles": "assets/js/data.js",
       "maxDuration": 30
+    },
+    "api/feedback.js": {
+      "includeFiles": "assets/js/data.js",
+      "maxDuration": 10
     }
   }
 }

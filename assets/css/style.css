@@ -436,6 +436,13 @@ mark { background: #ffe89a; color: inherit; padding: 0 2px; border-radius: 3px; 
   color: var(--testo-tenue);
 }
 .piede-riga { display: flex; flex-wrap: wrap; gap: 18px; justify-content: space-between; align-items: center; }
+
+/* Piè di pagina sempre in fondo alla finestra, anche nelle pagine con poco
+   contenuto (es. statistiche di un mese vuoto). Le pagine di accesso hanno un
+   layout proprio e restano escluse. */
+body:not(.pagina-accesso) { min-height: 100vh; display: flex; flex-direction: column; }
+body:not(.pagina-accesso) > .piede { margin-top: auto; }
+body:not(.pagina-accesso) > :has(+ .piede) { margin-bottom: 40px; }
 .piede a { color: var(--testo-medio); margin-right: 16px; }
 
 /* ---------- Pagina di accesso ---------- */
@@ -884,3 +891,37 @@ body.pagina-accesso {
 .ai-fonti ul { margin: 8px 0 0; padding-left: 20px; }
 .ai-fonti li + li { margin-top: 6px; }
 .ai-barra-superiore-riga { flex-wrap: wrap; gap: 10px; }
+
+/* Feedback 👍/👎 sotto le risposte di Helpo. */
+.ai-feedback { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; font-size: .85rem; color: var(--testo-tenue); }
+.ai-feedback .ai-azione { font-size: 1.05rem; }
+.ai-feedback-commento { display: grid; gap: 8px; width: 100%; max-width: 560px; }
+.ai-feedback-commento label { color: var(--testo-medio); }
+.ai-feedback-commento textarea {
+  font: inherit;
+  font-size: .92rem;
+  padding: 10px 12px;
+  border: 1px solid var(--border-forte);
+  border-radius: var(--raggio-s);
+  background: var(--surface);
+  color: var(--testo);
+  resize: vertical;
+}
+.ai-feedback-commento textarea:focus { outline: none; border-color: var(--blu-500); box-shadow: 0 0 0 3px rgba(42, 123, 208, .18); }
+.ai-feedback-pulsanti { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Pagina statistiche di Helpo. */
+.statistiche-mese { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.statistiche-mese select {
+  font: inherit;
+  padding: 7px 10px;
+  border: 1px solid var(--border-forte);
+  border-radius: var(--raggio-s);
+  background: var(--surface);
+  color: var(--testo);
+}
+.statistiche-numero { font-size: 1.8rem; font-weight: 700; color: var(--blu-700); line-height: 1.1; }
+.statistiche-tabella { overflow-x: auto; margin-bottom: 28px; }
+.statistiche-tabella td.numero, .statistiche-tabella th.numero { text-align: right; white-space: nowrap; }
+.statistiche-commento { margin-bottom: 12px; }
+.statistiche-commento p { white-space: pre-wrap; color: var(--testo); }
