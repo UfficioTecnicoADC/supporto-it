@@ -45,6 +45,16 @@ const KB = {
     ]
   },
 
+  /* Maia: assistente AI ufficiale di OrisLine per l'uso dei suoi programmi.
+     È un servizio esterno: i link si aprono in una nuova scheda e Helpo lo
+     suggerisce per le domande sull'uso del gestionale. Modificare solo qui. */
+  maia: {
+    nome: "Maia",
+    url: "https://ai.orisline.com/chat?type=applications&focus=OrisDentAir%2COrisDentQ%2COrisLabQ%2CDentIA",
+    programmi: ["OrisDent", "OrisDent Q", "OrisLab Q", "DentIA"],
+    avviso: "Servizio esterno di OrisLine: non inserire dati dei pazienti."
+  },
+
   categorie: [
     {
       id: "accessi",

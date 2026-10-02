@@ -1127,6 +1127,27 @@
 
     }
 
+    /*
+     * Collegamenti a Maia (assistente OrisLine): indirizzo e avviso
+     * arrivano da KB.maia, unica fonte. Servizio esterno: nuova scheda.
+     */
+
+    $$("[data-maia]").forEach(
+      function (a) {
+
+        if (!KB.maia || !/^https:\/\//.test(KB.maia.url)) {
+          a.hidden = true;
+          return;
+        }
+
+        a.href = KB.maia.url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.title = KB.maia.avviso;
+
+      }
+    );
+
     /* Anno nel footer */
 
     $$(".anno").forEach(
