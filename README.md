@@ -109,6 +109,25 @@ Email, telefono, WhatsApp e orari stanno **solo** in `KB.contatti`, all'inizio d
 
 Per cambiare un recapito si modifica solo `KB.contatti`.
 
+## Maia, l'assistente di OrisLine
+
+Per le domande sull'**uso** dei programmi OrisLine (OrisDent, OrisDent Q, OrisLab Q,
+DentIA) il sito rimanda a **Maia**, l'assistente AI ufficiale di OrisLine.
+Indirizzo, nome e avviso stanno solo in `KB.maia`, in `assets/js/data.js`.
+
+- **Collegamenti**: in home, sotto la ricerca, e nella barra di AI Mode. Si
+  aprono in una nuova scheda e ricordano che è un servizio esterno: non vanno
+  inseriti dati dei pazienti.
+- **Helpo**: se la domanda riguarda l'uso del gestionale e le guide interne non
+  bastano, suggerisce Maia e sotto la risposta compare il pulsante "Chiedi a
+  Maia". Il modello non scrive l'indirizzo: lo segnala con `maia` nella riga
+  `FONTI` e il pulsante usa l'indirizzo di `KB.maia`. Per i problemi tecnici
+  ("non si apre", "è bloccato") Helpo resta sulle guide interne e sul supporto IT.
+
+Non c'è un'integrazione diretta tra Helpo e Maia: OrisLine non offre
+un'interfaccia pubblica. Un collegamento più stretto richiede un accordo con
+OrisLine.
+
 ## Aggiungere o modificare una guida
 
 Tutti i contenuti stanno in `assets/js/data.js`. Home, elenchi di categoria,
