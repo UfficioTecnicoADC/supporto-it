@@ -33,7 +33,7 @@ const KB = {
 
   contatti: {
     email: {
-      valore: "ufficiotecnico@assistenzadentistica.it",
+      valore: "helpdesk@assistenzadentistica.it",
       uso: "Canale principale per le richieste ordinarie. Il messaggio apre automaticamente un ticket e ricevi il numero di riferimento."
     },
     telefono: {

@@ -74,6 +74,14 @@ test('archivio coerente: campi, id, categorie, collegamenti, immagini e contatti
     }
   }
   for (const canale of ['email', 'telefono', 'whatsapp']) assert.ok(kb.contatti?.[canale], `KB.contatti: manca "${canale}"`);
+  // La pagina di login non può leggere KB (è protetta): l'email è scritta a mano e deve
+  // restare uguale a KB.contatti, e nessun file deve citare altre email del dominio.
+  const { readFileSync } = await import('node:fs');
+  const login = readFileSync('login.html', 'utf8');
+  assert.ok(login.includes(kb.contatti.email.valore), `login.html: l'email deve essere ${kb.contatti.email.valore} come in KB.contatti`);
+  const sorgenti = ['login.html', 'login-it.html', 'contatti.html', 'index.html', 'assets/js/data.js', 'assets/js/app.js', 'api/chat.js'].map(f => readFileSync(f, 'utf8')).join('\n');
+  const altre = [...new Set([...sorgenti.matchAll(/[a-z0-9._-]+@assistenzadentistica\.it/gi)].map(m => m[0].toLowerCase()))].filter(e => e !== kb.contatti.email.valore);
+  assert.deepEqual(altre, [], 'indirizzi email del dominio diversi da quello in KB.contatti');
   for (const a of kb.articoli.filter(x => x.ripiegoPer)) {
     assert.ok(Array.isArray(a.ripiegoPer) && a.ripiegoPer.every(p => products.includes(p)), `${a.id}: ripiegoPer deve contenere programmi noti (${products.join(', ')})`);
   }
