@@ -129,9 +129,8 @@ azienda), `microsoft` (login annullato o rifiutato), `scaduto`, `config`.
    Microsoft a respingere gli account di altre aziende, e il nostro server ripete il
    controllo. URI di reindirizzamento **Web** `https://supporto-it.vercel.app/api/auth/callback`.
 2. Dalla pagina *Panoramica*: **ID applicazione (client)** → `MS_CLIENT_ID`.
-3. *Autenticazione* → aggiungi un secondo URI Web per la prova sul branch: l'indirizzo
-   fisso del branch su Vercel (es. `https://supporto-it-git-accesso-microsoft-ufficio-tecnico.vercel.app`)
-   seguito da `/api/auth/callback`. Lascia **spenti** i token di accesso e ID impliciti.
+3. *Autenticazione*: lascia **spenti** i token di accesso e ID impliciti. Per provare
+   l'accesso Microsoft su una preview serve un URI in più (vedi *Prove sulle preview*).
 4. *Certificati e segreti* → **Nuovo segreto client** → copia subito il **Valore**
    → `MS_CLIENT_SECRET`. Annota la **scadenza** (vedi *Rinnovare il segreto client*).
 5. *Ruoli app* → **Crea ruolo app**: nome *Ufficio IT*, membri consentiti
@@ -173,6 +172,22 @@ Rinnovo, senza interruzioni per i colleghi:
 
 Il **Valore** di un segreto si vede solo al momento della creazione: non va mai
 incollato in chat, email o screenshot. Se si perde, si crea un segreto nuovo.
+
+### Prove sulle preview: usare la password
+
+Sulle **preview** di Vercel l'accesso con Microsoft **non funziona**: Microsoft
+risponde con l'errore `AADSTS50011` (*redirect URI does not match*). Non è un
+guasto: Microsoft accetta il ritorno solo verso gli indirizzi registrati in Entra,
+e ogni preview ha un indirizzo diverso (`supporto-<codice>-ufficio-tecnico.vercel.app`).
+In Entra è registrata solo la produzione (`https://supporto-it.vercel.app/api/auth/callback`).
+
+- Sulle preview si entra con la **password di riserva** (`SITO_UTENTE` / `SITO_PASSWORD`).
+- L'accesso Microsoft si verifica sulla **produzione**.
+- Solo se una modifica riguarda proprio l'accesso Microsoft e va provata prima di
+  `main`: registra in Entra (*Authentication* → URI Web) l'indirizzo fisso del branch,
+  `https://supporto-it-git-<nome-branch>-ufficio-tecnico.vercel.app/api/auth/callback`,
+  apri la preview **da quell'indirizzo** (non da quello con il codice casuale) e,
+  finita la prova, togli l'URI da Entra.
 
 ### Account ospiti e sessioni contemporanee
 
