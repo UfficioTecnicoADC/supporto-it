@@ -226,6 +226,31 @@
     );
   }
 
+  /* Email che apre un ticket: oggetto da completare e le domande della pagina Contatti. */
+  function hrefTicket(c) {
+    var traccia = [
+      "Cosa non funziona (in una frase):",
+      "",
+      "Da quando si verifica e cosa è successo poco prima:",
+      "",
+      "Messaggio di errore (se puoi, allega uno screenshot):",
+      "",
+      "Riguarda solo te o anche altri colleghi:",
+      "",
+      "Sede e postazione, oppure lavoro da remoto:",
+      "",
+      "Numero di inventario del dispositivo (etichetta sul PC):",
+      "",
+      "Riesci a lavorare lo stesso?",
+      ""
+    ].join("\r\n");
+    return (
+      "mailto:" + c.email.valore +
+      "?subject=" + encodeURIComponent("Richiesta di supporto IT: ") +
+      "&body=" + encodeURIComponent(traccia)
+    );
+  }
+
   function renderContatti() {
     var c = KB.contatti;
     var canali = $("#canali-contatto");
@@ -1016,6 +1041,12 @@
           sessionStorage.removeItem("adco_helpo_conversazione_v2");
         } catch (e) {}
       });
+    });
+
+    /* "Apri un ticket": l'HTML ha già un mailto semplice, qui si aggiunge la traccia */
+
+    $$("a.apri-ticket").forEach(function (link) {
+      link.href = hrefTicket(KB.contatti);
     });
 
     /* Menu mobile */

@@ -570,6 +570,16 @@ body.pagina-accesso {
 .nav a.esci { color: var(--testo-tenue); }
 .nav a.esci:hover { color: var(--critico); }
 
+/* Colori fissi: il blu chiaro del tema scuro non regge il testo bianco */
+.nav a.apri-ticket {
+  margin-left: 6px;
+  background: #1d63ad;
+  color: #fff;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.nav a.apri-ticket:hover { background: #17497f; color: #fff; }
+
 /* ---------- Responsive ---------- */
 
 @media (max-width: 900px) {
@@ -588,6 +598,7 @@ body.pagina-accesso {
     flex-direction: column; align-items: stretch; padding: 8px 16px 14px; gap: 0;
   }
   .nav.aperto { display: flex; }
+  .nav a.apri-ticket { margin: 8px 0 0; text-align: center; }
   .cerca-compatta { display: none; }
   .hero { padding: 40px 0 44px; }
   .hero h1 { font-size: 1.7rem; }
