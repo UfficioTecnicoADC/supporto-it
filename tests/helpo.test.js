@@ -82,6 +82,13 @@ test('archivio coerente: campi, id, categorie, collegamenti, immagini e contatti
   const sorgenti = ['login.html', 'login-it.html', 'contatti.html', 'index.html', 'assets/js/data.js', 'assets/js/app.js', 'api/chat.js'].map(f => readFileSync(f, 'utf8')).join('\n');
   const altre = [...new Set([...sorgenti.matchAll(/[a-z0-9._-]+@assistenzadentistica\.it/gi)].map(m => m[0].toLowerCase()))].filter(e => e !== kb.contatti.email.valore);
   assert.deepEqual(altre, [], 'indirizzi email del dominio diversi da quello in KB.contatti');
+  // "Apri un ticket" è scritto a mano in ogni intestazione: deve esserci ovunque e puntare all'email giusta.
+  const { readdirSync } = await import('node:fs');
+  for (const pagina of readdirSync('.').filter(f => f.endsWith('.html'))) {
+    const html = readFileSync(pagina, 'utf8');
+    if (!html.includes('id="nav"')) continue;
+    assert.ok(html.includes(`class="apri-ticket" href="mailto:${kb.contatti.email.valore}?`), `${pagina}: manca "Apri un ticket" verso ${kb.contatti.email.valore}`);
+  }
   for (const a of kb.articoli.filter(x => x.ripiegoPer)) {
     assert.ok(Array.isArray(a.ripiegoPer) && a.ripiegoPer.every(p => products.includes(p)), `${a.id}: ripiegoPer deve contenere programmi noti (${products.join(', ')})`);
   }
