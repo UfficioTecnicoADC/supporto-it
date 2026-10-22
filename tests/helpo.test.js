@@ -13,6 +13,10 @@ test('recupera procedure specifiche e scarta documenti secondari non pertinenti'
   assert.match(retrieve('Ho dimenticato la password').guides[0].titolo, /Reimpostare/);
   assert.ok(retrieve('Come posso cambiare il toner?').guides.every(g => !/password|MFA/.test(g.titolo)));
 });
+test('le domande sul sito stesso portano alla guida "Come usare il sito"', () => {
+  for (const q of ['come funziona questo sito', 'come si usa helpo', 'è la prima volta che uso il sito']) assert.equal(ids(q)[0], 'come-usare-supporto-it', q);
+  assert.equal(ids("cos'è un ticket")[0], 'cos-e-un-ticket');
+});
 test('richieste vaghe, sociali e fuori archivio non ricevono guide casuali', () => {
   assert.equal(retrieve('non funziona').kind, 'clarify');
   assert.equal(retrieve('grazie').kind, 'social');
