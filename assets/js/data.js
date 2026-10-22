@@ -1394,7 +1394,7 @@ const KB = {
       id: "Problemi-ORIS-DENT",
       titolo: "ORIS DENT non si apre, è bloccato o non risponde",
       categoria: "software",
-      tag: ["oris", "oris dent", "orisdent", "gestionale", "bloccato", "non risponde", "gestione attività"],
+      tag: ["oris", "oris dent", "orisdent", "gestionale", "bloccato", "non risponde", "non si apre", "si blocca", "gestione attività"],
       aggiornato: "2026-09-02",
       minuti: 4,
       sommario: "Procedura semplice per chiudere, riavviare e ripristinare ORIS DENT quando non risponde.",
