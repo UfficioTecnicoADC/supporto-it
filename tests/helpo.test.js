@@ -374,6 +374,17 @@ test('Helpo: glossario "oris", ripiego Maia mostrato solo se citato e contato co
     text = 'Risposta senza fonti.';
     const senzaFonti = await call({ message: 'oris non si apre' });
     assert.ok(!senzaFonti.body.sources.some(s => s.id === 'maia-orisdent'));
+
+    // Conversazione partita da un guasto: una domanda d'uso successiva riceve comunque Maia
+    // e le istruzioni dicono di valutarla da sola.
+    text = 'Chiedi a Maia.\nFONTI: maia-orisdent';
+    await call({ message: 'non riesco a vedere i preventivi firmati', history: [
+      { role: 'user', content: 'oris non funziona' },
+      { role: 'assistant', content: 'Che cosa succede esattamente con OrisDent Q? Non si apre o è bloccato?' }
+    ] });
+    assert.match(sent.input.at(-1).content, /"id":"maia-orisdent"[^\n]*"ripiego":true/);
+    assert.match(sent.instructions, /Valuta ogni messaggio da solo/);
+    assert.match(sent.instructions, /preventivi/);
   });
 });
 
