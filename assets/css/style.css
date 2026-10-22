@@ -775,6 +775,19 @@ body.pagina-accesso {
 }
 .ai-saluto .ai-scintilla { color: var(--blu-600); font-size: 1.5rem; }
 
+/* Helpo, la mascotte: grande nel saluto, piccolo accanto al nome e nei pulsanti. */
+.helpo-grande { display: block; width: 120px; height: 120px; margin-bottom: -14px; }
+.helpo-mini { display: inline-block; flex: 0 0 auto; border-radius: 50%; }
+.ai-mittente {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: .88rem;
+  font-weight: 600;
+  color: var(--testo-medio);
+}
+
 .ai-composer { position: relative; width: 100%; max-width: 620px; }
 .ai-composer input {
   width: 100%;
