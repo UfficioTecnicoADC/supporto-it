@@ -779,6 +779,8 @@ body.pagina-accesso {
 /* Disco bianco dietro al logo: l'anello blu scuro resta visibile anche nel tema scuro. */
 .helpo-grande { display: block; width: 128px; height: 128px; padding: 4px; background: #fff; border-radius: 50%; margin-bottom: -14px; }
 .helpo-mini { display: inline-block; flex: 0 0 auto; }
+/* Nel pulsante "Chiedi a Helpo" il logo completo è più grande ma non allarga il pulsante. */
+.ai-mode-btn .helpo-mini { margin: -5px 0 -5px -4px; }
 .ai-mittente {
   display: flex;
   align-items: center;
