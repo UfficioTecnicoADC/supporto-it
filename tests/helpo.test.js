@@ -25,6 +25,12 @@ test('nuova domanda senza programma dopo una chat su oris: arriva Maia solo se n
   assert.ok(!ids('la stampante non stampa', chat).includes('maia-orisdent'));
   assert.equal(retrieve('non riesco a vedere i preventivi firmati').kind, 'no_match');
 });
+test('due problemi nello stesso messaggio: si cerca anche ogni frase da sola', () => {
+  const doppio = ids('oris non funziona, non riesco a vedere i preventivi firmati');
+  assert.ok(doppio.includes('Problemi-ORIS-DENT') && doppio.includes('maia-orisdent'), doppio.join(', '));
+  const dueProgrammi = ids('teams non funziona, outlook non si apre');
+  assert.ok(dueProgrammi.some(id => /teams/.test(id)) && dueProgrammi.some(id => /outlook/.test(id)), dueProgrammi.join(', '));
+});
 test('richieste vaghe, sociali e fuori archivio non ricevono guide casuali', () => {
   assert.equal(retrieve('non funziona').kind, 'clarify');
   assert.equal(retrieve('grazie').kind, 'social');
