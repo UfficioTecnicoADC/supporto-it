@@ -714,9 +714,13 @@ body.pagina-accesso {
 
 /* ---------- Pagina dedicata Assistente AI (stile "AI Mode") ---------- */
 
+/* Resta visibile sotto l'intestazione (68px + bordo) mentre si scorre la conversazione. */
 .ai-barra-superiore {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 69px;
+  z-index: 45;
 }
 .ai-barra-superiore-riga {
   display: flex;
@@ -909,6 +913,8 @@ body.pagina-accesso {
 .ai-composer-fissa .ai-invia { width: 34px; height: 34px; right: 6px; }
 
 @media (max-width: 720px) {
+  .ai-barra-superiore { top: 61px; }
+  .ai-barra-superiore-riga { height: auto; padding-top: 8px; padding-bottom: 8px; }
   .ai-saluto { font-size: 1.5rem; }
   .ai-domanda { max-width: 92%; }
 }
