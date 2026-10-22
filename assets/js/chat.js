@@ -80,8 +80,9 @@
     function create(question) {
       var turn = document.createElement('div'); turn.className = 'ai-turno';
       var q = document.createElement('div'); q.className = 'ai-domanda'; q.textContent = question;
+      var who = document.createElement('div'); who.className = 'ai-mittente'; who.innerHTML = '<img class="helpo-mini" src="assets/img/helpo/helpo-96.png" alt="" width="28" height="28"> Helpo';
       var box = document.createElement('div'); box.className = 'risposta-ai risposta-ai-caricamento'; box.textContent = 'Sto preparando la risposta...';
-      turn.appendChild(q); turn.appendChild(box); log.appendChild(turn); return { turn: turn, box: box };
+      turn.appendChild(q); turn.appendChild(who); turn.appendChild(box); log.appendChild(turn); return { turn: turn, box: box };
     }
     function newChat() {
       if (busy) return;
