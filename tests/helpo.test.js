@@ -17,6 +17,14 @@ test('le domande sul sito stesso portano alla guida "Come usare il sito"', () =>
   for (const q of ['come funziona questo sito', 'come si usa helpo', 'è la prima volta che uso il sito']) assert.equal(ids(q)[0], 'come-usare-supporto-it', q);
   assert.equal(ids("cos'è un ticket")[0], 'cos-e-un-ticket');
 });
+test('nuova domanda senza programma dopo una chat su oris: arriva Maia solo se nessuna guida risponde', () => {
+  const chat = [user('oris non funziona'), { ...assistant('Prova a chiudere e riaprire OrisDent Q.'), sources: ['Problemi-ORIS-DENT'] }];
+  const preventivi = retrieve('non riesco a vedere i preventivi firmati', chat);
+  assert.equal(preventivi.kind, 'ripiego');
+  assert.deepEqual(preventivi.guides.map(g => g.id), ['maia-orisdent']);
+  assert.ok(!ids('la stampante non stampa', chat).includes('maia-orisdent'));
+  assert.equal(retrieve('non riesco a vedere i preventivi firmati').kind, 'no_match');
+});
 test('richieste vaghe, sociali e fuori archivio non ricevono guide casuali', () => {
   assert.equal(retrieve('non funziona').kind, 'clarify');
   assert.equal(retrieve('grazie').kind, 'social');
