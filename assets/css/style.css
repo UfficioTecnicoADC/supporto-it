@@ -864,7 +864,8 @@ body.pagina-accesso {
   padding-top: 30px;
 }
 
-.ai-turno { display: grid; gap: 12px; }
+/* Quando la pagina porta la domanda in cima, la lascia sotto intestazione e barra fisse di Helpo. */
+.ai-turno { display: grid; gap: 12px; scroll-margin-top: 140px; }
 
 .ai-domanda {
   justify-self: end;
@@ -934,6 +935,7 @@ body.pagina-accesso {
 
 @media (max-width: 720px) {
   .ai-barra-superiore { top: 61px; }
+  .ai-turno { scroll-margin-top: 170px; }
   .ai-barra-superiore-riga { height: auto; padding-top: 8px; padding-bottom: 8px; }
   .ai-saluto { font-size: 1.5rem; }
   .ai-domanda { max-width: 92%; }
