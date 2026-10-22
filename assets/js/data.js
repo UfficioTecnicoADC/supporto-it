@@ -3762,6 +3762,97 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 
     /* ---------------- PROCEDURE E RICHIESTE ---------------- */
 
+    {
+      id: "come-usare-supporto-it",
+      titolo: "Come usare il sito Supporto IT",
+      categoria: "procedure",
+      tag: ["come funziona", "sito", "supporto it", "helpo", "chiedi a helpo", "scrivi all'it", "primo accesso", "prima volta", "guida al sito", "come si usa", "aiuto"],
+      aggiornato: "2026-10-22",
+      minuti: 2,
+      sommario: "Cosa trovi in questo sito e i tre modi per risolvere un problema: cercare una guida, chiedere a Helpo, scrivere all'IT.",
+      corpo: `
+<p>
+  Questo sito raccoglie le <strong>guide del supporto IT</strong>: spiegano passo passo come risolvere
+  i problemi più comuni con il computer, la posta, la stampante e i programmi dello studio.
+</p>
+
+<div class="nota ok">
+  <strong>Non serve essere esperti</strong>
+  Basta descrivere il problema con parole tue, come lo diresti a un collega.
+</div>
+
+<h2>Come entrare</h2>
+<ol>
+  <li>Apri il sito e clicca <strong>Accedi con Microsoft</strong>.</li>
+  <li>Usa la <strong>stessa email e la stessa password</strong> che usi per Outlook e Teams.</li>
+  <li>Se il telefono ti chiede una conferma, approvala come fai di solito per la posta.</li>
+</ol>
+
+<h2>Hai un problema? Tre modi per risolverlo</h2>
+
+<h3>1. Cerca una guida</h3>
+<p>
+  Nella casella in alto nella pagina principale scrivi una o due parole, ad esempio
+  <em>stampante</em>, <em>password</em>, <em>Outlook</em> oppure <em>oris</em>, e premi Invio.
+  Si apre l'elenco delle guide: scegli quella che descrive il tuo problema e segui i passaggi.
+</p>
+
+<h3>2. Chiedi a Helpo</h3>
+<p>
+  Helpo è l'assistente del supporto IT. Clicca <strong>Chiedi a Helpo</strong> nella pagina principale
+  e scrivi il problema con una frase, ad esempio:
+</p>
+<div class="nota">
+  <strong>Esempio</strong>
+  La stampante della reception non stampa e sul computer compare "stampante non disponibile".
+</div>
+<p>
+  Helpo ti risponde usando le guide del sito e ti indica quali ha usato.
+  Se non è chiaro, puoi fargli altre domande nella stessa conversazione.
+</p>
+
+<h3>3. Scrivi all'IT</h3>
+<p>
+  Se le guide e Helpo non bastano, clicca il pulsante blu <strong>Scrivi all'IT</strong> in alto a destra,
+  presente in ogni pagina. Si apre un'email già pronta per il supporto IT:
+</p>
+<ol>
+  <li>nell'oggetto aggiungi poche parole sul problema (ad esempio <em>stampante reception</em>);</li>
+  <li>rispondi alle domande già scritte nel messaggio;</li>
+  <li>se puoi, allega una foto o uno screenshot dell'errore;</li>
+  <li>clicca <strong>Invia</strong>.</li>
+</ol>
+<p>
+  Riceverai subito un'email di conferma con il <strong>numero della tua richiesta</strong>.
+  Per aggiungere informazioni, rispondi a quella email senza cambiare l'oggetto.
+  Se non sai cos'è un ticket, leggi <a href="articolo.html?id=cos-e-un-ticket">Cos'è un ticket?</a>.
+</p>
+
+<div class="nota attenzione">
+  <strong>Se sei completamente fermo</strong>
+  Se non riesci a lavorare o non riesci ad aprire la posta, telefona al supporto IT:
+  numeri e orari sono nella pagina <a href="contatti.html">Contatti</a>.
+</div>
+
+<h2>Cosa non scrivere mai</h2>
+<ul>
+  <li><strong>Password</strong> e codici di conferma: il supporto IT non te li chiederà mai.</li>
+  <li><strong>Nomi o dati dei pazienti</strong>: non servono per risolvere un problema tecnico.</li>
+</ul>
+
+<h2>Dicci se una guida ti è stata utile</h2>
+<p>
+  Sotto le risposte di Helpo trovi 👍 e 👎. Usali: ci aiutano a capire quali guide funzionano
+  e quali vanno migliorate.
+</p>
+
+<div class="nota">
+  <strong>Usi un computer condiviso?</strong>
+  Quando hai finito clicca <strong>Esci</strong> in alto, così il collega dopo di te non entra con il tuo account.
+</div>
+`
+    },
+
      {
   id: "cos-e-un-ticket",
   titolo: "Cos'è un ticket?",
@@ -3922,7 +4013,7 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 <h2>Canali disponibili</h2>
 <table>
   <tr><th>Canale</th><th>Quando usarlo</th></tr>
-  <tr><td>Email al supporto IT</td><td>Canale principale per richieste ordinarie. Apre automaticamente un ticket.</td></tr>
+  <tr><td>Pulsante <strong>Scrivi all'IT</strong> (in alto in ogni pagina del sito) oppure email al supporto IT</td><td>Canale principale per richieste ordinarie. Apre automaticamente un ticket e ricevi il numero via email.</td></tr>
   <tr><td>Telefono</td><td>Blocchi che impediscono di lavorare, o quando non riesci ad accedere alla posta.</td></tr>
   <tr><td>Chat WhatsApp</td><td>Domande brevi e chiarimenti su ticket già aperti.</td></tr>
 </table>
