@@ -68,6 +68,10 @@
 
 html { scroll-behavior: smooth; }
 
+/* Sui monitor delle postazioni (Full HD e oltre) il sito è un po' più grande:
+   testi più leggibili e meno spazio vuoto ai lati. Portatili e telefoni restano come sono. */
+@media (min-width: 1600px) { html { zoom: 1.15; } }
+
 body {
   margin: 0;
   font-family: var(--font);
