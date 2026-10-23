@@ -226,9 +226,12 @@
     );
   }
 
-  /* Email che apre un ticket: oggetto da completare e le domande della pagina Contatti. */
-  function hrefTicket(c) {
-    var traccia = [
+  /* Email che apre un ticket: oggetto da completare e le domande della pagina Contatti.
+     Il pulsante apre Outlook nel browser: funziona per tutti, anche senza il programma
+     installato, e l'accesso Microsoft fatto per entrare nel sito vale anche lì.
+     I link "apri-ticket-app" usano invece il programma di posta del PC. */
+  function tracciaTicket(acapo) {
+    return [
       "Cosa non funziona (in una frase):",
       "",
       "Da quando si verifica e cosa è successo poco prima:",
@@ -243,11 +246,22 @@
       "",
       "Riesci a lavorare lo stesso?",
       ""
-    ].join("\r\n");
+    ].join(acapo);
+  }
+
+  function hrefTicket(c) {
+    return (
+      "https://outlook.office.com/mail/deeplink/compose?to=" + encodeURIComponent(c.email.valore) +
+      "&subject=" + encodeURIComponent("Richiesta di supporto IT: ") +
+      "&body=" + encodeURIComponent(tracciaTicket("\n"))
+    );
+  }
+
+  function hrefTicketApp(c) {
     return (
       "mailto:" + c.email.valore +
       "?subject=" + encodeURIComponent("Richiesta di supporto IT: ") +
-      "&body=" + encodeURIComponent(traccia)
+      "&body=" + encodeURIComponent(tracciaTicket("\r\n"))
     );
   }
 
@@ -260,7 +274,9 @@
       canali.innerHTML =
         '<div class="scheda"><h3>Email</h3>' +
         "<p>" + esc(c.email.uso) + "</p>" +
-        '<p class="dato">' + linkEmail(c) + "</p></div>" +
+        '<p class="dato">' + linkEmail(c) + "</p>" +
+        '<p style="font-size:.86rem"><a class="apri-ticket" href="' + esc(hrefTicket(c)) + '" target="_blank" rel="noopener noreferrer">Scrivi da Outlook nel browser</a>' +
+        ' · <a class="apri-ticket-app" href="' + esc(hrefTicketApp(c)) + '">dal programma Outlook</a></p></div>' +
 
         '<div class="scheda"><h3>Telefono</h3>' +
         "<p>" + esc(c.telefono.uso) + "</p>" +
@@ -1047,6 +1063,12 @@
 
     $$("a.apri-ticket").forEach(function (link) {
       link.href = hrefTicket(KB.contatti);
+    });
+
+    // Anche nei link dentro le guide, che compaiono dopo: si aggiorna al clic.
+    document.addEventListener("click", function (e) {
+      var link = e.target.closest && e.target.closest("a.apri-ticket, a.apri-ticket-app");
+      if (link) link.href = link.classList.contains("apri-ticket-app") ? hrefTicketApp(KB.contatti) : hrefTicket(KB.contatti);
     });
 
     /* Menu mobile */

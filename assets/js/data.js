@@ -3814,7 +3814,8 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 <h3>3. Scrivi all'IT</h3>
 <p>
   Se le guide e Helpo non bastano, clicca il pulsante blu <strong>Scrivi all'IT</strong> in alto a destra,
-  presente in ogni pagina. Si apre un'email già pronta per il supporto IT:
+  presente in ogni pagina. In una nuova scheda si apre <strong>Outlook nel browser</strong> con un'email già pronta
+  per il supporto IT (se compare <em>Scegli un account</em>, clicca il tuo nome):
 </p>
 <ol>
   <li>nell'oggetto aggiungi poche parole sul problema (ad esempio <em>stampante reception</em>);</li>
@@ -3822,6 +3823,10 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
   <li>se puoi, allega una foto o uno screenshot dell'errore;</li>
   <li>clicca <strong>Invia</strong>.</li>
 </ol>
+<p>
+  Usi il programma Outlook installato sul PC? Puoi aprire la stessa email lì:
+  <a class="apri-ticket-app" href="mailto:helpdesk@assistenzadentistica.it">scrivi dal programma Outlook</a>.
+</p>
 <p>
   Riceverai subito un'email di conferma con il <strong>numero della tua richiesta</strong>.
   Per aggiungere informazioni, rispondi a quella email senza cambiare l'oggetto.
