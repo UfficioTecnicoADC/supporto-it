@@ -4,6 +4,12 @@ Sito con le guide del supporto IT e **Helpo**, l'assistente AI di primo livello.
 Le pagine sono HTML, CSS e JavaScript senza build; su Vercel si aggiungono il
 controllo di accesso (`middleware.js`) e tre funzioni server in `api/`.
 
+**Indirizzo:** https://supporto.assistenzadentistica.it. Il DNS del dominio è gestito
+da Sistemi Open: il record `CNAME supporto → e9e81f61ac5dd090.vercel-dns-017.com.`
+punta a Vercel (*Settings → Domains*, il certificato HTTPS lo crea Vercel). Il vecchio
+indirizzo `supporto-it.vercel.app` resta attivo con un **reindirizzamento 308** al nuovo,
+così icone, QR code e link già distribuiti continuano a funzionare.
+
 ## Struttura
 
 ```
@@ -128,7 +134,8 @@ azienda), `microsoft` (login annullato o rifiutato), `scaduto`, `config`.
    **"Più tenant Entra ID"** → **"Consenti solo determinati tenant"**, con gli ID
    dei 6 tenant nell'elenco *allowed tenants* (compreso il principale): così è già
    Microsoft a respingere gli account di altre aziende, e il nostro server ripete il
-   controllo. URI di reindirizzamento **Web** `https://supporto-it.vercel.app/api/auth/callback`.
+   controllo. URI di reindirizzamento **Web** `https://supporto.assistenzadentistica.it/api/auth/callback`
+   (resta registrato anche `https://supporto-it.vercel.app/api/auth/callback`, il vecchio indirizzo).
 2. Dalla pagina *Panoramica*: **ID applicazione (client)** → `MS_CLIENT_ID`.
 3. *Autenticazione*: lascia **spenti** i token di accesso e ID impliciti. Per provare
    l'accesso Microsoft su una preview serve un URI in più (vedi *Prove sulle preview*).
@@ -180,7 +187,8 @@ Sulle **preview** di Vercel l'accesso con Microsoft **non funziona**: Microsoft
 risponde con l'errore `AADSTS50011` (*redirect URI does not match*). Non è un
 guasto: Microsoft accetta il ritorno solo verso gli indirizzi registrati in Entra,
 e ogni preview ha un indirizzo diverso (`supporto-<codice>-ufficio-tecnico.vercel.app`).
-In Entra è registrata solo la produzione (`https://supporto-it.vercel.app/api/auth/callback`).
+In Entra è registrata solo la produzione (`https://supporto.assistenzadentistica.it/api/auth/callback`
+e il vecchio `https://supporto-it.vercel.app/api/auth/callback`).
 
 - Sulle preview si entra con la **password di riserva** (`SITO_UTENTE` / `SITO_PASSWORD`).
 - L'accesso Microsoft si verifica sulla **produzione**.
