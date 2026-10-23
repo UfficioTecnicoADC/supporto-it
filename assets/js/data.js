@@ -3769,8 +3769,11 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
       tag: ["come funziona", "sito", "supporto it", "helpo", "chiedi a helpo", "scrivi all'it", "primo accesso", "prima volta", "guida al sito", "come si usa", "aiuto"],
       aggiornato: "2026-10-22",
       minuti: 2,
-      sommario: "Cosa trovi in questo sito e i tre modi per risolvere un problema: cercare una guida, chiedere a Helpo, scrivere all'IT.",
+      sommario: "Cosa trovi in questo sito e i tre modi per risolvere un problema: cercare una guida, chiedere a Helpo, scrivere all'IT. C'è anche un video.",
       corpo: `
+<video controls preload="metadata" playsinline src="assets/video/supporto-it-come-si-usa.mp4"></video>
+<p><em>Guarda il video (meno di 3 minuti) oppure leggi la guida qui sotto.</em></p>
+
 <p>
   Questo sito raccoglie le <strong>guide del supporto IT</strong>: spiegano passo passo come risolvere
   i problemi più comuni con il computer, la posta, la stampante e i programmi dello studio.

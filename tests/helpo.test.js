@@ -87,7 +87,7 @@ test('archivio coerente: campi, id, categorie, collegamenti, immagini e contatti
     for (const [, id] of a.corpo.matchAll(/articolo\.html\?id=([^"&#]+)/g)) {
       assert.ok(visti.has(id), `${a.id}: collegamento a una guida inesistente (${id})`);
     }
-    for (const [, src] of a.corpo.matchAll(/<img\b[^>]*\bsrc="([^"]+)"/g)) {
+    for (const [, src] of a.corpo.matchAll(/<(?:img|video|source)\b[^>]*\bsrc="([^"]+)"/g)) {
       assert.ok(existsSync(src), `${a.id}: immagine mancante (${src})`);
     }
   }

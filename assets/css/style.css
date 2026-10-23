@@ -335,6 +335,9 @@ p { margin: 0 0 1em; }
 /* ---------- Immagini nelle guide ---------- */
 
 .articolo-corpo figure { margin: 0 0 1.5em; }
+/* Video delle guide: largo quanto il testo, con i comandi del browser. */
+.articolo-corpo video { display: block; width: 100%; border-radius: var(--raggio); background: #000; margin: 0 0 .6em; }
+
 .articolo-corpo figure img {
   display: block;
   width: 100%;
