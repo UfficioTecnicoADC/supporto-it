@@ -98,13 +98,17 @@ export default async function handler(req, res) {
   const guides = [...found, ...carried, ...fallbacks];
   const context = guides.map(g => JSON.stringify(g)).join('\n\n');
   const input = [ ...history.map(m => ({ role: m.role, content: m.content })), { role: 'user', content: `DOMANDA:\n${message.trim()}\n\nGUIDE INTERNE:\n${context || 'Nessuna guida sufficientemente pertinente. Non attribuire suggerimenti generali alle procedure aziendali.'}` } ];
+  // Di norma OpenAI non conserva le conversazioni. Per un periodo di prova l'IT può
+  // accenderlo da Vercel (HELPO_CONSERVA_CONVERSAZIONI=si): restano 30 giorni nei log
+  // di OpenAI e l'interfaccia lo dice sotto ogni risposta.
+  const keep = process.env.HELPO_CONSERVA_CONVERSAZIONI === 'si';
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 25000);
   try {
     const response = await fetch('https://api.openai.com/v1/responses', {
       method: 'POST', signal: controller.signal,
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
-      body: JSON.stringify({ model: process.env.OPENAI_MODEL || 'gpt-5.6-luna', instructions, input, store: false, max_output_tokens: 2500 })
+      body: JSON.stringify({ model: process.env.OPENAI_MODEL || 'gpt-5.6-luna', instructions, input, store: keep, max_output_tokens: 2500 })
     });
     if (!response.ok) {
       // Non registrare domande, guide o chiavi. Il codice d'errore del fornitore
@@ -128,7 +132,7 @@ export default async function handler(req, res) {
     // Una domanda servita solo dalla guida di ripiego è comunque una guida da scrivere.
     await countQuestion(!found.length && !carried.length);
     // valutabile: l'interfaccia mostra 👍/👎 solo sotto le risposte generate dal modello.
-    return reply(res, 200, { answer, sources: used.map(g => ({ id: g.id, titolo: g.titolo })), valutabile: true });
+    return reply(res, 200, { answer, sources: used.map(g => ({ id: g.id, titolo: g.titolo })), valutabile: true, conservata: keep });
   } catch (error) {
     const timeout = controller.signal.aborted;
     console.error('Helpo request failed', { type: timeout ? 'timeout' : 'network_or_response' });

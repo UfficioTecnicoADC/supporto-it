@@ -67,6 +67,7 @@ preview ma non il sito pubblicato.
 | `SITO_SEGRETO`   | una stringa casuale lunga, usata per firmare il cookie          |
 | `OPENAI_API_KEY` | chiave per le risposte di Helpo                                 |
 | `OPENAI_MODEL`   | facoltativa: modello da usare (predefinito `gpt-5.6-luna`)      |
+| `HELPO_CONSERVA_CONVERSAZIONI` | facoltativa: `si` solo nei periodi di prova concordati con il DPO. OpenAI conserva le conversazioni per 30 giorni (visibili in Logs della piattaforma) e Helpo lo dice sotto ogni risposta. Assente o diversa da `si`: non vengono conservate |
 | `KV_REST_API_URL`, `KV_REST_API_TOKEN` | archivio del feedback: le aggiunge l'integrazione Upstash |
 | `ADMIN_PASSWORD` | facoltativa: password di riserva dell'**area IT** (statistiche di Helpo), diversa da `SITO_PASSWORD` e nota solo all'ufficio IT |
 | `MS_CLIENT_ID`   | accesso Microsoft: ID applicazione (client) della registrazione in Entra ID |
