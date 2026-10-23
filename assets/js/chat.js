@@ -33,10 +33,11 @@
       list.forEach(function (s) { var li = document.createElement('li'); var a = document.createElement('a'); a.href = 'articolo.html?id=' + encodeURIComponent(s.id); a.textContent = s.titolo; a.target = '_blank'; a.rel = 'noopener noreferrer'; li.appendChild(a); ul.appendChild(li); });
       box.appendChild(ul); turn.appendChild(box);
     }
-    function finish(turn, box, answer, list, rateable) {
+    function finish(turn, box, answer, list, rateable, kept) {
       box.className = 'risposta-ai'; box.innerHTML = format(answer);
       showSources(turn, sources(list));
       var note = document.createElement('p'); note.className = 'ai-disclaimer'; note.innerHTML = 'Verifica i passaggi nelle guide. Se il problema persiste, contatta il <a href="contatti.html">supporto IT</a>.'; turn.appendChild(note);
+      if (kept) { var avviso = document.createElement('p'); avviso.className = 'ai-disclaimer'; avviso.textContent = 'Durante la prova di Helpo le conversazioni vengono conservate per 30 giorni, solo per migliorare il servizio. Non scrivere password o dati dei pazienti.'; turn.appendChild(avviso); }
       var copy = document.createElement('button'); copy.type = 'button'; copy.className = 'bottone secondario'; copy.textContent = 'Copia risposta';
       copy.addEventListener('click', async function () { try { await navigator.clipboard.writeText(answer); copy.textContent = 'Copiato'; } catch (e) { copy.textContent = 'Copia non disponibile'; } }); turn.appendChild(copy);
       if (rateable) feedback(turn, sources(list));
@@ -97,7 +98,7 @@
         // Solo gli id delle guide citate: il server ne rilegge il contenuto dall'archivio.
         var result = await window.KBAiuto.chiediAI(message, history.map(function (m) { return m.role === 'assistant' ? { role: m.role, content: m.content, sources: (m.sources || []).map(function (s) { return s.id; }) } : { role: m.role, content: m.content }; }));
         if (!result || typeof result.answer !== 'string' || !result.answer.trim()) throw new Error('Non ho ricevuto una risposta. Riprova.');
-        finish(nodes.turn, nodes.box, result.answer, result.sources, result.valutabile === true);
+        finish(nodes.turn, nodes.box, result.answer, result.sources, result.valutabile === true, result.conservata === true);
         history.push({ role: 'user', content: message }, { role: 'assistant', content: result.answer.slice(0, 4000), sources: sources(result.sources) });
         history = history.slice(-10); save(); field.value = '';
       } catch (error) {

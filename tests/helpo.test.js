@@ -613,3 +613,15 @@ test('middleware: API scaduta restituisce JSON 401; sessione valida passa', asyn
   delete env.ADMIN_PASSWORD;
   assert.equal((await middleware(new Request('https://example.test/statistiche.html',{headers:{cookie:conIT}}))).status,302);
 });
+
+test('Helpo: conversazioni conservate da OpenAI solo con l’interruttore del periodo di prova', async () => {
+  for (const [valore, atteso] of [[undefined, false], ['no', false], ['si', true]]) {
+    await withEnv({ OPENAI_API_KEY: 'test-only', KV_REST_API_URL: undefined, KV_REST_API_TOKEN: undefined, HELPO_CONSERVA_CONVERSAZIONI: valore }, async () => {
+      let sent;
+      globalThis.fetch = async (url, options) => { sent = JSON.parse(options.body); return { ok: true, json: async () => ({ status: 'completed', output_text: 'Riavvia il PC.\nFONTI: pc-lento' }) }; };
+      const res = await call({ message: 'Il PC è lento' });
+      assert.equal(sent.store, atteso, `HELPO_CONSERVA_CONVERSAZIONI=${valore}`);
+      assert.equal(res.body.conservata, atteso);
+    });
+  }
+});
