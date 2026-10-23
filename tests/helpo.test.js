@@ -105,7 +105,7 @@ test('archivio coerente: campi, id, categorie, collegamenti, immagini e contatti
   for (const pagina of readdirSync('.').filter(f => f.endsWith('.html'))) {
     const html = readFileSync(pagina, 'utf8');
     if (!html.includes('id="nav"')) continue;
-    assert.ok(html.includes(`class="apri-ticket" href="mailto:${kb.contatti.email.valore}?`), `${pagina}: manca "Apri un ticket" verso ${kb.contatti.email.valore}`);
+    assert.ok(html.includes(`class="apri-ticket" href="https://outlook.office.com/mail/deeplink/compose?to=${encodeURIComponent(kb.contatti.email.valore)}&amp;`), `${pagina}: manca "Apri un ticket" verso ${kb.contatti.email.valore}`);
   }
   for (const a of kb.articoli.filter(x => x.ripiegoPer)) {
     assert.ok(Array.isArray(a.ripiegoPer) && a.ripiegoPer.every(p => products.includes(p)), `${a.id}: ripiegoPer deve contenere programmi noti (${products.join(', ')})`);
@@ -623,5 +623,13 @@ test('Helpo: conversazioni conservate da OpenAI solo con l’interruttore del pe
       assert.equal(sent.store, atteso, `HELPO_CONSERVA_CONVERSAZIONI=${valore}`);
       assert.equal(res.body.conservata, atteso);
     });
+  }
+});
+
+test('gli script del sito non hanno errori di sintassi', async () => {
+  const { readFileSync, readdirSync } = await import('node:fs');
+  const { Script } = await import('node:vm');
+  for (const f of readdirSync('assets/js').filter(n => n.endsWith('.js'))) {
+    assert.doesNotThrow(() => new Script(readFileSync(`assets/js/${f}`, 'utf8'), { filename: f }), `assets/js/${f}`);
   }
 });
