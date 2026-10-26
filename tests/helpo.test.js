@@ -584,6 +584,9 @@ test('middleware: API scaduta restituisce JSON 401; sessione valida passa', asyn
   assert.equal(expired.status,401);assert.equal((await expired.json()).code,'SESSION_EXPIRED');
   const page=await middleware(new Request('https://example.test/ai-mode.html'));
   assert.equal(page.status,302);
+  // Il video "come si usa" si vede anche dalla pagina di login; gli altri file restano protetti.
+  assert.equal(await middleware(new Request('https://example.test/assets/video/supporto-it-come-si-usa.mp4')),'PASS');
+  assert.equal((await middleware(new Request('https://example.test/assets/js/data.js'))).status,302);
   const expiry=String(Date.now()+60000), sig=createHmac('sha256','test-secret').update(expiry).digest('hex');
   const sito='sit_acc='+expiry+'.'+sig;
   const valid=await middleware(new Request('https://example.test/api/chat',{headers:{cookie:sito}}));
