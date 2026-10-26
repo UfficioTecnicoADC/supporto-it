@@ -31,6 +31,11 @@ test('due problemi nello stesso messaggio: si cerca anche ogni frase da sola', (
   const dueProgrammi = ids('teams non funziona, outlook non si apre');
   assert.ok(dueProgrammi.some(id => /teams/.test(id)) && dueProgrammi.some(id => /outlook/.test(id)), dueProgrammi.join(', '));
 });
+test('scansione nella cartella SCANSIONI: trovata con le parole dei colleghi, senza rubare la stampa', () => {
+  for (const q of ['come scansiono un documento dalla stampante', 'voglio scannerizzare un foglio', 'non trovo il tasto richiama']) assert.equal(ids(q)[0], 'scansione-cartella-scansioni', q);
+  assert.equal(ids('la stampante non stampa')[0], 'stampante-non-stampa');
+  assert.equal(ids('come invio una scansione via email')[0], 'scansione-documenti');
+});
 test('richieste vaghe, sociali e fuori archivio non ricevono guide casuali', () => {
   assert.equal(retrieve('non funziona').kind, 'clarify');
   assert.equal(retrieve('grazie').kind, 'social');
