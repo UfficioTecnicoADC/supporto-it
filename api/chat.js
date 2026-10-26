@@ -132,7 +132,7 @@ export default async function handler(req, res) {
     // Una domanda servita solo dalla guida di ripiego è comunque una guida da scrivere.
     await countQuestion(!found.length && !carried.length);
     // valutabile: l'interfaccia mostra 👍/👎 solo sotto le risposte generate dal modello.
-    return reply(res, 200, { answer, sources: used.map(g => ({ id: g.id, titolo: g.titolo })), valutabile: true, conservata: keep });
+    return reply(res, 200, { answer, sources: used.map(g => ({ id: g.id, titolo: g.titolo, immagini: g.immagini === true })), valutabile: true, conservata: keep });
   } catch (error) {
     const timeout = controller.signal.aborted;
     console.error('Helpo request failed', { type: timeout ? 'timeout' : 'network_or_response' });
