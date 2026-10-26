@@ -1153,6 +1153,122 @@ const KB = {
     /* ---------------- STAMPA E SCANSIONE ---------------- */
 
     {
+      id: "scansione-cartella-scansioni",
+      titolo: "Scansionare nella cartella SCANSIONI (tasto Richiama)",
+      categoria: "stampa",
+      tag: ["scansione", "scansionare", "scanner", "scansioni", "cartella scansioni", "richiama",
+            "invia", "rubrica", "multifunzione", "documento", "pdf", "scannerizzare"],
+      aggiornato: "2026-10-26",
+      minuti: 3,
+      sommario: "Come mandare una scansione nella cartella SCANSIONI dal pannello della stampante: la prima volta dalla Rubrica, poi basta il tasto Richiama.",
+      corpo: `
+<p>
+  Con questa guida mandi il documento scansionato nella cartella condivisa <strong>SCANSIONI</strong>,
+  da dove poi lo apri dal computer. Nelle foto, il <strong>cerchio rosso</strong> indica sempre il tasto da premere.
+</p>
+
+<div class="nota ok">
+  <strong>In breve</strong>
+  La <strong>prima volta</strong> scegli la cartella dalla Rubrica (passaggi da 1 a 8).
+  <strong>Le volte successive</strong> basta premere <strong>Invia</strong> e poi <strong>Richiama</strong> (passaggi 9 e 10).
+</div>
+
+<h2>Prima di iniziare</h2>
+<p>
+  Metti i fogli <strong>nell'alimentatore</strong> in alto, con il testo rivolto verso l'alto,
+  oppure un foglio alla volta <strong>sul vetro</strong>, con il testo rivolto verso il basso.
+</p>
+
+<h2>La prima volta: scegliere la cartella SCANSIONI</h2>
+
+<h3>1. Premi Invia</h3>
+<p>Nella schermata iniziale della stampante tocca <strong>Invia</strong>.</p>
+<figure>
+  <img src="assets/img/stampante-scansioni/01-home-invia.jpg" alt="Schermata Home della stampante con il tasto Invia cerchiato in rosso" loading="lazy">
+  <figcaption>Schermata iniziale: tocca <strong>Invia</strong>.</figcaption>
+</figure>
+
+<h3>2. Premi Verifica</h3>
+<p>In alto a destra tocca <strong>Verifica</strong>.</p>
+<figure>
+  <img src="assets/img/stampante-scansioni/02-verifica.jpg" alt="Schermata Invia con il tasto Verifica cerchiato in rosso" loading="lazy">
+  <figcaption>Tocca <strong>Verifica</strong>, in alto a destra.</figcaption>
+</figure>
+
+<h3>3. Premi il +</h3>
+<p>L'elenco è vuoto: tocca il <strong>+</strong> in alto a destra per aggiungere la destinazione.</p>
+<figure>
+  <img src="assets/img/stampante-scansioni/03-aggiungi-piu.jpg" alt="Schermata Verifica vuota con il tasto più cerchiato in rosso" loading="lazy">
+  <figcaption>Tocca il <strong>+</strong>.</figcaption>
+</figure>
+
+<h3>4. Premi Rubrica</h3>
+<figure>
+  <img src="assets/img/stampante-scansioni/04-rubrica.jpg" alt="Schermata Aggiungi con il tasto Rubrica cerchiato in rosso" loading="lazy">
+  <figcaption>Tocca <strong>Rubrica</strong>.</figcaption>
+</figure>
+
+<h3>5. Seleziona SCANSIONI</h3>
+<p>Tocca la casella accanto a <strong>SCANSIONI</strong>: deve comparire il segno di spunta.</p>
+<figure>
+  <img src="assets/img/stampante-scansioni/05-seleziona-scansioni.jpg" alt="Rubrica con la riga SCANSIONI cerchiata in rosso" loading="lazy">
+  <figcaption>Tocca la riga <strong>SCANSIONI</strong> per spuntarla.</figcaption>
+</figure>
+
+<h3>6. Premi OK</h3>
+<p>Controlla che la casella di SCANSIONI sia spuntata e tocca <strong>OK</strong>.</p>
+<figure>
+  <img src="assets/img/stampante-scansioni/06-ok.jpg" alt="Rubrica con SCANSIONI spuntata e il tasto OK cerchiato in rosso" loading="lazy">
+  <figcaption>Con SCANSIONI spuntata, tocca <strong>OK</strong>.</figcaption>
+</figure>
+
+<h3>7. Premi Fine</h3>
+<p>Ora nell'elenco c'è la cartella SCANSIONI: tocca <strong>Fine</strong>.</p>
+<figure>
+  <img src="assets/img/stampante-scansioni/07-fine.jpg" alt="Schermata Verifica con la cartella SCANSIONI e il tasto Fine cerchiato in rosso" loading="lazy">
+  <figcaption>Tocca <strong>Fine</strong>.</figcaption>
+</figure>
+
+<h3>8. Premi il tasto Avvio</h3>
+<p>
+  In alto sullo schermo compare <strong>SCANSIONI</strong>. Premi il tasto verde <strong>Avvio</strong>
+  a destra dello schermo: la stampante fa la scansione e la manda nella cartella.
+</p>
+<figure>
+  <img src="assets/img/stampante-scansioni/08-avvio.jpg" alt="Pannello della stampante con SCANSIONI come destinazione e il tasto fisico Avvio cerchiato in rosso" loading="lazy">
+  <figcaption>Con <strong>SCANSIONI</strong> in alto sullo schermo, premi il tasto <strong>Avvio</strong>.</figcaption>
+</figure>
+
+<h2>Le volte successive: tasto Richiama</h2>
+<p>Da ora in poi la stampante ricorda la cartella: non devi ripetere i passaggi della Rubrica.</p>
+
+<h3>9. Premi Invia, poi Richiama</h3>
+<p>Dalla schermata iniziale tocca <strong>Invia</strong>, poi <strong>Richiama</strong>.</p>
+<figure>
+  <img src="assets/img/stampante-scansioni/09-richiama.jpg" alt="Schermata Invia con il tasto Richiama cerchiato in rosso" loading="lazy">
+  <figcaption>Tocca <strong>Richiama</strong>.</figcaption>
+</figure>
+
+<h3>10. Controlla SCANSIONI e premi Avvio</h3>
+<p>
+  In alto compare la cartella <strong>SCANSIONI</strong>. Premi il tasto verde <strong>Avvio</strong>,
+  come al passaggio 8.
+</p>
+<figure>
+  <img src="assets/img/stampante-scansioni/10-scansioni-pronta.jpg" alt="Schermata Invia con la destinazione SCANSIONI cerchiata in rosso, pronta per il tasto Avvio" loading="lazy">
+  <figcaption>Con <strong>SCANSIONI</strong> in alto, premi <strong>Avvio</strong>.</figcaption>
+</figure>
+
+<h2>Se qualcosa non va</h2>
+<ul>
+  <li><strong>Non vedi Richiama</strong>, o compare un'altra destinazione: rifai i passaggi da 1 a 8.</li>
+  <li><strong>Hai sbagliato qualcosa</strong>: premi il tasto giallo <strong>Reimposta</strong> a destra dello schermo e ricomincia dal passaggio 1.</li>
+  <li><strong>Nella Rubrica non c'è SCANSIONI</strong>, oppure la stampante segnala un errore di invio: scrivi all'IT con il pulsante <strong>Scrivi all'IT</strong>, indicando quale stampante stai usando e, se puoi, con una foto dello schermo.</li>
+</ul>
+`
+    },
+
+    {
       id: "stampante-non-stampa",
       titolo: "La stampante non stampa",
       categoria: "stampa",
@@ -1349,39 +1465,6 @@ const KB = {
 <div class="nota">
   <strong>Se la procedura non va a buon fine</strong>
   Apri un ticket al supporto IT indicando modello, indirizzo IP, nome della postazione e a quale passaggio si &egrave; bloccata. Per i guasti della macchina il supporto IT contatta direttamente il fornitore dell'assistenza.
-</div>
-`
-    },
-
-    {
-      id: "scansione-documenti",
-      titolo: "Scansionare un documento e inviarlo via email",
-      categoria: "stampa",
-      tag: ["scansione", "scanner", "pdf", "digitalizzare", "multifunzione"],
-      aggiornato: "2026-08-28",
-      minuti: 2,
-      sommario: "Uso della multifunzione per digitalizzare documenti e riceverli nella propria casella.",
-      corpo: `
-<h2>Procedura</h2>
-<ol>
-  <li>Appoggia il badge sul lettore della multifunzione per autenticarti.</li>
-  <li>Posiziona i fogli nell'alimentatore automatico (testo verso l'alto) oppure sul vetro (testo verso il basso, allineato all'angolo indicato).</li>
-  <li>Seleziona <strong>Scansione su email</strong>.</li>
-  <li>Il tuo indirizzo viene compilato automaticamente dal badge. Per inviare a un collega, cerca il nome nella rubrica.</li>
-  <li>Imposta i parametri se necessario e premi <strong>Avvio</strong>.</li>
-</ol>
-
-<h2>Impostazioni consigliate</h2>
-<table>
-  <tr><th>Tipo di documento</th><th>Impostazioni</th></tr>
-  <tr><td>Testo, archiviazione</td><td>PDF, bianco e nero, 200 dpi</td></tr>
-  <tr><td>Documento con firme o timbri</td><td>PDF, colore, 300 dpi</td></tr>
-  <tr><td>Fronte/retro</td><td>Attiva <strong>Duplex</strong> prima di avviare</td></tr>
-</table>
-
-<div class="nota">
-  <strong>Scansione troppo pesante</strong>
-  Sopra i 20 MB il messaggio potrebbe non arrivare. Riduci la risoluzione a 200 dpi, passa al bianco e nero e dividi il documento in più scansioni.
 </div>
 `
     },
