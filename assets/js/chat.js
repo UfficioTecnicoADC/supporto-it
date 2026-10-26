@@ -3,7 +3,7 @@
   var KEY = 'adco_helpo_conversazione_v2';
   function esc(text) { return String(text).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function format(text) { return esc(text).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').split(/\n{2,}/).map(function (p) { return '<p>' + p.replace(/\n/g, '<br>') + '</p>'; }).join(''); }
-  function sources(list) { return Array.isArray(list) ? list.filter(function (s) { return s && typeof s.id === 'string' && /^[A-Za-z0-9-]+$/.test(s.id) && typeof s.titolo === 'string'; }).slice(0, 3).map(function (s) { return { id: s.id, titolo: s.titolo.slice(0, 250) }; }) : []; }
+  function sources(list) { return Array.isArray(list) ? list.filter(function (s) { return s && typeof s.id === 'string' && /^[A-Za-z0-9-]+$/.test(s.id) && typeof s.titolo === 'string'; }).slice(0, 3).map(function (s) { return { id: s.id, titolo: s.titolo.slice(0, 250), immagini: s.immagini === true }; }) : []; }
   document.addEventListener('DOMContentLoaded', function () {
     var form = document.getElementById('modulo-ai');
     var field = document.getElementById('campo-ai-pagina');
@@ -29,8 +29,10 @@
       if (!list.length) return;
       var box = document.createElement('div'); box.className = 'ai-fonti';
       var title = document.createElement('strong'); title.textContent = 'Guide disponibili per questa risposta'; box.appendChild(title);
+      // Le foto le vede solo chi apre la guida: Helpo legge solo il testo.
+      if (list.some(function (s) { return s.immagini; })) { var foto = document.createElement('p'); foto.className = 'ai-fonti-foto'; foto.textContent = list.length > 1 ? '📷 Le guide con la fotocamera hanno le foto passo passo: aprile per vedere esattamente dove premere.' : '📷 Questa guida ha le foto passo passo: aprila per vedere esattamente dove premere.'; box.appendChild(foto); }
       var ul = document.createElement('ul');
-      list.forEach(function (s) { var li = document.createElement('li'); var a = document.createElement('a'); a.href = 'articolo.html?id=' + encodeURIComponent(s.id); a.textContent = s.titolo; a.target = '_blank'; a.rel = 'noopener noreferrer'; li.appendChild(a); ul.appendChild(li); });
+      list.forEach(function (s) { var li = document.createElement('li'); var a = document.createElement('a'); a.href = 'articolo.html?id=' + encodeURIComponent(s.id); a.textContent = s.titolo; a.target = '_blank'; a.rel = 'noopener noreferrer'; li.appendChild(a); if (s.immagini) li.appendChild(document.createTextNode(' 📷')); ul.appendChild(li); });
       box.appendChild(ul); turn.appendChild(box);
     }
     function finish(turn, box, answer, list, rateable, kept) {

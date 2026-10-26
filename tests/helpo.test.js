@@ -636,3 +636,14 @@ test('gli script del sito non hanno errori di sintassi', async () => {
     assert.doesNotThrow(() => new Script(readFileSync(`assets/js/${f}`, 'utf8'), { filename: f }), `assets/js/${f}`);
   }
 });
+
+test('Helpo segnala le guide con le foto, così l’interfaccia invita ad aprirle', async () => {
+  await withEnv({ OPENAI_API_KEY: 'test-only', KV_REST_API_URL: undefined, KV_REST_API_TOKEN: undefined }, async () => {
+    globalThis.fetch = async () => ({ ok: true, json: async () => ({ status: 'completed', output_text: 'Segui la guida.\nFONTI: collegare-stampante-rete' }) });
+    const conFoto = await call({ message: 'come collego una stampante di rete' });
+    assert.deepEqual(conFoto.body.sources.map(s => [s.id, s.immagini]), [['collegare-stampante-rete', true]]);
+    globalThis.fetch = async () => ({ ok: true, json: async () => ({ status: 'completed', output_text: 'Riavvia il PC.\nFONTI: pc-lento' }) });
+    const senzaFoto = await call({ message: 'il PC è lento' });
+    assert.deepEqual(senzaFoto.body.sources.map(s => [s.id, s.immagini]), [['pc-lento', false]]);
+  });
+});
