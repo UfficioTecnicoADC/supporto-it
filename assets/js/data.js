@@ -1469,39 +1469,6 @@ const KB = {
 `
     },
 
-    {
-      id: "scansione-documenti",
-      titolo: "Scansionare un documento e inviarlo via email",
-      categoria: "stampa",
-      tag: ["scansione", "scanner", "pdf", "digitalizzare", "multifunzione"],
-      aggiornato: "2026-08-28",
-      minuti: 2,
-      sommario: "Uso della multifunzione per digitalizzare documenti e riceverli nella propria casella.",
-      corpo: `
-<h2>Procedura</h2>
-<ol>
-  <li>Appoggia il badge sul lettore della multifunzione per autenticarti.</li>
-  <li>Posiziona i fogli nell'alimentatore automatico (testo verso l'alto) oppure sul vetro (testo verso il basso, allineato all'angolo indicato).</li>
-  <li>Seleziona <strong>Scansione su email</strong>.</li>
-  <li>Il tuo indirizzo viene compilato automaticamente dal badge. Per inviare a un collega, cerca il nome nella rubrica.</li>
-  <li>Imposta i parametri se necessario e premi <strong>Avvio</strong>.</li>
-</ol>
-
-<h2>Impostazioni consigliate</h2>
-<table>
-  <tr><th>Tipo di documento</th><th>Impostazioni</th></tr>
-  <tr><td>Testo, archiviazione</td><td>PDF, bianco e nero, 200 dpi</td></tr>
-  <tr><td>Documento con firme o timbri</td><td>PDF, colore, 300 dpi</td></tr>
-  <tr><td>Fronte/retro</td><td>Attiva <strong>Duplex</strong> prima di avviare</td></tr>
-</table>
-
-<div class="nota">
-  <strong>Scansione troppo pesante</strong>
-  Sopra i 20 MB il messaggio potrebbe non arrivare. Riduci la risoluzione a 200 dpi, passa al bianco e nero e dividi il documento in più scansioni.
-</div>
-`
-    },
-
 
     /* ---------------- SOFTWARE E LICENZE ---------------- */
 
