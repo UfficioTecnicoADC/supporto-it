@@ -35,6 +35,8 @@ const PUBBLICHE = new Set([
   '/api/auth/microsoft',
   '/api/auth/callback',
   '/assets/css/style.css',
+  // Il video "come si usa" è anche nella pagina di login: serve proprio a chi non sa entrare.
+  '/assets/video/supporto-it-come-si-usa.mp4',
   '/favicon.ico',
   '/robots.txt'
 ]);

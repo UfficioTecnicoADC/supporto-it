@@ -478,6 +478,11 @@ body.pagina-accesso {
 .accesso h1 { font-size: 1.32rem; margin-bottom: .35em; }
 .accesso-intro { color: var(--testo-medio); font-size: .92rem; margin-bottom: 22px; }
 
+/* Video "come si usa" nella pagina di login, chiuso finché non lo si apre. */
+.accesso-video { margin: -8px 0 22px; padding: 10px 14px; background: var(--blu-050); border: 1px solid var(--border); border-radius: var(--raggio-s); }
+.accesso-video summary { cursor: pointer; font-weight: 600; font-size: .92rem; color: var(--blu-700); }
+.accesso-video video { display: block; width: 100%; margin-top: 10px; border-radius: var(--raggio-s); background: #000; }
+
 .accesso label {
   display: block;
   font-size: .82rem;
