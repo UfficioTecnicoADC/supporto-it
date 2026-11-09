@@ -39,7 +39,7 @@ test('scansione nella cartella SCANSIONI: trovata con le parole dei colleghi, se
 test('richieste vaghe, sociali e fuori archivio non ricevono guide casuali', () => {
   assert.equal(retrieve('non funziona').kind, 'clarify');
   assert.equal(retrieve('grazie').kind, 'social');
-  assert.equal(retrieve('Come posso richiedere le ferie?').kind, 'no_match');
+  assert.equal(retrieve('Come posso prenotare la sala riunioni?').kind, 'no_match');
 });
 test('cambio argomento breve e continuazioni multiple', () => {
   const old = [user('NNT non comunica con il panoramico')];
@@ -419,7 +419,7 @@ test('Helpo conta le domande senza guida e risponde anche se l’archivio non va
       }
       return { ok: true, json: async () => ({ status: 'completed', output_text: 'Risposta.\nFONTI: nessuna' }) };
     };
-    const noGuide = await call({ message: 'Come posso richiedere le ferie?' });
+    const noGuide = await call({ message: 'Come posso prenotare la sala riunioni?' });
     assert.equal(noGuide.statusCode, 200);
     assert.equal(noGuide.body.valutabile, true);
     assert.deepEqual(counted.at(-1), ['domande:totale', 'domande:senza-guida']);
@@ -651,4 +651,25 @@ test('Helpo segnala le guide con le foto, così l’interfaccia invita ad aprirl
     const senzaFoto = await call({ message: 'il PC è lento' });
     assert.deepEqual(senzaFoto.body.sources.map(s => [s.id, s.immagini]), [['pc-lento', false]]);
   });
+});
+test('People Link: le domande dei responsabili trovano la guida giusta', () => {
+  const casi = {
+    'come approvo le ferie di una collaboratrice': 'peoplelink-ferie-permessi',
+    'una ASO è arrivata in ritardo': 'peoplelink-ritardi-straordinari',
+    'come autorizzo uno straordinario': 'peoplelink-ritardi-straordinari',
+    "il collaboratore ha dimenticato di timbrare l'uscita": 'peoplelink-timbratura-dimenticata',
+    'una aso si è dimenticata di inserire la timbratura': 'peoplelink-timbratura-dimenticata',
+    'dove vedo i turni': 'peoplelink-turni-presenze-report',
+    'ho inserito la timbratura ma la giornata non si aggiorna': 'peoplelink-cartellino-anomalie',
+    'come si elabora la giornata nel cartellino': 'peoplelink-cartellino-anomalie',
+    'una aso ha sbagliato la timbratura e chiede di cancellarla': 'peoplelink-cancellare-timbratura',
+    'come elimino una timbratura doppia': 'peoplelink-cancellare-timbratura',
+  };
+  for (const [q, id] of Object.entries(casi)) assert.equal(retrieve(q).guides[0]?.id, id, q);
+});
+test('Helpo riporta le procedure per intero, senza saltare passaggi', async () => {
+  const { readFileSync } = await import('node:fs');
+  const chat = readFileSync('api/chat.js', 'utf8');
+  assert.match(chat, /PASSO PER PASSO e PER INTERO/);
+  assert.match(chat, /Applica filtro/);
 });
