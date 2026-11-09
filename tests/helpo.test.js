@@ -660,6 +660,8 @@ test('People Link: le domande dei responsabili trovano la guida giusta', () => {
     "il collaboratore ha dimenticato di timbrare l'uscita": 'peoplelink-timbratura-dimenticata',
     'una aso si è dimenticata di inserire la timbratura': 'peoplelink-timbratura-dimenticata',
     'dove vedo i turni': 'peoplelink-turni-presenze-report',
+    'quanta banca ore residua ha una collaboratrice': 'peoplelink-banca-ore-riepilogo',
+    'come approvo lo straordinario di una aso': 'peoplelink-ritardi-straordinari',
     'ho inserito la timbratura ma la giornata non si aggiorna': 'peoplelink-cartellino-anomalie',
     'come si elabora la giornata nel cartellino': 'peoplelink-cartellino-anomalie',
     'una aso ha sbagliato la timbratura e chiede di cancellarla': 'peoplelink-cancellare-timbratura',
