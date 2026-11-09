@@ -39,7 +39,7 @@ test('scansione nella cartella SCANSIONI: trovata con le parole dei colleghi, se
 test('richieste vaghe, sociali e fuori archivio non ricevono guide casuali', () => {
   assert.equal(retrieve('non funziona').kind, 'clarify');
   assert.equal(retrieve('grazie').kind, 'social');
-  assert.equal(retrieve('Come posso richiedere le ferie?').kind, 'no_match');
+  assert.equal(retrieve('Come posso prenotare la sala riunioni?').kind, 'no_match');
 });
 test('cambio argomento breve e continuazioni multiple', () => {
   const old = [user('NNT non comunica con il panoramico')];
@@ -419,7 +419,7 @@ test('Helpo conta le domande senza guida e risponde anche se l’archivio non va
       }
       return { ok: true, json: async () => ({ status: 'completed', output_text: 'Risposta.\nFONTI: nessuna' }) };
     };
-    const noGuide = await call({ message: 'Come posso richiedere le ferie?' });
+    const noGuide = await call({ message: 'Come posso prenotare la sala riunioni?' });
     assert.equal(noGuide.statusCode, 200);
     assert.equal(noGuide.body.valutabile, true);
     assert.deepEqual(counted.at(-1), ['domande:totale', 'domande:senza-guida']);
@@ -651,4 +651,14 @@ test('Helpo segnala le guide con le foto, così l’interfaccia invita ad aprirl
     const senzaFoto = await call({ message: 'il PC è lento' });
     assert.deepEqual(senzaFoto.body.sources.map(s => [s.id, s.immagini]), [['pc-lento', false]]);
   });
+});
+test('People Link: le domande dei responsabili trovano la guida giusta', () => {
+  const casi = {
+    'come approvo le ferie di una collaboratrice': 'peoplelink-ferie-permessi',
+    'una ASO è arrivata in ritardo': 'peoplelink-ritardi-straordinari',
+    'come autorizzo uno straordinario': 'peoplelink-ritardi-straordinari',
+    "il collaboratore ha dimenticato di timbrare l'uscita": 'peoplelink-cartellino-anomalie',
+    'dove vedo i turni': 'peoplelink-turni-presenze-report',
+  };
+  for (const [q, id] of Object.entries(casi)) assert.equal(retrieve(q).guides[0]?.id, id, q);
 });

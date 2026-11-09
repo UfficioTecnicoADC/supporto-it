@@ -57,6 +57,11 @@ const KB = {
       nome: "OrisDent Q",
       cosa: "il gestionale dello studio, chiamato anche ORIS DENT nelle guide",
       nomiUsati: ["oris", "orisdent", "oris dent", "orisdent q", "oris dent q"]
+    },
+    {
+      nome: "People Link Online",
+      cosa: "il portale HR delle presenze: cartellino, timbrature, ferie, permessi e richieste dei collaboratori",
+      nomiUsati: ["peoplelink", "people link", "peoplelink online", "people link online", "portale presenze", "portale hr"]
     }
   ],
 
@@ -102,6 +107,12 @@ const KB = {
       nome: "Software e licenze",
       icona: "pacchetto",
       descrizione: "Installazioni, aggiornamenti, richieste di nuovi programmi e licenze."
+    },
+    {
+      id: "peoplelink",
+      nome: "People Link – Responsabili",
+      icona: "orologio",
+      descrizione: "Guide per i responsabili su People Link Online: richieste, cartellini, timbrature, straordinari e turni dei collaboratori."
     },
     {
       id: "procedure",
@@ -4252,6 +4263,466 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 <div class="nota">
   <strong>Tempi indicativi</strong>
   Periferiche a magazzino: 1-2 giorni. Portatili e monitor: 2-3 settimane dall'approvazione. Configurazioni particolari: fino a 6 settimane.
+</div>
+`
+    },
+
+    /* ---------------- PEOPLE LINK: GUIDE PER I RESPONSABILI ---------------- */
+
+    {
+      id: "peoplelink-responsabile-introduzione",
+      titolo: "People Link: guida rapida per i responsabili",
+      categoria: "peoplelink",
+      tag: ["peoplelink", "people link", "responsabile", "responsabili", "presenze", "cartellino", "collaboratori", "menu responsabile", "come iniziare"],
+      aggiornato: "2026-11-09",
+      minuti: 4,
+      sommario: "Cosa gestisce il responsabile su People Link Online, dove si trovano le funzioni e la routine consigliata per tenere in ordine richieste e cartellini.",
+      corpo: `
+<p>Su <strong>People Link Online</strong> ogni responsabile gestisce in autonomia le richieste e i cartellini dei collaboratori del proprio gruppo (ASO, segreteria, centralino…). L'ufficio HR fa il controllo finale del portale e dei cartellini.</p>
+
+<h2>Chi fa cosa</h2>
+<table>
+  <tr><th>Il responsabile</th><th>L'ufficio HR</th></tr>
+  <tr>
+    <td>Approva o rifiuta ferie, banca ore, ex festività, permessi non retribuiti e servizio esterno.<br>Approva le correzioni di timbratura e gli straordinari.<br>Gestisce ritardi e uscite anticipate.<br>Controlla le anomalie del cartellino dei collaboratori.</td>
+    <td>Malattie, ROL, congedi, permessi Legge 104, lutto, studio e le altre pratiche HR.<br>Controllo finale del portale e dei cartellini.</td>
+  </tr>
+</table>
+<p>L'elenco completo delle voci e di chi le gestisce è nella guida <a href="articolo.html?id=peoplelink-ferie-permessi">People Link: ferie e permessi dei collaboratori</a>.</p>
+
+<h2>Accedere</h2>
+<p>Vai su <code>www.peoplelinkonline.com</code> e accedi con le tue credenziali. Sei sia <strong>dipendente</strong> (il tuo cartellino, le tue richieste) sia <strong>responsabile</strong> (i cartellini e le richieste del tuo gruppo).</p>
+
+<h2>La pagina iniziale</h2>
+<figure class="stretta">
+  <img src="assets/img/peoplelink/02-dashboard-riquadri.png" alt="Riquadri della pagina iniziale: Giornate anomale, Il Cartellino dei miei collaboratori, Il mio Cartellino, Le mie Richieste, Richieste da approvare" loading="lazy">
+  <figcaption>I riquadri della pagina iniziale.</figcaption>
+</figure>
+<ul>
+  <li><strong>Richieste da approvare</strong>: il numero delle richieste dei tuoi collaboratori che aspettano la tua risposta. Cliccalo per aprirle.</li>
+  <li><strong>Il Cartell. Collaboratori</strong>: apre il cartellino dei tuoi collaboratori.</li>
+  <li><strong>Gior. Anomale</strong>: le tue giornate anomale del mese (riguarda il tuo cartellino).</li>
+  <li><strong>Il Mio Cartellino</strong> e <strong>Mie Richieste</strong>: la tua parte da dipendente.</li>
+</ul>
+
+<h2>Il menu del responsabile</h2>
+<ol>
+  <li>Clicca l'icona <strong>☰</strong> in alto a sinistra.</li>
+  <li>Scegli <strong>MY PEOPLELINK</strong>.</li>
+  <li>Nella sezione <strong>TIME</strong> scorri fino al gruppo <strong>Responsabile</strong>.</li>
+</ol>
+<figure>
+  <img src="assets/img/peoplelink/01-menu-responsabile.png" alt="Menu MY PEOPLELINK con le voci della sezione Responsabile" loading="lazy">
+  <figcaption>Menu ☰ → MY PEOPLELINK → TIME → Responsabile.</figcaption>
+</figure>
+<table>
+  <tr><th>Voce di menu</th><th>A cosa serve</th></tr>
+  <tr><td>Il Cartellino dei miei collaboratori</td><td>Controllare timbrature, voci e anomalie giorno per giorno; inserire un giustificativo al posto del collaboratore.</td></tr>
+  <tr><td>Le Richieste dei miei collaboratori</td><td>Approvare o rifiutare le richieste in attesa, collaboratore per collaboratore.</td></tr>
+  <tr><td>Storico richieste dei miei collaboratori</td><td>Ritrovare richieste già approvate, rifiutate o annullate.</td></tr>
+  <tr><td>Richieste pendenti</td><td>Tutte le richieste in attesa raggruppate per tipo.</td></tr>
+  <tr><td>Inserimento richieste massivo</td><td>Inserire la stessa richiesta per più collaboratori insieme.</td></tr>
+  <tr><td>Presenti e Assenti</td><td>Chi è presente in un certo giorno e a una certa ora.</td></tr>
+  <tr><td>Forza Lavoro / Forza Lavoro (modalità calendario)</td><td>Presenze e assenze del gruppo su un periodo, per pianificare ferie e coperture.</td></tr>
+  <tr><td>Programmazione turni</td><td>Consultare i turni del gruppo.</td></tr>
+  <tr><td>Consultazione totalizzatori</td><td>Saldi di ferie, banca ore e altri contatori dei collaboratori.</td></tr>
+  <tr><td>Export totalizzatori / Export pianificazione / Report cartellino di controllo</td><td>Estrazioni in Excel o PDF per controlli e riepiloghi.</td></tr>
+</table>
+
+<div class="nota">
+  <strong>Trovare una voce al volo</strong>
+  In alto a destra c'è <strong>Cerca (Shift + F)</strong>: scrivi parte del nome della voce (per esempio "richieste") e aprila direttamente.
+</div>
+
+<h2>Routine consigliata</h2>
+<ul>
+  <li><strong>Ogni giorno</strong>: guarda il riquadro <strong>Richieste da approvare</strong> e rispondi alle richieste in attesa.</li>
+  <li><strong>Ogni settimana</strong>: apri <strong>Il Cartellino dei miei collaboratori</strong> con la spunta <strong>Solo collaboratori con anomalie</strong> e sistema le giornate segnalate.</li>
+  <li><strong>A fine mese</strong>: prima del controllo dell'ufficio HR verifica che non restino richieste in attesa né giornate anomale.</li>
+</ul>
+
+<h2>Le altre guide</h2>
+<ul>
+  <li><a href="articolo.html?id=peoplelink-approvare-richieste">Approvare o rifiutare le richieste dei collaboratori</a></li>
+  <li><a href="articolo.html?id=peoplelink-ferie-permessi">Ferie e permessi dei collaboratori</a></li>
+  <li><a href="articolo.html?id=peoplelink-cartellino-anomalie">Cartellino dei collaboratori, timbrature e anomalie</a></li>
+  <li><a href="articolo.html?id=peoplelink-ritardi-straordinari">Ritardi, uscite anticipate e straordinari</a></li>
+  <li><a href="articolo.html?id=peoplelink-turni-presenze-report">Turni, presenti e assenti, report</a></li>
+</ul>
+`
+    },
+
+    {
+      id: "peoplelink-approvare-richieste",
+      titolo: "People Link: approvare o rifiutare le richieste dei collaboratori",
+      categoria: "peoplelink",
+      tag: ["peoplelink", "people link", "approvare", "approvazione", "rifiutare", "richieste", "richieste da approvare", "richieste pendenti", "annullamento", "storico richieste", "responsabile", "approvo", "approva", "collaboratore", "collaboratrice", "aso", "segreteria", "centralino"],
+      aggiornato: "2026-11-09",
+      minuti: 5,
+      sommario: "Come vedere le richieste in attesa dei tuoi collaboratori, controllarle e approvarle o rifiutarle, anche più di una alla volta.",
+      corpo: `
+<p>Quando un collaboratore invia una richiesta (ferie, banca ore, timbratura, extra-orario…), questa arriva al suo responsabile e resta <strong>in attesa</strong> finché non viene approvata o rifiutata.</p>
+
+<h2>Aprire le richieste in attesa</h2>
+<ol>
+  <li>Dalla pagina iniziale clicca il riquadro <strong>Richieste da approvare</strong>, oppure apri ☰ → <strong>MY PEOPLELINK</strong> → <strong>Le Richieste dei miei collaboratori</strong>.</li>
+  <li>A sinistra c'è l'elenco dei tuoi collaboratori. Sotto ogni nome compare <strong>Richieste da approvare: N</strong>.</li>
+  <li>Se gestisci più gruppi, usa <strong>Unità Organizzativa di appartenenza</strong> per vederne uno solo, oppure <strong>Cerca un collaboratore</strong>.</li>
+  <li>Clicca il nome del collaboratore: a destra compaiono le sue richieste.</li>
+</ol>
+
+<figure>
+  <img src="assets/img/peoplelink/03-richiesta-da-approvare.png" alt="Una richiesta di ferie in attesa con i pulsanti Approva, Rifiuta, Stampa richiesta, Cartellino e Forza lavoro" loading="lazy">
+  <figcaption>Una richiesta in attesa. Nomi e dati nelle immagini sono di esempio.</figcaption>
+</figure>
+
+<h2>Leggere la richiesta</h2>
+<ul>
+  <li><strong>Tipo e codice</strong>, per esempio <code>[FERIE] FERIE</code> o <code>[BOR_GOD] BANCA ORE GODUTA</code>.</li>
+  <li><strong>Modalità</strong>: <em>Giornata intera</em> oppure un orario, per esempio <code>[0900 - 1100] 02:00</code>.</li>
+  <li><strong>Da / A</strong>: i giorni richiesti.</li>
+  <li><strong>Nota del collaboratore</strong>, se l'ha scritta.</li>
+  <li><strong>Richiesta effettuata il…</strong> e <strong>In attesa dal…</strong>.</li>
+</ul>
+<p>Per le richieste di timbratura il testo indica verso e ora: <code>TIMBRATURA U1800</code> è un'uscita alle 18:00, <code>E0900</code> un'entrata alle 9:00.</p>
+
+<h2>Controllare prima di decidere</h2>
+<p>Sotto ogni richiesta ci sono tre pulsanti utili:</p>
+<ul>
+  <li><strong>Cartellino</strong>: apre il cartellino del collaboratore per verificare timbrature e orari.</li>
+  <li><strong>Forza lavoro</strong>: mostra chi altro del gruppo è assente negli stessi giorni.</li>
+  <li><strong>Stampa richiesta</strong>: ne crea una copia stampabile.</li>
+</ul>
+<p>Per le ferie controlla anche il saldo residuo: vedi <a href="articolo.html?id=peoplelink-ferie-permessi">Ferie e permessi dei collaboratori</a>.</p>
+
+<h2>Approvare o rifiutare</h2>
+<ol>
+  <li>Clicca <strong>Approva</strong> (verde) o <strong>Rifiuta</strong> (rosso).</li>
+  <li>Si apre la finestra <em>"Per completare l'operazione inserire l'eventuale nota per il dipendente"</em>.</li>
+  <li>Scrivi la nota, poi premi <strong>OK</strong>. <strong>Annulla</strong> chiude la finestra senza fare nulla.</li>
+</ol>
+<figure>
+  <img src="assets/img/peoplelink/04-nota-per-il-dipendente.png" alt="Finestra per inserire la nota per il dipendente con i pulsanti Annulla e OK" loading="lazy">
+  <figcaption>La nota arriva al collaboratore insieme all'esito.</figcaption>
+</figure>
+<div class="nota attenzione">
+  <strong>Quando rifiuti, scrivi sempre il motivo</strong>
+  Per esempio "Già assenti due ASO quel giorno, proponi un'altra data". Il collaboratore vede la nota e sa cosa fare.
+</div>
+<p>Per qualche secondo al posto dei pulsanti compare <em>"Giustificativo in attesa di workflow…"</em>: il portale sta registrando l'esito. Poi la richiesta sparisce dall'elenco, il collaboratore riceve la notifica e il cartellino si aggiorna da solo.</p>
+
+<h2>Più richieste insieme</h2>
+<p>Ogni richiesta ha una casella di spunta a sinistra. In alto ci sono <strong>Seleziona tutte</strong> e <strong>Deseleziona tutte</strong>. Usale solo per richieste che hai già controllato una per una, per esempio più correzioni di timbratura dello stesso collaboratore.</p>
+<p>Per una visione d'insieme apri ☰ → <strong>MY PEOPLELINK</strong> → <strong>Richieste pendenti</strong>: mostra tutte le richieste in attesa raggruppate per tipo.</p>
+
+<h2>Annullamenti</h2>
+<p>Se un collaboratore vuole annullare una richiesta che hai già approvato, l'annullamento arriva a te come nuova richiesta da approvare. Se lo approvi, la richiesta diventa <strong>Annullata</strong> e il cartellino torna come prima. Se lo rifiuti, resta <strong>Approvata</strong>.</p>
+
+<h2>Lo storico e gli stati</h2>
+<p>Apri ☰ → <strong>MY PEOPLELINK</strong> → <strong>Storico richieste dei miei collaboratori</strong>:</p>
+<ol>
+  <li>In <strong>Periodo</strong> scegli i giorni a cui si riferiscono le richieste (non la data in cui sono state inviate).</li>
+  <li>In <strong>Modalità</strong> scegli <em>Tutte le richieste del collaboratore</em> oppure <em>Le richieste su cui ho operato</em>.</li>
+  <li>Premi <strong>Applica filtro</strong> e clicca il collaboratore. Puoi filtrare anche per <strong>Stato della richiesta</strong> e per tipo di <strong>Richiesta</strong>.</li>
+</ol>
+<table>
+  <tr><th>Stato</th><th>Significato</th></tr>
+  <tr><td>Approvazione in corso</td><td>In attesa di risposta.</td></tr>
+  <tr><td>Approvata</td><td>Approvata: è già nel cartellino.</td></tr>
+  <tr><td>Rifiutata</td><td>Rifiutata: non entra nel cartellino.</td></tr>
+  <tr><td>Annullamento in corso</td><td>Il collaboratore ha chiesto di annullarla; si aspetta la risposta.</td></tr>
+  <tr><td>Annullata</td><td>Annullamento approvato: la richiesta non vale più.</td></tr>
+  <tr><td>Annullamento rifiutato</td><td>L'annullamento è stato respinto: la richiesta resta approvata.</td></tr>
+</table>
+
+<div class="nota critico">
+  <strong>Richieste che spettano all'ufficio HR</strong>
+  Se tra le richieste da approvare compare una voce gestita da HR (malattia, ROL, congedi, Legge 104, lutto…), non approvarla e non rifiutarla: avvisa l'ufficio HR.
+</div>
+`
+    },
+
+    {
+      id: "peoplelink-ferie-permessi",
+      titolo: "People Link: ferie e permessi dei collaboratori",
+      categoria: "peoplelink",
+      tag: ["peoplelink", "people link", "ferie", "permessi", "permesso", "banca ore", "ex festività", "totalizzatori", "residuo ferie", "saldo ferie", "voci", "giustificativi", "approvo ferie", "collaboratrice", "collaboratore", "giorni di ferie"],
+      aggiornato: "2026-11-09",
+      minuti: 5,
+      sommario: "Quali voci di assenza gestisce il responsabile, come controllare il saldo e le sovrapposizioni prima di approvare e come inserire ferie al posto del collaboratore.",
+      corpo: `
+<h2>Le voci di assenza e chi le gestisce</h2>
+<p>Ogni richiesta ha un codice tra parentesi quadre. Queste sono le voci disponibili sul portale:</p>
+<table>
+  <tr><th>Codice</th><th>Voce</th><th>Chi la gestisce</th></tr>
+  <tr><td><code>FERIE</code></td><td>Ferie</td><td>Responsabile</td></tr>
+  <tr><td><code>EXFE</code></td><td>Ex festività</td><td>Responsabile</td></tr>
+  <tr><td><code>BOR_GOD</code></td><td>Banca ore goduta (anche per ritardi e uscite anticipate)</td><td>Responsabile</td></tr>
+  <tr><td><code>PN</code></td><td>Permesso non retribuito</td><td>Responsabile</td></tr>
+  <tr><td><code>SERV</code></td><td>Servizio esterno</td><td>Responsabile</td></tr>
+  <tr><td><code>TIMBRA</code></td><td>Timbratura (correzione o timbratura mancante)</td><td>Responsabile</td></tr>
+  <tr><td><code>ROL</code></td><td>ROL</td><td>Ufficio HR</td></tr>
+  <tr><td><code>MF1</code>, <code>MA3</code></td><td>Malattia del figlio</td><td>Ufficio HR</td></tr>
+  <tr><td><code>CP30_HH</code>, <code>CP88_GG</code>, <code>CP88_HH</code>, <code>CPO</code>, <code>CONGMAT</code></td><td>Congedi parentali, paternità, matrimoniale</td><td>Ufficio HR</td></tr>
+  <tr><td><code>L104DHH</code>, <code>L104FHH</code>, <code>L104PHH</code></td><td>Permessi Legge 104</td><td>Ufficio HR</td></tr>
+  <tr><td><code>LUTTO</code>, <code>STUDIO</code>, <code>ALLA</code>, <code>DOSANG</code>, <code>SCIO</code></td><td>Lutto, studio, allattamento, donazione sangue, sciopero</td><td>Ufficio HR</td></tr>
+</table>
+
+<h2>Come può essere chiesta un'assenza</h2>
+<ul>
+  <li><strong>Giornata intera</strong>: copre tutta la giornata lavorativa prevista dal turno.</li>
+  <li><strong>Durata</strong>: un numero di ore e minuti, per esempio 2:00.</li>
+  <li><strong>Inizio fine</strong>: un orario preciso, per esempio dalle 9:00 alle 11:00.</li>
+</ul>
+
+<h2>Prima di approvare le ferie</h2>
+<h3>1. Il saldo del collaboratore</h3>
+<p>Apri ☰ → <strong>MY PEOPLELINK</strong> → <strong>Consultazione totalizzatori</strong>. Scegli il <strong>Totalizzatore</strong> (per esempio le ferie) e la <strong>Data di riferimento</strong>, poi <strong>Applica filtro</strong>. Per ogni collaboratore vedi residuo dell'anno precedente, maturato, usufruito, residuo ad oggi e programmato fino a fine anno.</p>
+<p>Lo stesso riepilogo si apre dal pulsante <strong>Totalizzatori</strong> nella finestra di inserimento di una richiesta.</p>
+
+<h3>2. Chi altro è assente</h3>
+<p>Dalla richiesta clicca <strong>Forza lavoro</strong>, oppure apri ☰ → <strong>MY PEOPLELINK</strong> → <strong>Forza Lavoro (modalità calendario)</strong> per vedere tutto il gruppo. I colori indicano:</p>
+<ul>
+  <li><strong>Presenza</strong>;</li>
+  <li><strong>Assenza</strong> (approvata);</li>
+  <li><strong>Assenza da richieste non approvate</strong>: richieste ancora in attesa, da considerare quando decidi;</li>
+  <li><strong>Assenza non giustificata</strong>: giornata senza timbrature né giustificativo, da sistemare;</li>
+  <li><strong>Riposo</strong>.</li>
+</ul>
+
+<h2>Inserire ferie o permessi al posto del collaboratore</h2>
+<p>Serve quando il collaboratore ti ha avvisato a voce o non riesce ad accedere.</p>
+<ol>
+  <li>Apri <strong>Il Cartellino dei miei collaboratori</strong>, imposta il <strong>Periodo</strong>, premi <strong>Applica filtro</strong> e clicca il collaboratore.</li>
+  <li>Sul giorno interessato clicca <strong>Giustifica</strong>.</li>
+  <li><strong>Passo 1 di 3</strong>: scegli la voce dall'elenco (puoi scriverne il nome nella ricerca), poi <strong>Avanti</strong>.</li>
+  <li><strong>Passo 2 di 3</strong>: scegli i giorni sul calendario oppure, per un periodo continuo, compila <strong>Dal giorno</strong> e <strong>Al giorno</strong> (puoi togliere la spunta ai giorni della settimana da escludere). Scegli la <strong>Modalità di caricamento</strong> e premi <strong>Avanti</strong>.</li>
+  <li><strong>Passo 3 di 3</strong>: scrivi una nota (per esempio "inserita dal responsabile su richiesta telefonica") e premi <strong>Salva</strong>.</li>
+</ol>
+<figure>
+  <img src="assets/img/peoplelink/07-giustifica-passo1.png" alt="Passo 1: elenco delle voci tra cui scegliere" loading="lazy">
+  <figcaption>Passo 1: scelta della voce.</figcaption>
+</figure>
+<figure>
+  <img src="assets/img/peoplelink/09-passo2-giorni.png" alt="Passo 2: calendario, periodo dal-al e modalità di caricamento" loading="lazy">
+  <figcaption>Passo 2: giorni e modalità di caricamento.</figcaption>
+</figure>
+<figure>
+  <img src="assets/img/peoplelink/10-passo3-nota.png" alt="Passo 3: nota per il responsabile o l'ufficio HR e pulsante Salva" loading="lazy">
+  <figcaption>Passo 3: nota e salvataggio.</figcaption>
+</figure>
+<p>Dopo il salvataggio controlla in <strong>Storico richieste dei miei collaboratori</strong> che la richiesta risulti <strong>Approvata</strong>. Se è in attesa, approvala da <strong>Le Richieste dei miei collaboratori</strong>.</p>
+
+<div class="nota">
+  <strong>Stessa assenza per più persone</strong>
+  Per esempio una chiusura della sede: apri ☰ → <strong>MY PEOPLELINK</strong> → <strong>Inserimento richieste massivo</strong>, spunta i collaboratori, premi <strong>Avvia l'inserimento delle richieste</strong> e segui gli stessi tre passi.
+</div>
+`
+    },
+
+    {
+      id: "peoplelink-cartellino-anomalie",
+      titolo: "People Link: cartellino dei collaboratori, timbrature e anomalie",
+      categoria: "peoplelink",
+      tag: ["peoplelink", "people link", "cartellino", "timbrature", "timbratura mancante", "anomalie", "giornate anomale", "correggere timbratura", "dimenticato timbratura", "entrata", "uscita", "voci cartellino", "timbrare", "timbrato", "non ha timbrato", "collaboratore", "collaboratrice"],
+      aggiornato: "2026-11-09",
+      minuti: 6,
+      sommario: "Come leggere il cartellino dei collaboratori, trovare le giornate anomale e correggere una timbratura mancante o sbagliata.",
+      corpo: `
+<h2>Aprire il cartellino di un collaboratore</h2>
+<ol>
+  <li>Clicca il riquadro <strong>Il Cartell. Collaboratori</strong> in pagina iniziale, oppure ☰ → <strong>MY PEOPLELINK</strong> → <strong>Il Cartellino dei miei collaboratori</strong>.</li>
+  <li>In alto a destra imposta il <strong>Periodo</strong> (di solito il mese) e premi <strong>Applica filtro</strong>.</li>
+  <li>A sinistra metti la spunta su <strong>Solo collaboratori con anomalie</strong> per vedere solo chi ha qualcosa da sistemare.</li>
+  <li>Clicca il nome del collaboratore.</li>
+</ol>
+<figure>
+  <img src="assets/img/peoplelink/05-cartellino-collaboratore.png" alt="Cartellino di un collaboratore con l'elenco dei giorni, le timbrature e le voci calcolate" loading="lazy">
+  <figcaption>Il cartellino: un riquadro per ogni giorno.</figcaption>
+</figure>
+
+<h2>Leggere un giorno</h2>
+<ul>
+  <li><strong>Riga scura in alto</strong>: <strong>Seleziona</strong> (per scegliere più giorni insieme), il <strong>turno</strong> del giorno (per esempio <code>T031</code>), lo stato di elaborazione e le <strong>Note</strong>. Le giornate già elaborate mostrano <code>CHI</code>, quelle non ancora elaborate (oggi e i giorni futuri) mostrano <code>?</code>.</li>
+  <li><strong>Timbrature</strong>: <code>E</code> = entrata, <code>U</code> = uscita, con l'ora.</li>
+  <li><strong>Voci calcolate</strong>: le ore del giorno divise per tipo.</li>
+  <li><strong>Riga grigia in basso</strong>: le richieste approvate su quel giorno, con l'orario.</li>
+  <li>Il pulsante <strong>Giustifica</strong> a sinistra serve a inserire una richiesta per quel giorno.</li>
+</ul>
+<figure>
+  <img src="assets/img/peoplelink/06-cartellino-voci.png" alt="Giornate con le voci PRES, EXTOAUT, EX_AUTORIZ e BOR_GOD e le righe EXTRA e BOR_GOD" loading="lazy">
+  <figcaption>Esempi: un giorno con straordinario autorizzato e un giorno con uscita anticipata coperta da banca ore.</figcaption>
+</figure>
+
+<h3>Le voci più frequenti</h3>
+<table>
+  <tr><th>Codice</th><th>Significato</th></tr>
+  <tr><td><code>PRES</code></td><td>Ore ordinarie di presenza</td></tr>
+  <tr><td><code>BOR_GOD</code></td><td>Banca ore goduta: ritardo, uscita anticipata o permesso a ore</td></tr>
+  <tr><td><code>EXTOAUT</code></td><td>Extra-orario da autorizzare: tempo lavorato oltre il turno</td></tr>
+  <tr><td><code>EX_AUTORIZ</code></td><td>Extra-orario autorizzato</td></tr>
+  <tr><td><code>EXTRA</code></td><td>Richiesta di extra-orario a consuntivo, con l'orario</td></tr>
+  <tr><td><code>FEST</code></td><td>Festività</td></tr>
+  <tr><td><code>RIPO1</code>, <code>RIPO2</code></td><td>Primo e secondo riposo</td></tr>
+  <tr><td><code>T031</code> e simili</td><td>Il turno del giorno</td></tr>
+</table>
+<p>Passa il mouse sopra un codice per leggerne la descrizione completa.</p>
+
+<h2>Opzioni e strumenti</h2>
+<p>Il pulsante <strong>Opzioni</strong> in alto ha tre impostazioni utili:</p>
+<ul>
+  <li><strong>Mostra solo giornate anomale</strong>: nasconde i giorni regolari.</li>
+  <li><strong>Mostra la descrizione invece del codice</strong>: scrive "Ore ordinarie presenza" al posto di <code>PRES</code>.</li>
+  <li><strong>Modalità di visualizzazione</strong>: <em>Default</em> oppure <em>Riepilogativo</em>.</li>
+</ul>
+<figure>
+  <img src="assets/img/peoplelink/11-cartellino-opzioni.png" alt="Pannello Opzioni del cartellino" loading="lazy">
+  <figcaption>Il pannello Opzioni.</figcaption>
+</figure>
+<p>Le icone accanto a Opzioni sono, nell'ordine: <strong>Richiedi giustificativo</strong>, <strong>Riepilogo totali</strong>, <strong>Stampa report</strong>, <strong>Elabora</strong> (ricalcola il cartellino) e <strong>Calcolatrice</strong>.</p>
+
+<h2>Le anomalie più comuni e cosa fare</h2>
+<table>
+  <tr><th>Cosa vedi</th><th>Cosa fare</th></tr>
+  <tr><td>Manca un'entrata o un'uscita (timbrature dispari)</td><td>Chiedi al collaboratore l'orario reale e fai inserire una richiesta di <strong>TIMBRATURA</strong>, oppure inseriscila tu (sotto).</td></tr>
+  <tr><td>Ore inferiori al turno senza giustificativo (ritardo o uscita anticipata)</td><td>Serve una <strong>BANCA ORE GODUTA</strong>: vedi <a href="articolo.html?id=peoplelink-ritardi-straordinari">Ritardi, uscite anticipate e straordinari</a>.</td></tr>
+  <tr><td><code>EXTOAUT</code> senza <code>EX_AUTORIZ</code></td><td>Straordinario non ancora autorizzato: vedi la stessa guida.</td></tr>
+  <tr><td>Giornata lavorativa senza timbrature né giustificativo</td><td>Verifica con il collaboratore: ferie da inserire, timbrature dimenticate o un'assenza da segnalare all'ufficio HR.</td></tr>
+</table>
+
+<h2>Approvare una correzione di timbratura</h2>
+<p>Se il collaboratore ha già inviato la richiesta, la trovi in <strong>Le Richieste dei miei collaboratori</strong> come <code>TIMBRATURA E0900</code> (entrata alle 9:00) o <code>TIMBRATURA U1800</code> (uscita alle 18:00). Prima di approvarla controlla che l'ora sia plausibile e che non esista già una timbratura per lo stesso momento. Poi segui <a href="articolo.html?id=peoplelink-approvare-richieste">Approvare o rifiutare le richieste dei collaboratori</a>.</p>
+
+<h2>Inserire tu una timbratura mancante</h2>
+<ol>
+  <li>Nel cartellino del collaboratore clicca <strong>Giustifica</strong> sul giorno.</li>
+  <li>Scegli <strong>TIMBRATURA [TIMBRA]</strong> e premi <strong>Avanti</strong>. Per trovarla prima puoi usare il pulsante <strong>Timbratura</strong> nella barra delle tipologie, che si apre dall'icona a destra della ricerca.</li>
+  <li>Lascia la modalità <strong>Timbrature singole</strong> e compila:
+    <ul>
+      <li><strong>Verso</strong>: Entrata o Uscita;</li>
+      <li><strong>Ora</strong>: l'orario reale, scritto senza separatori (<code>HHMM</code>, per esempio <code>1800</code> per le 18:00);</li>
+      <li><strong>Terminale</strong>: la sede in cui lavora il collaboratore.</li>
+    </ul>
+  </li>
+  <li>Premi <strong>Avanti</strong>, scrivi nella nota il motivo (per esempio "timbratura dimenticata, confermata dal collaboratore") e premi <strong>Salva</strong>.</li>
+</ol>
+<figure>
+  <img src="assets/img/peoplelink/14-timbratura-passo2.png" alt="Passo 2 della timbratura: giorno, Verso Entrata o Uscita, Ora e Terminale" loading="lazy">
+  <figcaption>Passo 2 della timbratura: giorno, verso, ora e terminale.</figcaption>
+</figure>
+<figure>
+  <img src="assets/img/peoplelink/08-giustifica-tipologie.png" alt="Barra delle tipologie con Certificati a ore, Timbratura, Voce e Tutte le richieste" loading="lazy">
+  <figcaption>La barra delle tipologie: Certificati a ore, Timbratura, Voce, Tutte le richieste.</figcaption>
+</figure>
+<div class="nota attenzione">
+  <strong>Solo orari reali</strong>
+  Inserisci o approva solo orari che il collaboratore ti ha confermato e che corrispondono alla presenza effettiva. Nel dubbio, chiedi all'ufficio HR.
+</div>
+<p>Dopo l'approvazione o il salvataggio il cartellino si ricalcola da solo. Se dopo qualche minuto non vedi il cambiamento, premi <strong>Applica filtro</strong> per ricaricarlo.</p>
+`
+    },
+
+    {
+      id: "peoplelink-ritardi-straordinari",
+      titolo: "People Link: ritardi, uscite anticipate e straordinari",
+      categoria: "peoplelink",
+      tag: ["peoplelink", "people link", "ritardo", "ritardi", "uscita anticipata", "entrata in ritardo", "banca ore", "banca ore goduta", "straordinari", "straordinario", "extra orario", "extra-orario", "consuntivo", "arrivato", "arrivata", "in ritardo", "uscito prima", "uscita prima", "autorizzo", "autorizzare", "aso", "segreteria"],
+      aggiornato: "2026-11-09",
+      minuti: 4,
+      sommario: "Come si giustificano ritardi e uscite anticipate con la banca ore e come si autorizzano gli straordinari a consuntivo.",
+      corpo: `
+<h2>Ritardi e uscite anticipate</h2>
+<p>Quando un collaboratore entra più tardi o esce prima dell'orario del turno, il tempo mancante si giustifica con la voce <strong>BANCA ORE GODUTA [BOR_GOD]</strong>.</p>
+
+<h3>Se la richiesta la invia il collaboratore</h3>
+<p>Il collaboratore inserisce una BANCA ORE GODUTA con modalità <strong>Inizio fine</strong> (per esempio dalle 17:45 alle 17:57) o <strong>Durata</strong>. Tu la trovi in <strong>Le Richieste dei miei collaboratori</strong> e la approvi o la rifiuti come le altre: <a href="articolo.html?id=peoplelink-approvare-richieste">Approvare o rifiutare le richieste dei collaboratori</a>.</p>
+<p>Prima di approvare:</p>
+<ul>
+  <li>apri il <strong>Cartellino</strong> dalla richiesta e verifica che l'orario corrisponda alle timbrature;</li>
+  <li>controlla il residuo di banca ore con il pulsante <strong>Totalizzatori</strong> o da <strong>Consultazione totalizzatori</strong>. Se il residuo non basta, confrontati con l'ufficio HR prima di decidere.</li>
+</ul>
+
+<h3>Se la richiesta non arriva</h3>
+<p>Dal cartellino del collaboratore clicca <strong>Giustifica</strong> sul giorno, scegli <strong>BANCA ORE GODUTA</strong>, nel passo 2 usa la modalità <strong>Inizio fine</strong> con l'orario mancante e salva con una nota. I passaggi completi sono in <a href="articolo.html?id=peoplelink-ferie-permessi">Ferie e permessi dei collaboratori</a>.</p>
+
+<h3>Come appare nel cartellino</h3>
+<p>Il giorno mostra la voce <code>BOR_GOD</code> con le ore (per esempio <code>00:12</code>) e, nella riga grigia, l'orario della richiesta (per esempio <code>BOR_GOD [1745 - 1757]</code>). Le ore di <code>PRES</code> più quelle di <code>BOR_GOD</code> devono coprire l'orario del turno.</p>
+
+<h2>Straordinari (extra-orario a consuntivo)</h2>
+<p>Gli straordinari si chiedono <strong>dopo</strong> averli fatti.</p>
+<ol>
+  <li>Quando il collaboratore lavora oltre l'orario del turno, il cartellino calcola la voce <code>EXTOAUT</code> (<em>extra orario da autorizzare</em>).</li>
+  <li>Il collaboratore invia una richiesta <strong>EXTRA-ORARIO (Consuntivo)</strong> con l'orario, per esempio dalle 17:32 alle 18:32.</li>
+  <li>Tu la trovi in <strong>Le Richieste dei miei collaboratori</strong>. Controlla nel <strong>Cartellino</strong> che le timbrature coprano quell'orario, poi approva o rifiuta.</li>
+  <li>Dopo l'approvazione nel cartellino compaiono <code>EX_AUTORIZ</code> (<em>extraorario autorizzato</em>) e, nella riga grigia, <code>EXTRA [1735 - 1805]</code>.</li>
+</ol>
+<figure>
+  <img src="assets/img/peoplelink/06-cartellino-voci.png" alt="Giornata con PRES, EXTOAUT e EX_AUTORIZ e la riga EXTRA; giornata con BOR_GOD" loading="lazy">
+  <figcaption>Giovedì: straordinario autorizzato. Venerdì: uscita anticipata coperta da banca ore.</figcaption>
+</figure>
+<div class="nota">
+  <strong>Straordinario non concordato</strong>
+  Se il tempo extra non era stato chiesto o non era necessario, rifiuta la richiesta e spiega il motivo nella nota.
+</div>
+<div class="nota attenzione">
+  <strong>Prima della chiusura del mese</strong>
+  Controlla che non restino giornate con <code>EXTOAUT</code> senza una decisione: usa <strong>Opzioni → Mostra solo giornate anomale</strong> nel cartellino dei collaboratori.
+</div>
+`
+    },
+
+    {
+      id: "peoplelink-turni-presenze-report",
+      titolo: "People Link: turni, presenti e assenti, report",
+      categoria: "peoplelink",
+      tag: ["peoplelink", "people link", "turni", "turno", "cambio turno", "programmazione turni", "presenti", "assenti", "presenti e assenti", "report", "export", "excel", "totalizzatori", "vedo turni", "vedere turni", "dove vedo"],
+      aggiornato: "2026-11-09",
+      minuti: 4,
+      sommario: "Consultare i turni del gruppo, vedere chi è presente in un dato momento ed estrarre i report del cartellino e dei saldi.",
+      corpo: `
+<h2>Programmazione turni</h2>
+<p>Apri ☰ → <strong>MY PEOPLELINK</strong> → <strong>Programmazione turni</strong> e clicca il tuo gruppo a sinistra. Per ogni collaboratore vedi il turno di ogni giorno (per esempio <code>T031</code>, oppure <code>RIPO1</code> e <code>RIPO2</code> per i riposi) e il <strong>Totale ore</strong>.</p>
+<figure>
+  <img src="assets/img/peoplelink/13-programmazione-turni.png" alt="Programmazione turni con i turni della settimana per collaboratore" loading="lazy">
+  <figcaption>La programmazione turni di un gruppo.</figcaption>
+</figure>
+<ul>
+  <li>Le date in alto spostano la vista; <strong>Vai alla data</strong> salta a un giorno preciso.</li>
+  <li><strong>Vai alla modalità bisettimanale</strong> mostra due settimane insieme.</li>
+  <li><strong>Ricarica i dati</strong> aggiorna la vista; <strong>Export</strong> scarica i turni.</li>
+</ul>
+<div class="nota attenzione">
+  <strong>Cambi turno</strong>
+  Oggi dal profilo responsabile i turni si consultano ma non si modificano. Per un cambio turno scrivi all'ufficio HR indicando collaboratore, giorno, turno attuale e turno nuovo.
+</div>
+
+<h2>Presenti e Assenti</h2>
+<p>Apri ☰ → <strong>MY PEOPLELINK</strong> → <strong>Presenti e Assenti</strong>.</p>
+<ol>
+  <li>Imposta <strong>Data</strong> e <strong>Ore</strong> (di base sono adesso).</li>
+  <li>In <strong>Modalità</strong> scegli <em>Completa</em> (presenze e giustificativi) o <em>Solo timbrature</em>.</li>
+  <li>Premi <strong>Cerca</strong> e clicca il tuo gruppo a sinistra.</li>
+</ol>
+<p>Per ogni collaboratore vedi lo stato (per esempio <strong>Presente</strong>) e, scorrendo verso destra, le timbrature del giorno e il turno.</p>
+<figure>
+  <img src="assets/img/peoplelink/12-presenti-assenti.png" alt="Presenti e Assenti: collaboratori del gruppo con lo stato Presente" loading="lazy">
+  <figcaption>Presenti e Assenti in un dato momento.</figcaption>
+</figure>
+
+<h2>Forza lavoro</h2>
+<p><strong>Forza Lavoro</strong> e <strong>Forza Lavoro (modalità calendario)</strong> mostrano presenze e assenze del gruppo su un periodo. Servono per pianificare ferie e coperture. Con <strong>Mostra turno</strong> vedi anche i turni.</p>
+
+<h2>Report ed estrazioni</h2>
+<table>
+  <tr><th>Voce di menu</th><th>Cosa ottieni</th></tr>
+  <tr><td>Report cartellino di controllo dei miei collaboratori</td><td>Il cartellino del periodo. Scegli il periodo con le scorciatoie (<em>Questo mese</em>, <em>Mese prec.</em>…) o con Inizio e Fine, il <strong>Tipo Report</strong> (<em>Standard</em>, <em>Excel</em>, <em>Statistiche Csv</em>), poi <strong>Anteprima</strong> o <strong>Esegui</strong>. Con <strong>Filtro dipendenti</strong> limiti l'estrazione ad alcune persone.</td></tr>
+  <tr><td>Consultazione totalizzatori</td><td>I saldi a video (ferie, banca ore…) a una data di riferimento.</td></tr>
+  <tr><td>Export totalizzatori maturati / residui</td><td>Gli stessi saldi in un file.</td></tr>
+  <tr><td>Export pianificazione voci e richieste</td><td>L'elenco delle assenze e delle richieste pianificate.</td></tr>
+</table>
+<div class="nota">
+  <strong>Dati personali</strong>
+  I report contengono dati dei collaboratori: salvali solo nelle cartelle aziendali e non inoltrarli fuori dallo studio.
 </div>
 `
     }
