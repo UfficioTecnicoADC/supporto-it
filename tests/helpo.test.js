@@ -661,6 +661,8 @@ test('People Link: le domande dei responsabili trovano la guida giusta', () => {
     'dove vedo i turni': 'peoplelink-turni-presenze-report',
     'ho inserito la timbratura ma la giornata non si aggiorna': 'peoplelink-cartellino-anomalie',
     'come si elabora la giornata nel cartellino': 'peoplelink-cartellino-anomalie',
+    'una aso ha sbagliato la timbratura e chiede di cancellarla': 'peoplelink-cancellare-timbratura',
+    'come elimino una timbratura doppia': 'peoplelink-cancellare-timbratura',
   };
   for (const [q, id] of Object.entries(casi)) assert.equal(retrieve(q).guides[0]?.id, id, q);
 });

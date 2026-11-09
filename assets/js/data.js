@@ -4346,6 +4346,7 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
   <li><a href="articolo.html?id=peoplelink-approvare-richieste">Approvare o rifiutare le richieste dei collaboratori</a></li>
   <li><a href="articolo.html?id=peoplelink-ferie-permessi">Ferie e permessi dei collaboratori</a></li>
   <li><a href="articolo.html?id=peoplelink-cartellino-anomalie">Cartellino dei collaboratori, timbrature e anomalie</a></li>
+  <li><a href="articolo.html?id=peoplelink-cancellare-timbratura">Un collaboratore ha sbagliato una timbratura e chiede di cancellarla</a></li>
   <li><a href="articolo.html?id=peoplelink-ritardi-straordinari">Ritardi, uscite anticipate e straordinari</a></li>
   <li><a href="articolo.html?id=peoplelink-turni-presenze-report">Turni, presenti e assenti, report</a></li>
 </ul>
@@ -4420,7 +4421,7 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 <p>Per una visione d'insieme apri ☰ → <strong>MY PEOPLELINK</strong> → <strong>Richieste pendenti</strong>: mostra tutte le richieste in attesa raggruppate per tipo.</p>
 
 <h2>Annullamenti</h2>
-<p>Se un collaboratore vuole annullare una richiesta che hai già approvato, l'annullamento arriva a te come nuova richiesta da approvare. Se lo approvi, la richiesta diventa <strong>Annullata</strong> e il cartellino torna come prima. Se lo rifiuti, resta <strong>Approvata</strong>.</p>
+<p>Se un collaboratore vuole annullare una richiesta che hai già approvato, la apre in <strong>Le mie Richieste</strong> e preme <strong>Richiedi annullamento</strong>. L'annullamento ti arriva tra le richieste da approvare con i pulsanti <strong>Conferma Annullamento</strong> e <strong>Rifiuta</strong>. Se confermi, la richiesta diventa <strong>Annullata</strong>; se rifiuti, resta <strong>Approvata</strong>. Dopo la conferma rielabora la giornata dal cartellino (<strong>Seleziona</strong> → <strong>Elabora</strong>). Esempio completo: <a href="articolo.html?id=peoplelink-cancellare-timbratura">Un collaboratore ha sbagliato una timbratura e chiede di cancellarla</a>.</p>
 
 <h2>Lo storico e gli stati</h2>
 <p>Apri ☰ → <strong>MY PEOPLELINK</strong> → <strong>Storico richieste dei miei collaboratori</strong>:</p>
@@ -4603,6 +4604,7 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
   <tr><th>Cosa vedi</th><th>Cosa fare</th></tr>
   <tr><td>Manca un'entrata o un'uscita (timbrature dispari)</td><td>Chiedi al collaboratore l'orario reale e fai inserire una richiesta di <strong>TIMBRATURA</strong>, oppure inseriscila tu (sotto).</td></tr>
   <tr><td>Ore inferiori al turno senza giustificativo (ritardo o uscita anticipata)</td><td>Serve una <strong>BANCA ORE GODUTA</strong>: vedi <a href="articolo.html?id=peoplelink-ritardi-straordinari">Ritardi, uscite anticipate e straordinari</a>.</td></tr>
+  <tr><td>Una timbratura in più o sbagliata (doppia, orario errato, entrata al posto di uscita)</td><td>Vedi <a href="articolo.html?id=peoplelink-cancellare-timbratura">Un collaboratore ha sbagliato una timbratura e chiede di cancellarla</a>.</td></tr>
   <tr><td><code>EXTOAUT</code> senza <code>EX_AUTORIZ</code></td><td>Straordinario non ancora autorizzato: vedi la stessa guida.</td></tr>
   <tr><td>Giornata lavorativa senza timbrature né giustificativo</td><td>Verifica con il collaboratore: ferie da inserire, timbrature dimenticate o un'assenza da segnalare all'ufficio HR.</td></tr>
 </table>
@@ -4657,6 +4659,107 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
   <strong>Anomalia dopo la correzione?</strong>
   Di solito significa che le timbrature sono ancora dispari: per esempio hai aggiunto un'entrata ma manca l'uscita, oppure l'orario inserito è sbagliato. Correggi e rielabora di nuovo.
 </div>
+`
+    },
+
+    {
+      id: "peoplelink-cancellare-timbratura",
+      titolo: "People Link: un collaboratore ha sbagliato una timbratura e chiede di cancellarla",
+      categoria: "peoplelink",
+      tag: ["peoplelink", "people link", "cancellare timbratura", "eliminare timbratura", "annullare timbratura", "timbratura sbagliata", "timbratura errata", "timbratura doppia", "timbratura in più", "cambio verso", "entrata invece di uscita", "richiedi annullamento", "conferma annullamento", "errore", "sbagliato", "cancellare", "eliminare"],
+      aggiornato: "2026-11-09",
+      minuti: 5,
+      sommario: "Come si toglie una timbratura sbagliata: annullando la richiesta che l'ha inserita oppure, se viene dal terminale o dall'app, dal dettaglio della timbratura. Poi si rielabora la giornata.",
+      corpo: `
+<p>Un collaboratore ti avvisa che nel suo cartellino c'è una timbratura sbagliata: un orario inventato per errore, una timbratura doppia, un'entrata al posto di un'uscita. La procedura dipende da <strong>come è nata</strong> quella timbratura.</p>
+
+<table>
+  <tr><th>Come è nata la timbratura</th><th>Come si riconosce</th><th>Cosa fare</th></tr>
+  <tr><td>Con una <strong>richiesta TIMBRATURA</strong> (inserita a mano dal collaboratore o da te)</td><td>Nel cartellino non ha l'icona del monitor; tra le richieste del collaboratore c'è una <code>TIMBRATURA</code> approvata per quel giorno</td><td><a href="#caso-a">Caso A</a>: si annulla la richiesta</td></tr>
+  <tr><td>Dal <strong>terminale</strong> o dall'<strong>app</strong></td><td>Nel cartellino ha l'icona del monitor davanti all'orario</td><td><a href="#caso-b">Caso B</a>: si annulla dal dettaglio della timbratura</td></tr>
+</table>
+
+<div class="nota attenzione">
+  <strong>In tutti e due i casi, alla fine si rielabora la giornata</strong>
+  Finché non rielabori, la timbratura cancellata sparisce ma ore e anomalie restano quelle di prima.
+</div>
+
+<h2 id="caso-a">Caso A – Timbratura inserita con una richiesta</h2>
+
+<h3>1. Il collaboratore chiede l'annullamento</h3>
+<ol>
+  <li>Il collaboratore apre ☰ → <strong>MY PEOPLELINK</strong> → <strong>Le mie Richieste</strong>.</li>
+  <li>In <strong>Filtro periodo</strong> imposta un periodo che comprenda il giorno della timbratura e preme <strong>Applica filtro</strong>.</li>
+  <li>Trova la richiesta <code>TIMBRATURA [TIMBRA]</code> sbagliata (per esempio <code>E 2222</code>, cioè un'entrata alle 22:22), con stato <strong>Approvata</strong>.</li>
+  <li>Preme <strong>Richiedi annullamento</strong>.</li>
+</ol>
+<figure>
+  <img src="assets/img/peoplelink/18-richiedi-annullamento.png" alt="Richiesta TIMBRATURA approvata con il pulsante Richiedi annullamento evidenziato" loading="lazy">
+  <figcaption>Le mie Richieste: il pulsante Richiedi annullamento.</figcaption>
+</figure>
+<ol start="5">
+  <li>Compare il messaggio <em>"La richiesta di annullamento del giustificativo verrà inviata al proprio responsabile. Confermare l'operazione?"</em>. Scrive il motivo nella nota (per esempio "timbratura inserita per errore") e preme <strong>OK</strong>.</li>
+</ol>
+<figure>
+  <img src="assets/img/peoplelink/19-conferma-richiesta-annullamento.png" alt="Messaggio di conferma della richiesta di annullamento con nota per il responsabile" loading="lazy">
+  <figcaption>La conferma, con la nota per il responsabile.</figcaption>
+</figure>
+
+<h3>2. Tu confermi l'annullamento</h3>
+<ol>
+  <li>Apri <strong>Le Richieste dei miei collaboratori</strong> e clicca il collaboratore: la richiesta compare con i pulsanti <strong>Conferma Annullamento</strong> e <strong>Rifiuta</strong>. Nella nota trovi il motivo scritto dal collaboratore.</li>
+  <li>Se vuoi controllare prima, clicca <strong>Cartellino</strong>.</li>
+  <li>Premi <strong>Conferma Annullamento</strong>. Non viene chiesta nessuna nota: per qualche secondo compare <em>"Giustificativo in attesa di workflow…"</em>, poi la richiesta sparisce dall'elenco.</li>
+</ol>
+<figure>
+  <img src="assets/img/peoplelink/20-conferma-annullamento.png" alt="Richiesta di annullamento di una timbratura con il pulsante Conferma Annullamento evidenziato" loading="lazy">
+  <figcaption>Per il responsabile la richiesta di annullamento ha il pulsante Conferma Annullamento.</figcaption>
+</figure>
+<p>Se il collaboratore non riesce a farlo da solo, contatta l'ufficio HR.</p>
+
+<h3>3. Rielabora la giornata</h3>
+<p>Apri <strong>Il Cartellino dei miei collaboratori</strong> e vai al giorno. La timbratura non c'è più, ma la giornata può essere ancora in anomalia (<code>ANM</code>, riquadro viola), perché non è stata ricalcolata.</p>
+<figure>
+  <img src="assets/img/peoplelink/21-annullata-prima-di-elaborare.png" alt="Giornata con la timbratura già tolta ma ancora in stato ANM" loading="lazy">
+  <figcaption>Prima di rielaborare: timbratura tolta, giornata ancora in anomalia.</figcaption>
+</figure>
+<ol>
+  <li>Clicca <strong>Seleziona</strong> sul giorno (diventa giallo).</li>
+  <li>Clicca l'icona <strong>Elabora</strong> (gli ingranaggi, quarta icona a destra di <strong>Opzioni</strong>).</li>
+  <li><em>"Avviare l'elaborazione giornaliera per le giornate selezionate?"</em> → <strong>OK</strong>.</li>
+  <li><em>"L'Elaborazione giornaliera si è conclusa. Ricaricare il cartellino del dipendente?"</em> → <strong>OK</strong>.</li>
+</ol>
+<figure>
+  <img src="assets/img/peoplelink/22-annullata-dopo-elaborazione.png" alt="La stessa giornata dopo l'elaborazione, con stato CHI" loading="lazy">
+  <figcaption>Dopo la rielaborazione: giornata chiusa (<code>CHI</code>).</figcaption>
+</figure>
+
+<h2 id="caso-b">Caso B – Timbratura fatta dal terminale o dall'app</h2>
+<p>Qui non c'è una richiesta da annullare: intervieni tu direttamente dal cartellino.</p>
+<ol>
+  <li>Apri <strong>Il Cartellino dei miei collaboratori</strong>, clicca il collaboratore e vai al giorno.</li>
+  <li><strong>Fai doppio clic</strong> sulla timbratura sbagliata (per esempio <code>E 09:55</code>): si apre <strong>Dettaglio Timbratura</strong>, con terminale, eventuali note e indirizzo IP.</li>
+  <li>Scorri in fondo fino a <strong>Operazione da eseguire</strong> e scegli:
+    <ul>
+      <li><strong>Annulla</strong> per togliere la timbratura (per esempio una timbratura doppia);</li>
+      <li><strong>Cambio verso</strong> se il collaboratore ha timbrato un'entrata invece di un'uscita, o il contrario.</li>
+    </ul>
+  </li>
+  <li>In <strong>Aggiungi nota</strong> scrivi il motivo (per esempio "timbratura doppia, segnalata dal collaboratore").</li>
+  <li>Premi <strong>Applica azione</strong>. Il pulsante <strong>Annulla</strong> rosso in basso chiude invece la finestra senza fare nulla.</li>
+  <li>Controlla che la timbratura sia sparita o abbia cambiato verso, poi <strong>rielabora la giornata</strong> come nel caso A (Seleziona → Elabora → OK → OK).</li>
+</ol>
+<figure>
+  <img src="assets/img/peoplelink/23-dettaglio-timbratura-operazione.png" alt="Dettaglio Timbratura con la sezione Operazione da eseguire (Annulla, Cambio verso, Aggiungi nota) e il pulsante Applica azione" loading="lazy">
+  <figcaption>Dettaglio Timbratura: Operazione da eseguire e Applica azione.</figcaption>
+</figure>
+<div class="nota critico">
+  <strong>Attenzione ai due "Annulla"</strong>
+  Nell'elenco <em>Operazione da eseguire</em>, <strong>Annulla</strong> cancella la timbratura (diventa effettivo solo con <strong>Applica azione</strong>). Il pulsante rosso <strong>Annulla</strong> in basso chiude soltanto la finestra.
+</div>
+
+<h2>Se va messo l'orario giusto</h2>
+<p>Se la timbratura era sbagliata perché l'orario non era quello reale, dopo averla tolta inserisci quella corretta. Vedi <a href="articolo.html?id=peoplelink-cartellino-anomalie">Cartellino dei collaboratori, timbrature e anomalie</a>, sezione "Inserire tu una timbratura mancante". Poi rielabora la giornata.</p>
 `
     },
 
