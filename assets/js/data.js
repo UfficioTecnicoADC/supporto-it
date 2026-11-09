@@ -4357,7 +4357,8 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
   <li><a href="articolo.html?id=peoplelink-cartellino-anomalie">Cartellino dei collaboratori: leggere, anomalie e rielaborare la giornata</a></li>
   <li><a href="articolo.html?id=peoplelink-timbratura-dimenticata">Un collaboratore ha dimenticato una timbratura</a></li>
   <li><a href="articolo.html?id=peoplelink-cancellare-timbratura">Un collaboratore ha sbagliato una timbratura e chiede di cancellarla</a></li>
-  <li><a href="articolo.html?id=peoplelink-ritardi-straordinari">Ritardi, uscite anticipate e straordinari</a></li>
+  <li><a href="articolo.html?id=peoplelink-ritardi-straordinari">Ritardi, uscite anticipate e straordinari (banca ore)</a></li>
+  <li><a href="articolo.html?id=peoplelink-banca-ore-riepilogo">Controllare la banca ore residua (Riepilogo totali)</a></li>
   <li><a href="articolo.html?id=peoplelink-turni-presenze-report">Turni, presenti e assenti, report</a></li>
 </ul>
 `
@@ -4589,8 +4590,8 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
   <li>Il pulsante <strong>Giustifica</strong> a sinistra serve a inserire una richiesta per quel giorno.</li>
 </ul>
 <figure>
-  <img src="assets/img/peoplelink/06-cartellino-voci.png" alt="Giornate con le voci PRES, EXTOAUT, EX_AUTORIZ e BOR_GOD e le righe EXTRA e BOR_GOD" loading="lazy">
-  <figcaption>Un giorno con straordinario autorizzato e uno con uscita anticipata coperta da banca ore.</figcaption>
+  <img src="assets/img/peoplelink/06-cartellino-voci.png" alt="Giornata con le voci PRES, EXTOAUT ed EX_AUTORIZ e la riga EXTRA" loading="lazy">
+  <figcaption>Un giorno con straordinario autorizzato: timbrature, voci calcolate e, in grigio, la richiesta EXTRA.</figcaption>
 </figure>
 <table>
   <tr><th>Codice</th><th>Significato</th></tr>
@@ -4627,7 +4628,7 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
   <img src="assets/img/peoplelink/11-cartellino-opzioni.png" alt="Pannello Opzioni del cartellino" loading="lazy">
   <figcaption>Il pannello Opzioni.</figcaption>
 </figure>
-<p>Le icone accanto a Opzioni sono, nell'ordine: <strong>Richiedi giustificativo</strong>, <strong>Riepilogo totali</strong>, <strong>Stampa report</strong>, <strong>Elabora</strong> (ricalcola le giornate selezionate) e <strong>Calcolatrice</strong>.</p>
+<p>Le icone accanto a Opzioni sono, nell'ordine: <strong>Richiedi giustificativo</strong>, <strong>Riepilogo totali</strong> (saldo della banca ore: vedi <a href="articolo.html?id=peoplelink-banca-ore-riepilogo">Controllare la banca ore residua</a>), <strong>Stampa report</strong>, <strong>Elabora</strong> (ricalcola le giornate selezionate) e <strong>Calcolatrice</strong>.</p>
 
 <h2>Le anomalie più comuni e quale guida seguire</h2>
 <table>
@@ -4864,72 +4865,162 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 
     {
       id: "peoplelink-ritardi-straordinari",
-      titolo: "People Link: ritardi, uscite anticipate e straordinari",
+      titolo: "People Link: ritardi, uscite anticipate e straordinari (banca ore)",
       categoria: "peoplelink",
-      tag: ["peoplelink", "people link", "ritardo", "ritardi", "uscita anticipata", "entrata in ritardo", "banca ore", "banca ore goduta", "straordinari", "straordinario", "extra orario", "extra-orario", "consuntivo", "arrivato", "arrivata", "in ritardo", "uscito prima", "uscita prima", "autorizzo", "autorizzare", "aso", "segreteria"],
+      tag: ["peoplelink", "people link", "ritardo", "ritardi", "uscita anticipata", "entrata in ritardo", "banca ore", "banca ore goduta", "straordinari", "straordinario", "extra orario", "extra-orario", "consuntivo", "arrivato", "arrivata", "in ritardo", "uscito prima", "uscita prima", "autorizzo", "autorizzare", "approvare straordinario", "15 minuti", "arrotondamento", "assenza non giustificata", "asng", "extoaut", "aso", "segreteria"],
       aggiornato: "2026-11-09",
-      minuti: 5,
-      sommario: "Passo passo: giustificare ritardi e uscite anticipate con la banca ore e autorizzare gli straordinari a consuntivo, poi rielaborare la giornata.",
+      minuti: 7,
+      sommario: "Passo passo: la regola dei 15 minuti, come autorizzare uno straordinario e come coprire con la banca ore un ritardo o un'uscita anticipata, poi rielaborare la giornata.",
       corpo: `
-<h2>Ritardi e uscite anticipate</h2>
-<p>Quando un collaboratore entra più tardi o esce prima dell'orario del turno, il tempo mancante si giustifica con la voce <strong>BANCA ORE GODUTA [BOR_GOD]</strong>.</p>
+<p>Straordinari e ritardi passano entrambi dalla <strong>banca ore</strong>: lo straordinario autorizzato <strong>aggiunge</strong> minuti al saldo, la banca ore goduta (ritardo o uscita anticipata) li <strong>toglie</strong>. Il saldo si controlla in <strong>Riepilogo totali</strong>: vedi <a href="articolo.html?id=peoplelink-banca-ore-riepilogo">Controllare la banca ore residua (Riepilogo totali)</a>.</p>
 
-<h3>Se il collaboratore ha inviato la richiesta</h3>
+<h2>La regola dei 15 minuti</h2>
+<table>
+  <tr><th></th><th>Come si conta</th><th>Esempi</th></tr>
+  <tr><td><strong>Straordinario</strong></td><td>Solo a blocchi interi di 15 minuti dopo la fine del turno. I minuti che non completano un blocco non contano.</td><td>Esce 14 minuti dopo → 0<br>15–29 minuti dopo → 15 minuti<br>30–44 minuti dopo → 30 minuti</td></tr>
+  <tr><td><strong>Banca ore goduta</strong> (ritardo o uscita anticipata)</td><td>Sempre a blocchi di 15 minuti, arrotondando per eccesso: anche 1 minuto conta 15.</td><td>Ritardo di 1–15 minuti → 15 minuti<br>16–30 minuti → 30 minuti<br>31–45 minuti → 45 minuti</td></tr>
+</table>
+<p>Il portale applica già questi blocchi: nella finestra dell'extra orario è scritto <em>Stra. Min: 0015 - Arrot: 0015 / B.O. Min: 0015 - Arrot: 0015</em> e il cursore si sposta a scatti di 15 minuti.</p>
+
+<h2>Autorizzare uno straordinario</h2>
+<p>Quando un collaboratore resta oltre il turno, nel cartellino compare la voce <code>EXTOAUT</code> (<em>extra orario da autorizzare</em>) e il giorno nella barra in alto è cerchiato di verde. Finché non la autorizzi, quel tempo non va in banca ore.</p>
+<figure>
+  <img src="assets/img/peoplelink/26-extoaut-da-autorizzare.png" alt="Giornata con la voce EXTOAUT 00:30 evidenziata, non ancora autorizzata" loading="lazy">
+  <figcaption>EXTOAUT: 30 minuti di straordinario da autorizzare.</figcaption>
+</figure>
 <ol>
-  <li>Dalla pagina iniziale clicca <strong>Richieste da approvare</strong> (oppure ☰ → <strong>MY PEOPLELINK</strong> → <strong>Le Richieste dei miei collaboratori</strong>).</li>
+  <li>Clicca <strong>☰</strong> in alto a sinistra → <strong>MY PEOPLELINK</strong> → nella sezione Responsabile <strong>Il Cartellino dei miei collaboratori</strong>.</li>
+  <li>In alto a destra, in <strong>Periodo</strong>, controlla che ci sia il mese giusto, poi clicca <strong>Applica filtro</strong>.</li>
   <li>A sinistra clicca il nome del collaboratore.</li>
-  <li>Trova la richiesta <code>[BOR_GOD] BANCA ORE GODUTA</code> con l'orario, per esempio <code>[1745 - 1757]</code>.</li>
-  <li>Clicca <strong>Cartellino</strong> e verifica che l'orario corrisponda alle timbrature (per esempio uscita alle 17:45 con turno fino alle 17:57).</li>
-  <li>Controlla il residuo di banca ore: ☰ → <strong>MY PEOPLELINK</strong> → <strong>Consultazione totalizzatori</strong> → scegli il totalizzatore della banca ore → <strong>Applica filtro</strong>. Se il residuo non basta, confrontati con l'ufficio HR prima di decidere.</li>
-  <li>Torna alla richiesta e clicca <strong>Approva</strong> (o <strong>Rifiuta</strong> scrivendo il motivo), poi <strong>OK</strong>.</li>
+  <li>Nella barra dei giorni in alto clicca il giorno cerchiato di verde: il cartellino si sposta su quel giorno.</li>
+  <li><strong>Fai doppio clic</strong> sulla voce <code>EXTOAUT</code>: si apre <strong>Dettaglio voce</strong>, con il grafico della giornata e la sezione <strong>Extraorari da autorizzare</strong>.</li>
+  <li>Clicca la riga <code>[EXTOAUT] - EXTRA ORARIO DA AUTORIZZARE</code> (per esempio <em>0030 (1735 - 1805)</em>): diventa gialla.</li>
+  <li>Clicca <strong>Giustifica</strong> in basso a destra.</li>
+  <li>Compare la <strong>Fascia</strong> (per esempio <em>dalle 1735 alle 1805</em>) con il cursore <strong>Banca ore</strong>, all'inizio fermo su 0. Trascina la maniglia verso destra fino ai minuti da autorizzare: il cursore si sposta a blocchi di 15 minuti e sopra compare il totale (per esempio <code>0030</code>). Nelle due caselle a sinistra leggi l'orario (per esempio <code>1735</code> e <code>1805</code>).</li>
+  <li>In <strong>Nota</strong> scrivi il motivo (per esempio "straordinario concordato").</li>
+  <li>Clicca <strong>Richiedi autorizzazione</strong>.</li>
+  <li>Nel giorno compare la riga <code>EXTRA</code>. Se l'hai inserita tu da responsabile, la richiesta risulta già <strong>Approvata</strong> (puoi verificarlo in <strong>Storico richieste dei miei collaboratori</strong>).</li>
+  <li>Rielabora la giornata (passaggi in fondo). Dopo la rielaborazione compare <code>EX_AUTORIZ</code> (<em>extraorario autorizzato</em>) e la riga grigia <code>EXTRA [1735 - 1805]</code>; il saldo della banca ore aumenta.</li>
+</ol>
+<figure>
+  <img src="assets/img/peoplelink/27-dettaglio-voce-extra.png" alt="Dettaglio voce con la riga dell'extra orario da autorizzare selezionata e il pulsante Giustifica" loading="lazy">
+  <figcaption>Dettaglio voce: clicca la riga dell'extra orario, poi Giustifica.</figcaption>
+</figure>
+<figure>
+  <img src="assets/img/peoplelink/28-fascia-straordinario.png" alt="Fascia dalle 17:35 alle 18:05 con il cursore Banca ore portato a 0030 e il pulsante Richiedi autorizzazione" loading="lazy">
+  <figcaption>Trascina il cursore fino ai minuti da autorizzare, poi Richiedi autorizzazione.</figcaption>
+</figure>
+<figure>
+  <img src="assets/img/peoplelink/29-extra-autorizzato.png" alt="La stessa giornata dopo la rielaborazione con EX_AUTORIZ 00:30" loading="lazy">
+  <figcaption>Dopo la rielaborazione: EX_AUTORIZ 00:30.</figcaption>
+</figure>
+
+<h3>Se è il collaboratore a inviare la richiesta</h3>
+<ol>
+  <li>Dalla pagina iniziale clicca il riquadro <strong>Richieste da approvare</strong> (oppure ☰ → <strong>MY PEOPLELINK</strong> → <strong>Le Richieste dei miei collaboratori</strong>).</li>
+  <li>A sinistra clicca il nome del collaboratore.</li>
+  <li>Trova la richiesta <strong>EXTRA-ORARIO (Consuntivo)</strong> con l'orario.</li>
+  <li>Clicca <strong>Cartellino</strong> e verifica che le timbrature coprano quell'orario e che i minuti rispettino la regola dei 15 minuti.</li>
+  <li>Se lo straordinario era concordato clicca <strong>Approva</strong>; altrimenti <strong>Rifiuta</strong> e scrivi il motivo. Poi <strong>OK</strong>.</li>
   <li>Rielabora la giornata (passaggi in fondo).</li>
 </ol>
 
-<h3>Se la richiesta non arriva</h3>
+<h2>Ritardi e uscite anticipate</h2>
+<p>Se un collaboratore entra dopo l'inizio del turno o esce prima della fine, nel cartellino il giorno va in anomalia (<code>ANM</code>, riquadro viola) con il motivo <em>Assenza non giustificata</em> e la voce <code>ASNG</code>. Il tempo mancante si copre con la <strong>BANCA ORE GODUTA [BOR_GOD]</strong>, che toglie minuti dal saldo.</p>
+
+<h3>Inserire tu la banca ore</h3>
 <ol>
   <li>Clicca <strong>☰</strong> → <strong>MY PEOPLELINK</strong> → <strong>Il Cartellino dei miei collaboratori</strong>.</li>
   <li>Controlla <strong>Periodo</strong> e clicca <strong>Applica filtro</strong>.</li>
   <li>A sinistra clicca il nome del collaboratore.</li>
-  <li>Nella barra dei giorni in alto clicca il giorno.</li>
-  <li>Sul riquadro del giorno clicca <strong>Giustifica</strong>.</li>
-  <li>Scrivi "banca" nella casella di ricerca e clicca <strong>BANCA ORE GODUTA [BOR_GOD]</strong>.</li>
-  <li>Clicca <strong>Avanti</strong>.</li>
-  <li>In <strong>Modalità di caricamento della richiesta</strong> scegli <strong>Inizio fine</strong> e inserisci l'orario mancante (per esempio dalle 17:45 alle 17:57).</li>
-  <li>Clicca <strong>Avanti</strong>.</li>
-  <li>Scrivi la nota (per esempio "uscita anticipata, concordata") e clicca <strong>Salva</strong>.</li>
-  <li>Rielabora la giornata (passaggi in fondo).</li>
+  <li>Nella barra dei giorni in alto clicca il giorno cerchiato di viola.</li>
+  <li><strong>Fai doppio clic</strong> sulla voce <code>ASNG</code>: si apre <strong>Dettaglio voce</strong> con la sezione <strong>Anomalie da giustificare</strong> (per esempio <em>ASNG - ASSENZA NON GIUSTIFICATA : 0015 (1745 - 1800)</em>).</li>
+  <li>Clicca la riga dell'anomalia: diventa evidenziata.</li>
+  <li>Clicca <strong>Giustifica</strong> in basso a destra: si apre la finestra di inserimento, già impostata su <strong>Inizio fine</strong>.</li>
+  <li>Clicca <strong>BANCA ORE GODUTA [BOR_GOD]</strong> e poi <strong>Avanti</strong>.</li>
+  <li>Il giorno è già selezionato e in <strong>Dalle ore / Alle ore</strong> c'è già l'orario dell'anomalia. Controlla che copra il blocco intero di 15 minuti (per esempio entrata alle 9:01 con turno dalle 9:00 → <code>0900</code>–<code>0915</code>); se serve correggilo.</li>
+  <li>Clicca <strong>Avanti</strong>, scrivi la nota (per esempio "ritardo, banca ore") e clicca <strong>Salva</strong>.</li>
+  <li>Se l'hai inserita tu da responsabile, la richiesta risulta già <strong>Approvata</strong>.</li>
+  <li>Rielabora la giornata (passaggi in fondo). Il giorno torna <code>CHI</code>, compare la voce <code>BOR_GOD</code> e il saldo della banca ore diminuisce.</li>
 </ol>
-<p>Nel cartellino il giorno mostra poi la voce <code>BOR_GOD</code> con le ore (per esempio <code>00:12</code>) e, nella riga grigia, l'orario della richiesta (<code>BOR_GOD [1745 - 1757]</code>). Le ore di <code>PRES</code> più quelle di <code>BOR_GOD</code> devono coprire l'orario del turno.</p>
+<p>In alternativa puoi partire dal pulsante <strong>Giustifica</strong> del giorno (a sinistra nel riquadro): scegli <strong>BANCA ORE GODUTA [BOR_GOD]</strong> → <strong>Avanti</strong> → modalità <strong>Inizio fine</strong> → compila <strong>Dalle ore</strong> e <strong>Alle ore</strong> → <strong>Avanti</strong> → nota → <strong>Salva</strong>.</p>
 
-<h2>Straordinari (extra-orario a consuntivo)</h2>
-<p>Gli straordinari si chiedono <strong>dopo</strong> averli fatti. Quando il collaboratore lavora oltre il turno, il cartellino calcola la voce <code>EXTOAUT</code> (<em>extra orario da autorizzare</em>); il collaboratore invia poi una richiesta <strong>EXTRA-ORARIO (Consuntivo)</strong> con l'orario.</p>
+<h3>Se è il collaboratore a inviare la richiesta</h3>
 <ol>
   <li>Dalla pagina iniziale clicca <strong>Richieste da approvare</strong> (oppure ☰ → <strong>MY PEOPLELINK</strong> → <strong>Le Richieste dei miei collaboratori</strong>).</li>
   <li>A sinistra clicca il nome del collaboratore.</li>
-  <li>Trova la richiesta <strong>EXTRA-ORARIO (Consuntivo)</strong>, per esempio dalle 17:32 alle 18:32.</li>
-  <li>Clicca <strong>Cartellino</strong> e verifica che le timbrature coprano quell'orario.</li>
-  <li>Se lo straordinario era concordato clicca <strong>Approva</strong>; altrimenti <strong>Rifiuta</strong> e scrivi il motivo. Poi <strong>OK</strong>.</li>
-  <li>Rielabora la giornata (passaggi in fondo). Nel cartellino compaiono <code>EX_AUTORIZ</code> (<em>extraorario autorizzato</em>) e, nella riga grigia, <code>EXTRA [1735 - 1805]</code>.</li>
+  <li>Trova la richiesta <code>[BOR_GOD] BANCA ORE GODUTA</code> con l'orario (per esempio <code>[0900 - 0915] 00:15</code>).</li>
+  <li>Clicca <strong>Cartellino</strong> e verifica che l'orario corrisponda alle timbrature e rispetti la regola dei 15 minuti.</li>
+  <li>Controlla il saldo con <strong>Riepilogo totali</strong>: se non basta, confrontati con l'ufficio HR prima di decidere.</li>
+  <li>Clicca <strong>Approva</strong> (o <strong>Rifiuta</strong> scrivendo il motivo), poi <strong>OK</strong>.</li>
+  <li>Rielabora la giornata (passaggi in fondo).</li>
 </ol>
-<figure>
-  <img src="assets/img/peoplelink/06-cartellino-voci.png" alt="Giornata con PRES, EXTOAUT e EX_AUTORIZ e la riga EXTRA; giornata con BOR_GOD" loading="lazy">
-  <figcaption>Giovedì: straordinario autorizzato. Venerdì: uscita anticipata coperta da banca ore.</figcaption>
-</figure>
-<div class="nota attenzione">
-  <strong>Prima della chiusura del mese</strong>
-  Controlla che non restino giornate con <code>EXTOAUT</code> senza una decisione: nel cartellino dei collaboratori clicca <strong>Opzioni</strong> → <strong>Mostra solo giornate anomale</strong>.
-</div>
 
 <h2>Rielaborare la giornata</h2>
 <ol>
   <li>Apri il cartellino del collaboratore: ☰ → <strong>MY PEOPLELINK</strong> → <strong>Il Cartellino dei miei collaboratori</strong> → <strong>Periodo</strong> → <strong>Applica filtro</strong> → clicca il nome.</li>
   <li>Nella barra dei giorni in alto clicca il giorno.</li>
-  <li>Sul riquadro del giorno clicca <strong>Seleziona</strong>: diventa giallo.</li>
+  <li>Sul riquadro del giorno clicca <strong>Seleziona</strong>: diventa giallo. Se hai corretto più giorni, clicca <strong>Seleziona</strong> su ognuno: li rielabori tutti insieme.</li>
   <li>In alto clicca l'icona <strong>Elabora</strong> (gli ingranaggi, quarta icona a destra di <strong>Opzioni</strong>).</li>
   <li>Alla domanda <em>"Avviare l'elaborazione giornaliera per le giornate selezionate?"</em> clicca <strong>OK</strong>.</li>
   <li>Al messaggio <em>"L'Elaborazione giornaliera si è conclusa. Ricaricare il cartellino del dipendente?"</em> clicca <strong>OK</strong>.</li>
-  <li>Controlla lo stato del giorno: <code>CHI</code> = tutto a posto; <code>ANM</code> = leggi il motivo accanto.</li>
+  <li>Controlla lo stato del giorno (<code>CHI</code> = a posto) e il nuovo saldo in <strong>Riepilogo totali</strong>.</li>
 </ol>
+`
+    },
+
+    {
+      id: "peoplelink-banca-ore-riepilogo",
+      titolo: "People Link: controllare la banca ore residua (Riepilogo totali)",
+      categoria: "peoplelink",
+      tag: ["peoplelink", "people link", "banca ore", "banca ore residua", "residuo banca ore", "saldo banca ore", "saldo", "ore accumulate", "riepilogo totali", "totali", "totalizzatori", "bancahh", "quante ore", "valore", "riporto"],
+      aggiornato: "2026-11-09",
+      minuti: 3,
+      sommario: "Passo passo: vedere dal cartellino quanta banca ore ha un collaboratore, come leggere riporto e valore e come cambia il saldo con straordinari e ritardi.",
+      corpo: `
+<h2>Aprire il Riepilogo totali</h2>
+<ol>
+  <li>Clicca <strong>☰</strong> in alto a sinistra → <strong>MY PEOPLELINK</strong> → nella sezione Responsabile <strong>Il Cartellino dei miei collaboratori</strong>.</li>
+  <li>In alto a destra, in <strong>Periodo</strong>, controlla che ci sia il mese che ti interessa, poi clicca <strong>Applica filtro</strong>.</li>
+  <li>A sinistra clicca il nome del collaboratore.</li>
+  <li>In alto clicca l'icona <strong>Riepilogo totali</strong>: è la seconda icona a destra di <strong>Opzioni</strong> (le barrette verticali).</li>
+  <li>Si apre il pannello <strong>Riepilogo Totali</strong>. Lascia selezionato <strong>Tutti i valori</strong> (la vista <em>Maturati / Residui</em> non riporta la banca ore).</li>
+  <li>Per chiuderlo clicca la <strong>X</strong> in alto a destra del pannello (oppure di nuovo l'icona).</li>
+</ol>
+<figure>
+  <img src="assets/img/peoplelink/30-icona-riepilogo-totali.png" alt="Barra degli strumenti del cartellino con l'icona Riepilogo totali evidenziata" loading="lazy">
+  <figcaption>L'icona Riepilogo totali, seconda a destra di Opzioni.</figcaption>
+</figure>
+
+<h2>Leggere il saldo</h2>
+<p>Nella riga <strong>[BANCAHH] - BANCA ORE</strong> del mese:</p>
+<table>
+  <tr><th>Colonna</th><th>Significato</th></tr>
+  <tr><td><strong>Val. riporto</strong></td><td>Il saldo portato dal mese precedente.</td></tr>
+  <tr><td><strong>Valore</strong></td><td>Il saldo di oggi: riporto + straordinari autorizzati − banca ore goduta.</td></tr>
+</table>
+<p>I valori sono in <strong>ore,minuti</strong>: <code>0,32</code> = 32 minuti, <code>1,15</code> = 1 ora e 15 minuti.</p>
+<figure>
+  <img src="assets/img/peoplelink/24-riepilogo-totali-prima.png" alt="Riepilogo Totali con la banca ore: riporto 0,54 e valore 0,14" loading="lazy">
+  <figcaption>Prima: valore 0,14.</figcaption>
+</figure>
+<figure>
+  <img src="assets/img/peoplelink/25-riepilogo-totali-dopo.png" alt="Riepilogo Totali con la banca ore: riporto 0,54 e valore 0,32" loading="lazy">
+  <figcaption>Dopo aver autorizzato 30 minuti di straordinario e inserito una banca ore goduta: valore 0,32.</figcaption>
+</figure>
+
+<h2>Come cambia il saldo</h2>
+<ul>
+  <li><strong>Straordinario autorizzato</strong> (<code>EX_AUTORIZ</code>): il saldo <strong>aumenta</strong> dei minuti autorizzati (a blocchi interi di 15).</li>
+  <li><strong>Banca ore goduta</strong> (<code>BOR_GOD</code>, per ritardi e uscite anticipate): il saldo <strong>diminuisce</strong> (a blocchi di 15, arrotondati per eccesso).</li>
+  <li>Il saldo si aggiorna solo dopo aver <strong>rielaborato la giornata</strong> (Seleziona → Elabora → OK → OK). Se il valore non cambia, controlla di aver rielaborato.</li>
+</ul>
+<p>Procedure complete: <a href="articolo.html?id=peoplelink-ritardi-straordinari">Ritardi, uscite anticipate e straordinari (banca ore)</a>.</p>
+
+<div class="nota">
+  <strong>Saldi di tutto il gruppo</strong>
+  Per vedere più collaboratori insieme: ☰ → <strong>MY PEOPLELINK</strong> → <strong>Consultazione totalizzatori</strong> → scegli il totalizzatore della banca ore e la <strong>Data di riferimento</strong> → <strong>Applica filtro</strong>.
+</div>
 `
     },
 
