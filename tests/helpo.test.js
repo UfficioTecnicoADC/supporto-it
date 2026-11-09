@@ -659,6 +659,8 @@ test('People Link: le domande dei responsabili trovano la guida giusta', () => {
     'come autorizzo uno straordinario': 'peoplelink-ritardi-straordinari',
     "il collaboratore ha dimenticato di timbrare l'uscita": 'peoplelink-cartellino-anomalie',
     'dove vedo i turni': 'peoplelink-turni-presenze-report',
+    'ho inserito la timbratura ma la giornata non si aggiorna': 'peoplelink-cartellino-anomalie',
+    'come si elabora la giornata nel cartellino': 'peoplelink-cartellino-anomalie',
   };
   for (const [q, id] of Object.entries(casi)) assert.equal(retrieve(q).guides[0]?.id, id, q);
 });

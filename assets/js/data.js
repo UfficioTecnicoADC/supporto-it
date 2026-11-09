@@ -4337,7 +4337,7 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 <h2>Routine consigliata</h2>
 <ul>
   <li><strong>Ogni giorno</strong>: guarda il riquadro <strong>Richieste da approvare</strong> e rispondi alle richieste in attesa.</li>
-  <li><strong>Ogni settimana</strong>: apri <strong>Il Cartellino dei miei collaboratori</strong> con la spunta <strong>Solo collaboratori con anomalie</strong> e sistema le giornate segnalate.</li>
+  <li><strong>Ogni settimana</strong>: apri <strong>Il Cartellino dei miei collaboratori</strong> con la spunta <strong>Solo collaboratori con anomalie</strong>, sistema le giornate segnalate e rielaborale (<strong>Seleziona</strong> → <strong>Elabora</strong>).</li>
   <li><strong>A fine mese</strong>: prima del controllo dell'ufficio HR verifica che non restino richieste in attesa né giornate anomale.</li>
 </ul>
 
@@ -4409,7 +4409,11 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
   <strong>Quando rifiuti, scrivi sempre il motivo</strong>
   Per esempio "Già assenti due ASO quel giorno, proponi un'altra data". Il collaboratore vede la nota e sa cosa fare.
 </div>
-<p>Per qualche secondo al posto dei pulsanti compare <em>"Giustificativo in attesa di workflow…"</em>: il portale sta registrando l'esito. Poi la richiesta sparisce dall'elenco, il collaboratore riceve la notifica e il cartellino si aggiorna da solo.</p>
+<p>Per qualche secondo al posto dei pulsanti compare <em>"Giustificativo in attesa di workflow…"</em>: il portale sta registrando l'esito. Poi la richiesta sparisce dall'elenco e il collaboratore riceve la notifica.</p>
+<div class="nota attenzione">
+  <strong>Poi rielabora la giornata</strong>
+  Per le richieste su giorni già passati (timbrature, banca ore, extra-orario…) apri il <strong>Cartellino</strong> del collaboratore, clicca <strong>Seleziona</strong> sul giorno e poi <strong>Elabora</strong>: senza questo passaggio le ore non vengono ricalcolate. I dettagli sono in <a href="articolo.html?id=peoplelink-cartellino-anomalie">Cartellino dei collaboratori, timbrature e anomalie</a>.
+</div>
 
 <h2>Più richieste insieme</h2>
 <p>Ogni richiesta ha una casella di spunta a sinistra. In alto ci sono <strong>Seleziona tutte</strong> e <strong>Deseleziona tutte</strong>. Usale solo per richieste che hai già controllato una per una, per esempio più correzioni di timbratura dello stesso collaboratore.</p>
@@ -4512,6 +4516,7 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
   <figcaption>Passo 3: nota e salvataggio.</figcaption>
 </figure>
 <p>Dopo il salvataggio controlla in <strong>Storico richieste dei miei collaboratori</strong> che la richiesta risulti <strong>Approvata</strong>. Se è in attesa, approvala da <strong>Le Richieste dei miei collaboratori</strong>.</p>
+<p>Se il giorno è già passato, torna nel cartellino e rielaboralo: <strong>Seleziona</strong> sul giorno → icona <strong>Elabora</strong> → <strong>OK</strong> → <strong>OK</strong>.</p>
 
 <div class="nota">
   <strong>Stessa assenza per più persone</strong>
@@ -4524,10 +4529,10 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
       id: "peoplelink-cartellino-anomalie",
       titolo: "People Link: cartellino dei collaboratori, timbrature e anomalie",
       categoria: "peoplelink",
-      tag: ["peoplelink", "people link", "cartellino", "timbrature", "timbratura mancante", "anomalie", "giornate anomale", "correggere timbratura", "dimenticato timbratura", "entrata", "uscita", "voci cartellino", "timbrare", "timbrato", "non ha timbrato", "collaboratore", "collaboratrice"],
+      tag: ["peoplelink", "people link", "cartellino", "timbrature", "timbratura mancante", "anomalie", "giornate anomale", "correggere timbratura", "dimenticato timbratura", "entrata", "uscita", "voci cartellino", "elabora", "elaborare", "rielaborare", "elaborazione", "giornata non elaborata", "non si aggiorna", "non aggiornato", "anomalia", "timbrare", "timbrato", "non ha timbrato", "collaboratore", "collaboratrice"],
       aggiornato: "2026-11-09",
-      minuti: 6,
-      sommario: "Come leggere il cartellino dei collaboratori, trovare le giornate anomale e correggere una timbratura mancante o sbagliata.",
+      minuti: 7,
+      sommario: "Come leggere il cartellino dei collaboratori, trovare le giornate anomale, correggere una timbratura e rielaborare la giornata perché la correzione venga conteggiata.",
       corpo: `
 <h2>Aprire il cartellino di un collaboratore</h2>
 <ol>
@@ -4543,7 +4548,7 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 
 <h2>Leggere un giorno</h2>
 <ul>
-  <li><strong>Riga scura in alto</strong>: <strong>Seleziona</strong> (per scegliere più giorni insieme), il <strong>turno</strong> del giorno (per esempio <code>T031</code>), lo stato di elaborazione e le <strong>Note</strong>. Le giornate già elaborate mostrano <code>CHI</code>, quelle non ancora elaborate (oggi e i giorni futuri) mostrano <code>?</code>.</li>
+  <li><strong>Riga scura in alto</strong>: <strong>Seleziona</strong> (per scegliere più giorni insieme), il <strong>turno</strong> del giorno (per esempio <code>T031</code>), lo <strong>stato della giornata</strong> e le <strong>Note</strong>.</li>
   <li><strong>Timbrature</strong>: <code>E</code> = entrata, <code>U</code> = uscita, con l'ora.</li>
   <li><strong>Voci calcolate</strong>: le ore del giorno divise per tipo.</li>
   <li><strong>Riga grigia in basso</strong>: le richieste approvate su quel giorno, con l'orario.</li>
@@ -4568,6 +4573,18 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 </table>
 <p>Passa il mouse sopra un codice per leggerne la descrizione completa.</p>
 
+<h3>Lo stato della giornata</h3>
+<table>
+  <tr><th>Stato</th><th>Significato</th></tr>
+  <tr><td><code>CHI</code></td><td><strong>Chiusa</strong>: giornata elaborata e regolare.</td></tr>
+  <tr><td><code>ANM</code></td><td><strong>Anomalia</strong>: il giorno diventa viola con il triangolo ⚠ e accanto compare il motivo, per esempio <em>Timbrature dispari o mancanti</em>. Anche nella barra dei giorni in alto il giorno è cerchiato di viola.</td></tr>
+  <tr><td><code>?</code></td><td><strong>Non elaborata</strong>: oggi, i giorni futuri o una giornata da rielaborare.</td></tr>
+</table>
+<figure>
+  <img src="assets/img/peoplelink/17-giornata-anomala.png" alt="Giornata in anomalia: riquadro viola, stato ANM e motivo Timbrature dispari o mancanti" loading="lazy">
+  <figcaption>Una giornata in anomalia: tre timbrature, quindi manca un'uscita.</figcaption>
+</figure>
+
 <h2>Opzioni e strumenti</h2>
 <p>Il pulsante <strong>Opzioni</strong> in alto ha tre impostazioni utili:</p>
 <ul>
@@ -4579,7 +4596,7 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
   <img src="assets/img/peoplelink/11-cartellino-opzioni.png" alt="Pannello Opzioni del cartellino" loading="lazy">
   <figcaption>Il pannello Opzioni.</figcaption>
 </figure>
-<p>Le icone accanto a Opzioni sono, nell'ordine: <strong>Richiedi giustificativo</strong>, <strong>Riepilogo totali</strong>, <strong>Stampa report</strong>, <strong>Elabora</strong> (ricalcola il cartellino) e <strong>Calcolatrice</strong>.</p>
+<p>Le icone accanto a Opzioni sono, nell'ordine: <strong>Richiedi giustificativo</strong>, <strong>Riepilogo totali</strong>, <strong>Stampa report</strong>, <strong>Elabora</strong> (ricalcola le giornate selezionate) e <strong>Calcolatrice</strong>.</p>
 
 <h2>Le anomalie più comuni e cosa fare</h2>
 <table>
@@ -4605,6 +4622,7 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
     </ul>
   </li>
   <li>Premi <strong>Avanti</strong>, scrivi nella nota il motivo (per esempio "timbratura dimenticata, confermata dal collaboratore") e premi <strong>Salva</strong>.</li>
+  <li><strong>Rielabora la giornata</strong>: <strong>Seleziona</strong> sul giorno → icona <strong>Elabora</strong> → <strong>OK</strong> → <strong>OK</strong> (vedi sotto).</li>
 </ol>
 <figure>
   <img src="assets/img/peoplelink/14-timbratura-passo2.png" alt="Passo 2 della timbratura: giorno, Verso Entrata o Uscita, Ora e Terminale" loading="lazy">
@@ -4618,7 +4636,27 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
   <strong>Solo orari reali</strong>
   Inserisci o approva solo orari che il collaboratore ti ha confermato e che corrispondono alla presenza effettiva. Nel dubbio, chiedi all'ufficio HR.
 </div>
-<p>Dopo l'approvazione o il salvataggio il cartellino si ricalcola da solo. Se dopo qualche minuto non vedi il cambiamento, premi <strong>Applica filtro</strong> per ricaricarlo.</p>
+<h2>Rielaborare la giornata dopo ogni correzione</h2>
+<p>Inserire o approvare una timbratura (o un'altra richiesta su un giorno passato) <strong>non ricalcola la giornata da solo</strong>: la timbratura compare, ma ore e anomalie restano quelle di prima. Per farle conteggiare bisogna rielaborare la giornata.</p>
+<ol>
+  <li>Nel cartellino del collaboratore clicca <strong>Seleziona</strong> sul giorno corretto: il pulsante diventa giallo. Puoi selezionare più giorni.</li>
+  <li>Clicca l'icona <strong>Elabora</strong> (gli ingranaggi, quarta icona a destra di <strong>Opzioni</strong>).</li>
+  <li>Alla domanda <em>"Avviare l'elaborazione giornaliera per le giornate selezionate?"</em> premi <strong>OK</strong>.</li>
+  <li>Al messaggio <em>"L'Elaborazione giornaliera si è conclusa. Ricaricare il cartellino del dipendente?"</em> premi <strong>OK</strong>.</li>
+  <li>Controlla lo stato del giorno: se è <code>CHI</code> è tutto a posto; se è <code>ANM</code> leggi il motivo accanto e correggi.</li>
+</ol>
+<figure>
+  <img src="assets/img/peoplelink/15-elabora-seleziona.png" alt="Pulsante Seleziona del giorno evidenziato in giallo e icona Elabora cerchiata" loading="lazy">
+  <figcaption>Seleziona sul giorno, poi l'icona Elabora (cerchiate in rosso).</figcaption>
+</figure>
+<figure>
+  <img src="assets/img/peoplelink/16-elabora-conferma.png" alt="Finestra Attenzione: Avviare l'elaborazione giornaliera per le giornate selezionate? con i pulsanti Annulla e OK" loading="lazy">
+  <figcaption>La conferma prima dell'elaborazione.</figcaption>
+</figure>
+<div class="nota attenzione">
+  <strong>Anomalia dopo la correzione?</strong>
+  Di solito significa che le timbrature sono ancora dispari: per esempio hai aggiunto un'entrata ma manca l'uscita, oppure l'orario inserito è sbagliato. Correggi e rielabora di nuovo.
+</div>
 `
     },
 
@@ -4646,7 +4684,7 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 <p>Dal cartellino del collaboratore clicca <strong>Giustifica</strong> sul giorno, scegli <strong>BANCA ORE GODUTA</strong>, nel passo 2 usa la modalità <strong>Inizio fine</strong> con l'orario mancante e salva con una nota. I passaggi completi sono in <a href="articolo.html?id=peoplelink-ferie-permessi">Ferie e permessi dei collaboratori</a>.</p>
 
 <h3>Come appare nel cartellino</h3>
-<p>Il giorno mostra la voce <code>BOR_GOD</code> con le ore (per esempio <code>00:12</code>) e, nella riga grigia, l'orario della richiesta (per esempio <code>BOR_GOD [1745 - 1757]</code>). Le ore di <code>PRES</code> più quelle di <code>BOR_GOD</code> devono coprire l'orario del turno.</p>
+<p>Dopo l'approvazione rielabora la giornata (<strong>Seleziona</strong> sul giorno → icona <strong>Elabora</strong> → <strong>OK</strong> → <strong>OK</strong>). Il giorno mostra poi la voce <code>BOR_GOD</code> con le ore (per esempio <code>00:12</code>) e, nella riga grigia, l'orario della richiesta (per esempio <code>BOR_GOD [1745 - 1757]</code>). Le ore di <code>PRES</code> più quelle di <code>BOR_GOD</code> devono coprire l'orario del turno.</p>
 
 <h2>Straordinari (extra-orario a consuntivo)</h2>
 <p>Gli straordinari si chiedono <strong>dopo</strong> averli fatti.</p>
@@ -4654,7 +4692,7 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
   <li>Quando il collaboratore lavora oltre l'orario del turno, il cartellino calcola la voce <code>EXTOAUT</code> (<em>extra orario da autorizzare</em>).</li>
   <li>Il collaboratore invia una richiesta <strong>EXTRA-ORARIO (Consuntivo)</strong> con l'orario, per esempio dalle 17:32 alle 18:32.</li>
   <li>Tu la trovi in <strong>Le Richieste dei miei collaboratori</strong>. Controlla nel <strong>Cartellino</strong> che le timbrature coprano quell'orario, poi approva o rifiuta.</li>
-  <li>Dopo l'approvazione nel cartellino compaiono <code>EX_AUTORIZ</code> (<em>extraorario autorizzato</em>) e, nella riga grigia, <code>EXTRA [1735 - 1805]</code>.</li>
+  <li>Rielabora la giornata dal cartellino (<strong>Seleziona</strong> → <strong>Elabora</strong>). Nel cartellino compaiono <code>EX_AUTORIZ</code> (<em>extraorario autorizzato</em>) e, nella riga grigia, <code>EXTRA [1735 - 1805]</code>.</li>
 </ol>
 <figure>
   <img src="assets/img/peoplelink/06-cartellino-voci.png" alt="Giornata con PRES, EXTOAUT e EX_AUTORIZ e la riga EXTRA; giornata con BOR_GOD" loading="lazy">
