@@ -62,6 +62,11 @@ const KB = {
       nome: "People Link Online",
       cosa: "il portale HR delle presenze: cartellino, timbrature, ferie, permessi e richieste dei collaboratori",
       nomiUsati: ["peoplelink", "people link", "peoplelink online", "people link online", "portale presenze", "portale hr"]
+    },
+    {
+      nome: "AIS (Acteon Imaging Suite)",
+      cosa: "il programma Acteon per radiografie e TAC (esami 3D / CBCT)",
+      nomiUsati: ["ais", "acteon", "acteon imaging suite", "imaging suite"]
     }
   ],
 
@@ -3812,7 +3817,198 @@ Prima di procedere, salva il lavoro aperto negli altri programmi.</p>
 
 `
 },
- 
+
+    {
+      id: "ais-esportazione-tac-wetransfer",
+      titolo: "AIS (Acteon) — Esportare una TAC e inviarla al paziente",
+      categoria: "software",
+      tag: ["ais", "acteon", "acteon imaging suite", "tac", "cbct", "esame 3d", "crea dvd", "cddest",
+            "start", "viewer", "visualizzatore", "zip", "7-zip", "password", "wetransfer",
+            "esportazione", "esportare", "invio tac", "inviare tac al paziente"],
+      aggiornato: "2026-11-12",
+      minuti: 7,
+      sommario: "Come esportare una TAC da AIS con il visualizzatore incluso, comprimerla in uno ZIP (meglio con password) e inviarla al paziente con WeTransfer.",
+      corpo: `
+<p>
+  Con questa guida esporti una <strong>TAC</strong> (esame 3D / CBCT) da <strong>AIS</strong>
+  (Acteon Imaging Suite) e la invii al paziente con <strong>WeTransfer</strong>.
+  Il paziente potrà aprirla dal suo PC con il visualizzatore incluso, senza installare programmi.
+  Nelle foto, il <strong>cerchio rosso</strong> indica sempre dove cliccare.
+</p>
+
+<div class="nota attenzione">
+  <strong>La TAC è un dato sanitario</strong>
+  Non allegarla mai a una e-mail. Controlla sempre due volte l'indirizzo del paziente
+  e, quando puoi, usa lo <strong>ZIP con password</strong> (passaggio 12).
+</div>
+
+<div class="nota ok">
+  <strong>In breve</strong>
+  Tasto destro sulla TAC → <strong>Crea DVD</strong> → chiudi gli avvisi → comprimi la cartella del paziente
+  con <strong>7-Zip</strong> → invia lo ZIP con <strong>WeTransfer</strong>.
+</div>
+
+<h2>1. Esportare la TAC da AIS</h2>
+
+<h3>1. Apri AIS e seleziona il paziente</h3>
+<p>Apri <strong>AIS</strong> e cerca il paziente come fai di solito.</p>
+
+<h3>2. Trova la TAC</h3>
+<p>Nella griglia degli esami cerca la TAC: è la <strong>miniatura rotonda</strong>. Controlla la data dell'esame in <strong>Dettagli esame</strong>, a sinistra.</p>
+
+<h3>3. Tasto destro sulla TAC → Crea DVD</h3>
+<p>Fai <strong>tasto destro</strong> sulla miniatura della TAC e scegli <strong>Crea DVD</strong>.</p>
+<figure>
+  <img src="assets/img/ais-esporta-tac/01-crea-dvd.jpg" alt="AIS: menu del tasto destro sulla miniatura della TAC con la voce Crea DVD cerchiata in rosso" loading="lazy">
+  <figcaption>Tasto destro sulla TAC → <strong>Crea DVD</strong>.</figcaption>
+</figure>
+<div class="nota">
+  <strong>Non serve un DVD</strong>
+  Anche se si chiama "Crea DVD", non devi masterizzare niente: questa funzione esporta la TAC
+  <strong>insieme al visualizzatore</strong>, così il paziente può aprirla senza installare programmi.
+</div>
+<div class="nota attenzione">
+  <strong>Non usare le altre voci</strong>
+  <strong>Esporta Caso</strong> serve solo tra programmi Acteon.
+  <strong>Esporta DICOMDIR</strong> esporta solo i file DICOM, senza visualizzatore:
+  va bene solo se la TAC va a un altro dentista o a un radiologo.
+</div>
+
+<h3>4. "Aggiornamento libreria impianti": clicca Cancel</h3>
+<p>Se compare la finestra <strong>Aggiornamento libreria impianti – Aggiornarla adesso?</strong>, clicca <strong>Cancel</strong>. Non serve per l'esportazione.</p>
+<figure>
+  <img src="assets/img/ais-esporta-tac/02-libreria-impianti-cancel.jpg" alt="Finestra Aggiornamento libreria impianti con il pulsante Cancel cerchiato in rosso" loading="lazy">
+  <figcaption>Clicca <strong>Cancel</strong>.</figcaption>
+</figure>
+
+<h3>5. Avviso "Attenzione": clicca OK</h3>
+<p>Se compare l'avviso <strong>Attenzione – SOME IMPLANT OR PIN LIBRARIES ARE NOT UP TO DATE…</strong>, clicca <strong>OK</strong>. È solo un avviso.</p>
+<figure>
+  <img src="assets/img/ais-esporta-tac/03-avviso-librerie-ok.jpg" alt="Avviso Attenzione sulle librerie di impianti non aggiornate con il pulsante OK cerchiato in rosso" loading="lazy">
+  <figcaption>Clicca <strong>OK</strong>.</figcaption>
+</figure>
+
+<h3>6. "Scrittura su disco": clicca Annulla</h3>
+<p>Si apre la finestra di Windows <strong>Scrittura su disco – Inserire un disco</strong>. Clicca <strong>Annulla</strong>: i file sono già stati creati, non serve masterizzare.</p>
+<figure>
+  <img src="assets/img/ais-esporta-tac/04-scrittura-disco-annulla.jpg" alt="Finestra di Windows Scrittura su disco con il pulsante Annulla cerchiato in rosso" loading="lazy">
+  <figcaption>Clicca <strong>Annulla</strong>.</figcaption>
+</figure>
+
+<h2>2. Trovare i file esportati</h2>
+
+<h3>7. Apri la cartella del paziente</h3>
+<p>
+  Apri <strong>Esplora file</strong> e vai nella cartella creata da AIS con il nome del paziente,
+  ad esempio <code>K:\\COGNOME NOME</code> (la lettera dell'unità può cambiare da PC a PC).
+  Dentro c'è la cartella <strong>cdDest</strong>.
+</p>
+<figure>
+  <img src="assets/img/ais-esporta-tac/05-cartella-cddest.jpg" alt="Esplora file: cartella del paziente con dentro la cartella cdDest cerchiata in rosso" loading="lazy">
+  <figcaption>Nella cartella del paziente c'è <strong>cdDest</strong>.</figcaption>
+</figure>
+
+<h3>8. Controlla il contenuto di cdDest</h3>
+<p>Dentro <strong>cdDest</strong> devono esserci le cartelle <strong>bin</strong>, <strong>language</strong>, <strong>Resources</strong> e il file <strong>start</strong>.</p>
+<figure>
+  <img src="assets/img/ais-esporta-tac/06-cddest-start.jpg" alt="Contenuto della cartella cdDest: cartelle bin, language, Resources e il file start cerchiato in rosso" loading="lazy">
+  <figcaption>Le cartelle <strong>bin</strong>, <strong>language</strong>, <strong>Resources</strong> e il file <strong>start</strong>.</figcaption>
+</figure>
+
+<h3>9. Prova ad aprirla</h3>
+<p>Fai <strong>doppio clic su start</strong>: controlla che si apra la TAC del <strong>paziente giusto</strong>, poi chiudi il visualizzatore.</p>
+
+<h2>3. Comprimere la cartella in uno ZIP (con 7-Zip)</h2>
+
+<h3>10. Torna indietro di una cartella</h3>
+<p>Torna alla cartella che <strong>contiene</strong> la cartella del paziente: devi comprimere tutta la cartella del paziente, non solo cdDest.</p>
+
+<div class="nota attenzione">
+  <strong>C'è già uno ZIP con lo stesso nome?</strong>
+  Eliminalo prima di crearne uno nuovo: altrimenti 7-Zip lo aggiorna invece di sostituirlo.
+</div>
+
+<h3>11. Metodo semplice: ZIP senza password</h3>
+<p>Tasto destro sulla cartella del paziente → <strong>7-Zip</strong> → <strong>Add to "COGNOME NOME.zip"</strong>.</p>
+<figure>
+  <img src="assets/img/ais-esporta-tac/07-7zip-add-to-zip.jpg" alt="Menu del tasto destro: 7-Zip con la voce Add to nome-cartella.zip cerchiata in rosso" loading="lazy">
+  <figcaption>7-Zip → <strong>Add to "COGNOME NOME.zip"</strong>.</figcaption>
+</figure>
+
+<h3>12. Metodo consigliato: ZIP con password</h3>
+<p>È il metodo più sicuro per i dati sanitari. Tasto destro sulla cartella del paziente → <strong>7-Zip</strong> → <strong>Add to archive…</strong></p>
+<figure>
+  <img src="assets/img/ais-esporta-tac/08-7zip-add-to-archive.jpg" alt="Menu del tasto destro: 7-Zip e la voce Add to archive cerchiate in rosso" loading="lazy">
+  <figcaption>7-Zip → <strong>Add to archive…</strong></figcaption>
+</figure>
+<p>Nella finestra che si apre imposta:</p>
+<ul>
+  <li><strong>Archive format:</strong> <code>zip</code></li>
+  <li><strong>Enter password</strong> e <strong>Reenter password:</strong> la stessa password</li>
+  <li><strong>Encryption method:</strong> <code>AES-256</code> (non ZipCrypto, che è facile da aggirare)</li>
+  <li>poi clicca <strong>OK</strong></li>
+</ul>
+<figure>
+  <img src="assets/img/ais-esporta-tac/09-7zip-impostazioni.jpg" alt="Finestra Add to Archive di 7-Zip con Archive format zip, i campi password, Encryption method AES-256 e il pulsante OK cerchiati in rosso" loading="lazy">
+  <figcaption>Formato <strong>zip</strong>, password due volte, <strong>AES-256</strong>, poi <strong>OK</strong>.</figcaption>
+</figure>
+<div class="nota attenzione">
+  <strong>Non spuntare "Delete files after compression"</strong>
+  Altrimenti 7-Zip cancella la cartella esportata dopo aver creato lo ZIP.
+</div>
+
+<h3>13. Controlla lo ZIP</h3>
+<p>
+  Lo ZIP compare accanto alla cartella del paziente. Una TAC pesa di solito
+  <strong>alcune centinaia di MB</strong>: se lo ZIP pesa pochi MB, la TAC non è stata inclusa.
+</p>
+<figure>
+  <img src="assets/img/ais-esporta-tac/10-zip-creato.jpg" alt="Esplora file: lo ZIP creato accanto alla cartella del paziente, con la dimensione di circa 480 MB, cerchiato in rosso" loading="lazy">
+  <figcaption>Lo ZIP accanto alla cartella del paziente: qui circa 480 MB.</figcaption>
+</figure>
+
+<h2>4. Inviare con WeTransfer</h2>
+<ol>
+  <li>Vai su <strong>wetransfer.com</strong>. Se compare il banner dei cookie, accetta solo quelli necessari.</li>
+  <li>Carica lo <strong>ZIP</strong>.</li>
+  <li>Inserisci la <strong>mail del paziente</strong> come destinatario e la <strong>mail aziendale dello studio</strong> come mittente. WeTransfer manda un codice di verifica alla mail del mittente. <strong>Ricontrolla bene</strong> la mail del paziente.</li>
+  <li>Scrivi un messaggio, ad esempio: <em>"Gentile paziente, le inviamo la sua TAC. Estragga il file, apra la cartella cdDest e faccia doppio clic su start."</em></li>
+  <li>Clicca <strong>Trasferisci</strong>. La versione gratuita arriva a 2 GB: basta per una TAC.</li>
+</ol>
+<p>Per i dettagli su WeTransfer c'è la guida <a href="articolo.html?id=manuale-wetransfer">WeTransfer – Come inviare e ricevere file</a>.</p>
+
+<h2>5. Se hai usato la password</h2>
+<ul>
+  <li>Comunica la password al paziente <strong>per telefono o SMS</strong>, <strong>mai</strong> nello stesso messaggio del link WeTransfer.</li>
+  <li>Di' al paziente di usare il programma gratuito <strong>7-Zip</strong> (7-zip.org) per estrarre lo ZIP: con la cifratura AES-256 l'estrazione di Windows potrebbe non funzionare.</li>
+</ul>
+
+<h2>6. Dopo l'invio</h2>
+<p>Quando il paziente conferma di averla ricevuta, <strong>elimina dal PC</strong> la cartella esportata e lo ZIP. L'originale resta in AIS.</p>
+
+<h2>Testo da dare al paziente</h2>
+<div class="nota">
+  <strong>Da copiare e incollare</strong>
+  Scarichi il file dal link WeTransfer e lo estragga (se le abbiamo comunicato una password, usi il programma gratuito 7-Zip).
+  Apra la cartella cdDest e faccia doppio clic su start. Se Windows mostra un avviso di sicurezza,
+  clicchi su "Ulteriori informazioni" e poi su "Esegui comunque". Il visualizzatore funziona solo su computer Windows.
+</div>
+
+<h2>Problemi frequenti</h2>
+<ul>
+  <li><strong>Il paziente ha un Mac:</strong> il visualizzatore incluso funziona solo su Windows. Il paziente può usare un visualizzatore DICOM gratuito per Mac, ad esempio <strong>Horos</strong>.</li>
+  <li><strong>Lo ZIP pesa pochissimo, o la TAC non si apre:</strong> ripeti l'esportazione dal passaggio 3. Se il problema resta, apri un ticket.</li>
+  <li><strong>Non trovi la cartella esportata:</strong> apri un ticket indicando il <strong>PC</strong> che stai usando. Non scrivere il nome del paziente nel ticket: indica solo la data dell'esame.</li>
+</ul>
+
+<div class="nota">
+  <strong>Serve aiuto?</strong>
+  Scrivi a <strong>helpdesk@assistenzadentistica.it</strong>: il messaggio apre un ticket.
+  Se sei bloccato, chiama l'interno <strong>8</strong>.
+</div>
+`
+    },
+
 
     {
       id: "richiesta-software",

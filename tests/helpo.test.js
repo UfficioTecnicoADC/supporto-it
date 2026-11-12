@@ -675,3 +675,10 @@ test('Helpo riporta le procedure per intero, senza saltare passaggi', async () =
   assert.match(chat, /PASSO PER PASSO e PER INTERO/);
   assert.match(chat, /Applica filtro/);
 });
+test('TAC da AIS (Acteon): trovata la guida AIS, senza confonderla con NNT e SIDEXIS', () => {
+  for (const q of ['come esporto una tac da ais', 'devo mandare la tac al paziente con acteon', 'AIS crea dvd tac wetransfer']) assert.equal(ids(q)[0], 'ais-esportazione-tac-wetransfer', q);
+  assert.ok(!ids('come esporto una tac da nnt').includes('ais-esportazione-tac-wetransfer'));
+  assert.ok(!ids('SIDEXIS esportazione TAC WeTransfer').includes('ais-esportazione-tac-wetransfer'));
+  const guida = retrieve('come esporto una tac da ais').guides[0];
+  assert.equal(guida.immagini, true);
+});
